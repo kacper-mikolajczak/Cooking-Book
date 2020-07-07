@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
@@ -30,13 +31,21 @@ class SignUpFormBase extends Component{
     }
 
     onSubmit = event => {
-        const { username, email, paswordOne } = this.state;
+        const { username, email, passwordOne } = this.state;
 
         this.props.firebase
             .doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(authUser => {
+                return this.props.firebase
+                        .user(authUser.user.uid)
+                        .set({
+                            username,
+                            email,
+                        })
+            })
+            .then(() => {
                 this.setState({ ...INIT_STATE });
-                //this.props.history.push(ROUTES.HOME);
+                this.props.history.push(ROUTES.HOME);
             })
             .catch(error => {
                 this.setState({ error });
@@ -95,13 +104,13 @@ class SignUpFormBase extends Component{
     }
 }
 
-const SignUpForm = withFirebase(SignUpFormBase);
+const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
 
-const SignUpLink = () => {
+const SignUpLink = () => (
     <p>
         Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
     </p>
-}
+);
 
 export default SignUpPage;
 
