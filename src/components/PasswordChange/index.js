@@ -6,6 +6,7 @@ const INIT_STATE = {
     passwordOne: '',
     passwordTwo: '',
     error: null,
+    msg: null,
 }
 
 const PasswordChangePage = (props) => {
@@ -31,7 +32,7 @@ class PasswordChangeFormBase extends Component{
         this.props.firebase
             .doPasswordUpdate(passwordOne)
             .then(() => {
-                this.setState({...INIT_STATE});
+                this.setState({...INIT_STATE, msg: "Password has been changed successfully"});
             })
             .catch(error => {
                 this.setState({ error });
@@ -45,7 +46,7 @@ class PasswordChangeFormBase extends Component{
     }
 
     render(){
-        const { passwordOne, passwordTwo, error } = this.state;
+        const { passwordOne, passwordTwo, error, msg } = this.state;
         const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
         return (
             <form onSubmit={this.onSubmit}>
@@ -65,7 +66,8 @@ class PasswordChangeFormBase extends Component{
                 />
                 <button type="submit" disabled={isInvalid} >Change password</button>
         
-                {error && <p>{error.message}</p>}
+                {error && <p style={{color: 'red'}}>{error.message}</p>}
+                {msg && <p>{msg}</p>}
             </form>
         )
     }
