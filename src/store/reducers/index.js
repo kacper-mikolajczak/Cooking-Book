@@ -2,12 +2,14 @@ import { combineReducers } from "redux";
 import { firebaseReducer } from "react-redux-firebase";
 
 import sessionReducer from "./session";
-import userReducer from "./user";
+import usersReducer from "./users";
+import userRecipesReducer from "./userRecipes";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  user: userReducer,
-  firebase: firebaseReducer,
+  users: usersReducer,
+  reduxFirebase: firebaseReducer,
+  userRecipes: userRecipesReducer,
 });
 
 export default rootReducer;

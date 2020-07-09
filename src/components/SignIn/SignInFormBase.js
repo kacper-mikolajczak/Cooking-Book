@@ -14,6 +14,7 @@ import { SignUpLink } from "../SignUp";
 import { PasswordForgetLink } from "../PasswordForget";
 
 import { sessionActions } from "../../store/reducers/session";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +43,7 @@ const INIT_STATE = {
 };
 
 const SignInFormBase = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [{ email, password, error }, setState] = useState(INIT_STATE);
@@ -53,9 +55,23 @@ const SignInFormBase = (props) => {
   const onSubmit = (event) => {
     props.firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then((user) => {
-        clearState();
-        props.history.push(ROUTES.HOME);
+      .then(({ user }) => {
+        props.firebase
+          .user(user.uid)
+          .once("value", (snapshot) => {
+            const userData = snapshot.val();
+            dispatch(
+              sessionActions.setAuthUser({
+                uid: user.uid,
+                ...userData,
+                userMeta: user,
+              })
+            );
+          })
+          .then(() => {
+            clearState();
+            props.history.push(ROUTES.HOME);
+          });
       })
       .catch((error) => {
         setState({ error });

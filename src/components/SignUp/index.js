@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
 
 import * as ROUTES from "../../constants/routes";
-import { withFirebase } from "../Firebase";
+import { withFirebase } from "../../Firebase";
 import SignUpFormBase from "./SignUpFormBase";
 import { Container } from "@material-ui/core";
 
