@@ -1,80 +1,70 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from "../Firebase";
+
+import PasswordChangeFormBase from "./PasswordChangeFormBase";
 
 const INIT_STATE = {
-    passwordOne: '',
-    passwordTwo: '',
-    error: null,
-    msg: null,
-}
+  passwordOne: "",
+  passwordTwo: "",
+  error: null,
+  msg: null,
+};
 
 const PasswordChangePage = (props) => {
-    
+  return (
+    <div>
+      <h1>Change Your password: </h1>
+      <PasswordChangeForm />
+    </div>
+  );
+};
+
+class PasswordChangeFormContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { ...INIT_STATE };
+  }
+
+  onSubmit = (event) => {
+    const { passwordOne } = this.state;
+
+    this.props.firebase
+      .doPasswordUpdate(passwordOne)
+      .then(() => {
+        this.setState({
+          ...INIT_STATE,
+          msg: "Password has been changed successfully",
+        });
+      })
+      .catch((error) => {
+        this.setState({ error });
+      });
+
+    event.preventDefault();
+  };
+
+  onChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  render() {
+    const isInvalid =
+      this.state.passwordOne === "" || this.state.passwordTwo === "";
     return (
-        <div>
-            <h1>Change Your password: </h1>
-            <PasswordChangeForm />
-        </div>
-    )
+      <PasswordChangeFormBase
+        onSubmit={this.onSubmit}
+        onChange={this.onChange}
+        error={this.state.error}
+        isInvalid={isInvalid}
+        msg={this.state.msg}
+      />
+    );
+  }
 }
 
-class PasswordChangeFormBase extends Component{
-    constructor(props){
-        super(props);
-
-        this.state = { ...INIT_STATE };
-    }
-
-    onSubmit = event => {
-        const { passwordOne } = this.state;
-
-        this.props.firebase
-            .doPasswordUpdate(passwordOne)
-            .then(() => {
-                this.setState({...INIT_STATE, msg: "Password has been changed successfully"});
-            })
-            .catch(error => {
-                this.setState({ error });
-            })
-
-        event.preventDefault();
-    }
-
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    render(){
-        const { passwordOne, passwordTwo, error, msg } = this.state;
-        const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
-        return (
-            <form onSubmit={this.onSubmit}>
-                <input
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm Password"
-                />
-                <button type="submit" disabled={isInvalid} >Change password</button>
-        
-                {error && <p style={{color: 'red'}}>{error.message}</p>}
-                {msg && <p>{msg}</p>}
-            </form>
-        )
-    }
-        
-}
-
-const PasswordChangeForm = withFirebase(PasswordChangeFormBase);
+const PasswordChangeForm = withFirebase(PasswordChangeFormContainer);
 
 export default PasswordChangePage;
 

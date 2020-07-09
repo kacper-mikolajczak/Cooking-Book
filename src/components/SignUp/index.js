@@ -1,115 +1,26 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import { compose } from "recompose";
 
-import * as ROUTES from '../../constants/routes';
-import { withFirebase } from '../Firebase';
+import * as ROUTES from "../../constants/routes";
+import { withFirebase } from "../Firebase";
+import SignUpFormBase from "./SignUpFormBase";
+import { Container } from "@material-ui/core";
 
 const SignUpPage = (props) => {
-    
-    return (
-        <div>
-            SignUp
-            <SignUpForm />
-        </div>
-    )
-}
-
-const INIT_STATE = {
-    username: '',
-    email: '',
-    passwordOne: '',
-    passwordTwo: '',
-    error: null,
-}
-
-class SignUpFormBase extends Component{
-    constructor(props){
-        super(props);
-
-        this.state = INIT_STATE;
-    }
-
-    onSubmit = event => {
-        const { username, email, passwordOne } = this.state;
-
-        this.props.firebase
-            .doCreateUserWithEmailAndPassword(email, passwordOne)
-            .then(authUser => {
-                return this.props.firebase
-                        .user(authUser.user.uid)
-                        .set({
-                            username,
-                            email,
-                        })
-            })
-            .then(() => {
-                this.setState({ ...INIT_STATE });
-                this.props.history.push(ROUTES.HOME);
-            })
-            .catch(error => {
-                this.setState({ error });
-            })
-            event.preventDefault();
-    }
-
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value} );
-    }
-
-    render(){
-        const {
-            username,
-            email,
-            passwordOne,
-            passwordTwo,
-            error,
-          } = this.state;
-          const isInvalid = passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
-        return (
-            <form onSubmit={this.onSubmit}>
-                <input
-                    name="username"
-                    value={username}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Full Name"
-                />
-                <input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <input
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm Password"
-                />
-                <button type="submit" disabled={isInvalid} >Sign Up</button>
-        
-                {error && <p>{error.message}</p>}
-            </form>
-        )
-    }
-}
+  return (
+    <Container component="main" maxWidth="xs">
+      <SignUpForm />
+    </Container>
+  );
+};
 
 const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
 
 const SignUpLink = () => (
-    <p>
-        Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-    </p>
+  <Link to={ROUTES.SIGN_UP}>
+    <p>Don't have an account? Sign Up</p>
+  </Link>
 );
 
 export default SignUpPage;
