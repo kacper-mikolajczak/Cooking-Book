@@ -6,15 +6,11 @@ import * as ROUTES from "../../constants/routes";
 import { AuthUserContext } from "../Session";
 
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Navigation = () => {
-  return (
-    <div>
-      <AuthUserContext.Consumer>
-        {(authUser) => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
-      </AuthUserContext.Consumer>
-    </div>
-  );
+  const user = useSelector((state) => state.session.authUser);
+  return <div>{user ? <NavigationAuth /> : <NavigationNonAuth />}</div>;
 };
 
 const NavigationAuth = (props) => {
@@ -23,6 +19,9 @@ const NavigationAuth = (props) => {
       <ul>
         <li>
           <Link to={ROUTES.HOME}>Home</Link>
+        </li>
+        <li>
+          <Link to={ROUTES.RECIPE_NEW}>New Recipe</Link>
         </li>
         <li>
           <Link to={ROUTES.ACCOUNT}>Account</Link>

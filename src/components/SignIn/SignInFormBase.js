@@ -58,17 +58,15 @@ const SignInFormBase = (props) => {
       .then(({ user }) => {
         props.firebase
           .user(user.uid)
-          .once("value", (snapshot) => {
-            const userData = snapshot.val();
+          .get()
+          .then((dbRes) => {
+            const userData = dbRes.data();
             dispatch(
               sessionActions.setAuthUser({
                 uid: user.uid,
                 ...userData,
-                userMeta: user,
               })
             );
-          })
-          .then(() => {
             clearState();
             props.history.push(ROUTES.HOME);
           });

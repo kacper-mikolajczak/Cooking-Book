@@ -12,6 +12,7 @@ const withAuthorization = (condition) => (Component) => {
       this.authListener = this.props.firebase.auth.onAuthStateChanged(
         (authUser) => {
           if (!condition(authUser)) {
+            console.error("User is not authorized on this route!");
             this.props.history.push(ROUTES.SIGN_IN);
           }
         }

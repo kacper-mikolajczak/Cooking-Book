@@ -11,14 +11,12 @@ export const get = () => async (dispatch, getState) => {
 
     dispatch(actions.fetchPending());
 
-    firebase.recipes().once("value", (snapshot) => {
-      const obj = snapshot.val() ? snapshot.val() : {};
-      const arr = [];
-      for (const [key, val] of Object.entries(obj)) {
-        if (val.user === uid) arr.push({ uid: key, ...val });
-      }
-      dispatch(actions.fetchSuccess(arr));
-    });
+    const recipes = await firebase
+      .userRecipes(uid)
+      .get()
+      .then((dbRes) => dbRes.docs.map((doc) => doc.data()));
+
+    dispatch(actions.fetchSuccess(recipes));
   } catch (error) {
     console.log(error);
     dispatch(actions.fetchFailure(error));
@@ -26,15 +24,25 @@ export const get = () => async (dispatch, getState) => {
 };
 
 export const set = (recipe) => async (dispatch, getState) => {
+  const {
+    sesion: { authUser },
+  } = getState();
+
   dispatch(actions.setPending());
   try {
     firebase
-      .newRecipe()
-      .set(recipe)
-      .then((cb) => {
-        console.log(cb);
-        dispatch(actions.setSuccess());
-      });
+      .setRecipe()
+      .set({
+        ...recipe,
+      })
+      .then((data) => {
+        console.log(data);
+        const recipeKey = `recipes.${recipe.uid}`;
+        firebase.user(authUser.uid).update({
+          [recipeKey]: recipe.uid,
+        });
+      })
+      .then(() => actions.setSuccess());
   } catch (error) {
     dispatch(actions.setFailure(error));
   }

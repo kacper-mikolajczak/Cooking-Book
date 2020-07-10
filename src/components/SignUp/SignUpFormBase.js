@@ -38,13 +38,14 @@ const INIT_STATE = {
   lastName: "",
   email: "",
   password: "",
+  photoUrl: "",
   error: null,
 };
 
 const SignUpFormBase = (props) => {
   const classes = useStyles();
   const [
-    { username, firstName, lastName, email, password, error },
+    { firstName, lastName, email, password, photoUrl, error },
     setState,
   ] = useState({
     INIT_STATE,
@@ -57,10 +58,13 @@ const SignUpFormBase = (props) => {
       .doCreateUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         return props.firebase.user(authUser.user.uid).set({
-          username,
-          firstName,
-          lastName,
+          createdAt: new Date(),
+          firstName: firstName ? firstName : null,
+          lastName: lastName ? lastName : null,
           email,
+          admin: true,
+          recipes: null,
+          photoUrl: photoUrl ? photoUrl : null,
         });
       })
       .then(() => {
@@ -78,7 +82,7 @@ const SignUpFormBase = (props) => {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const isInvalid = password === "" || email === "" || username === "";
+  const isInvalid = password === "" || email === "";
 
   return (
     <Container maxWidth="xs" component="main">
@@ -93,13 +97,26 @@ const SignUpFormBase = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                name="username"
                 variant="outlined"
                 required
                 fullWidth
-                id="username"
-                label="Username"
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={onChange}
                 autoFocus
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
                 onChange={onChange}
               />
             </Grid>
@@ -111,7 +128,6 @@ const SignUpFormBase = (props) => {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                autoFocus
                 onChange={onChange}
               />
             </Grid>
@@ -128,25 +144,11 @@ const SignUpFormBase = (props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                name="photoUrl"
                 variant="outlined"
-                required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={onChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
+                id="photoUrl"
+                label="Photo Url"
                 onChange={onChange}
               />
             </Grid>

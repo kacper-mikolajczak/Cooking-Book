@@ -1,19 +1,21 @@
 ## In views:
 
+_??_ = Optional
+
 ### Main:
 
-- Top Recipes List?
+- Top Recipes List
 
 ### Header:
 
 - Searchbar for searching recipes
-- search only in category? ( Home -> user, Landing -> All)
-- advanced search?
+- search only in category ( Home -> user, Landing -> All)
+- advanced search _??_
 
 ### Home:
 
-- Add new recipe
-- Edit your recipes
+- Add new recipe **!Currently working on it**
+- Edit your recipes\*\*
 - View details
 
 ### Account:
@@ -24,39 +26,49 @@
 
 - User List View
 - Recipes List View
-- Combine ^ those two into one thing ( recipes under user that owns them)
-- Delete/Update(?) user/recipe
+- Combine ^ those two into one thing ( recipes under user that owns them) _??_
+- Delete/Update user( _??_ )/recipe
 
 ### Recipes:
 
-- Filtering? Sorting?
-- Commenting?
-- Likes or Stars? <- Likes are simpler
+- Filtering and Sorting
+- Commenting _??_
+- Likes or Stars _??_ <- Likes are simpler
 
 ## DB SCHEMAS:
 
 ### Recipes:
 
+**Bold** = Set by the user  
+_??_ = Optional
+
 - uid
-- title
-- desc
+- **title**
+- **desc**
 - user
 - createdAt
 - editedAt
 - deletedAt
 - likes ( just a number or separate object with users uids?)
-- ingredients
-- steps
-- photoUrl
-- comments
+- **ingredients**
+- **steps**
+- **nutrition Table** _??_
+- **photoUrl**
+- comments _??_
 
 ### Users:
 
+**Bold** = Set by the user  
+_??_ = Optional
+
 - uid
-- name
-- surname
-- email
+- **firstName**
+- role?
+  - regular
+  - admin
+- **lastName**
+- **email**
 - recipes (Ref)
 - recipesLikes? (Ref)
 - createdAt
-- photoUrl???
+- **photoUrl**
