@@ -3,8 +3,6 @@ import "firebase/auth";
 // import "firebase/database";
 import "firebase/firestore";
 
-import { v4 as uuid } from "uuid";
-
 const config = {
   apiKey: "AIzaSyB6D2hi1XOL87ghg_lZrUe1fb2jT7Y3NXU",
   authDomain: "fir-react-basics.firebaseapp.com",
@@ -65,14 +63,16 @@ class Firebase {
   /* Recipes */
   recipes = () => this.db.collection("recipes");
 
-  getRecipe = (uid) => this.recipes().doc(`${uid}`);
-  setRecipe = () => this.recipes().doc(`${uuid()}`);
+  recipe = (uid) => this.recipes().doc(`${uid}`);
 
   userRecipes = (userUid) => this.recipes().where("user", "==", userUid);
+
+  /* Comments */
+  comments = () => this.db.collection("comments");
+  comment = (uid) => this.comments().doc(`${uid}`);
 }
 
 const firebase = new Firebase();
-console.log(firebase);
 // (async () => {
 //   await firebase.user("111").set({ name: "Kevin", admin: false });
 //   const snap = await firebase.admins().get();

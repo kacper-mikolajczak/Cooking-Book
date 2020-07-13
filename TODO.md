@@ -1,3 +1,12 @@
+##TODO:
+
+- SearchBar
+- Likes
+- Styling Details & Comments
+- Editing
+- Buttons Actions
+- ...
+
 ## In views:
 
 _??_ = Optional
@@ -68,7 +77,7 @@ _??_ = Optional
   - admin
 - **lastName**
 - **email**
-- recipes (Ref)
-- recipesLikes? (Ref)
+- recipes (Ref) _??_
+- recipesLikes (Ref) _??_
 - createdAt
 - **photoUrl**

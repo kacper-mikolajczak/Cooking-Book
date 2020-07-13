@@ -5,6 +5,7 @@ import sessionReducer from "./session";
 import usersReducer from "./users";
 import userRecipesReducer from "./userRecipes";
 import recipeFormReducer from "./createRecipeForm";
+import recipeReducer from "./recipes";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   reduxFirebase: firebaseReducer,
   userRecipes: userRecipesReducer,
   recipeForm: recipeFormReducer,
+  recipe: recipeReducer,
 });
 
 export default rootReducer;

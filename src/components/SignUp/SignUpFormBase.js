@@ -58,6 +58,7 @@ const SignUpFormBase = (props) => {
       .doCreateUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         return props.firebase.user(authUser.user.uid).set({
+          id: authUser.user.uid,
           createdAt: new Date(),
           firstName: firstName ? firstName : null,
           lastName: lastName ? lastName : null,

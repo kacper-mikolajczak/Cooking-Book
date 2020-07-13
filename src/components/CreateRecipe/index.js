@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   Container,
@@ -9,11 +9,13 @@ import {
   ListItem,
   Button,
 } from "@material-ui/core";
+import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { recipeFormActions } from "../../store/reducers/createRecipeForm";
 
 import firebase from "../../Firebase";
+import { v4 as uuid } from "uuid";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -29,6 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
   listBox: {
     marginLeft: "2em",
+    textAlign: "center",
+  },
+  addBtn: {
+    width: "100%",
+    boxShadow:
+      "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+    marginBottom: "2em",
   },
 }));
 
@@ -53,6 +62,7 @@ const CreateRecipePage = (props) => (
 );
 
 const CreateRecipeForm = (props) => {
+  const lastList = useRef(null);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -74,6 +84,7 @@ const CreateRecipeForm = (props) => {
             dispatch(
               recipeFormActions.pushEmptyListItem({ name: "ingredients" })
             );
+          lastList.current = "ingredients";
         }}
         onChange={(e) =>
           dispatch(
@@ -84,6 +95,12 @@ const CreateRecipeForm = (props) => {
             })
           )
         }
+        inputRef={(input) =>
+          lastList.current === "ingredients" &&
+          index === ingredients.length - 1 &&
+          input &&
+          input.focus()
+        }
       >
         {item.value}
       </Input>
@@ -92,19 +109,20 @@ const CreateRecipeForm = (props) => {
           dispatch(recipeFormActions.removeItemsList("ingredients", item.id))
         }
       >
-        X
+        <ClearSharpIcon />
       </Button>
     </ListItem>
   ));
 
   const stepsItems = steps.map((item, index) => (
     <ListItem key={item.id}>
-      <span>{index}.</span>
+      <span>{index + 1}.</span>
       <Input
         fullWidth
         onKeyDown={(e) => {
           if (e.keyCode === 13)
             dispatch(recipeFormActions.pushEmptyListItem({ name: "steps" }));
+          lastList.current = "steps";
         }}
         onChange={(e) => {
           dispatch(
@@ -115,6 +133,12 @@ const CreateRecipeForm = (props) => {
             })
           );
         }}
+        inputRef={(input) =>
+          lastList.current === "steps" &&
+          index === steps.length - 1 &&
+          input &&
+          input.focus()
+        }
       >
         {item.value}
       </Input>
@@ -123,7 +147,7 @@ const CreateRecipeForm = (props) => {
           dispatch(recipeFormActions.removeItemsList("steps", item.id))
         }
       >
-        X
+        <ClearSharpIcon />
       </Button>
     </ListItem>
   ));
@@ -209,10 +233,11 @@ const CreateRecipeForm = (props) => {
                 </Typography>
                 <List name="ingredients" className={classes.list}>
                   {/* List Items will be rendered from state */}
-                  {ingItems}
+                  {ingItems.length > 0 ? ingItems : <p>No ingredients Added</p>}
                 </List>
                 <Button
-                  className={classes.addBtn}
+                  color="primary"
+                  variant="contained"
                   name="ingredients"
                   onClick={(e) =>
                     dispatch(
@@ -233,10 +258,11 @@ const CreateRecipeForm = (props) => {
                   Steps list:{" "}
                 </Typography>
                 <List name="steps" className={classes.list}>
-                  {stepsItems}
+                  {stepsItems.length > 0 ? stepsItems : <p>No steps added</p>}
                 </List>
                 <Button
-                  className={classes.addBtn}
+                  color="primary"
+                  variant="contained"
                   name="steps"
                   onClick={(e) =>
                     dispatch(
@@ -253,20 +279,25 @@ const CreateRecipeForm = (props) => {
             </Grid>
           </Grid>
           <Button
+            color="primary"
+            variant="contained"
+            className={classes.addBtn}
             onClick={() => {
-              //DO NOT UNCOMMENT IT! Check firestore first :)
-              //   firebase.setRecipe().set({
-              //     title,
-              //     desc,
-              //     createdAt: new Date(),
-              //     user,
-              //     ingredients,
-              //     steps,
-              //     photoUrl,
-              //   });
+              const uid = uuid();
+              firebase.recipe(`/${uid}`).set({
+                id: uid,
+                title,
+                desc,
+                createdAt: new Date(),
+                user,
+                ingredients: ingredients.filter((ing) => ing.value.length > 0),
+                steps: steps.filter((step) => step.value.lenght > 0),
+                photoUrl,
+              });
+              console.log("Created new recipe!");
             }}
           >
-            DANGER! Something is wrong
+            DANGER! Share a recipe!
           </Button>
         </Grid>
       </Container>

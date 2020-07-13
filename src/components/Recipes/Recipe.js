@@ -7,6 +7,7 @@ import {
   CardActions,
   CardMedia,
   CardContent,
+  CardHeader,
   Typography,
   Button,
 } from "@material-ui/core";
@@ -46,15 +47,18 @@ const useStyles = makeStyles((theme) => ({
 const RecipeCard = (props) => {
   const classes = useStyles();
 
-  const { title, desc, photoUrl } = props;
+  const { title, desc, photoUrl, createdAt } = props;
 
   return (
     <Card className={classes.card}>
-      <CardMedia className={classes.cardMedia} image={photoUrl} title={title} />
-      <CardContent className={classes.cardContent}>
+      <CardHeader>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>
+        <p>{createdAt}</p>
+      </CardHeader>
+      <CardMedia className={classes.cardMedia} image={photoUrl} title={title} />
+      <CardContent className={classes.cardContent}>
         <Typography>{desc}</Typography>
       </CardContent>
       <CardActions>
@@ -63,6 +67,9 @@ const RecipeCard = (props) => {
         </Button>
         <Button size="small" color="primary">
           Edit
+        </Button>
+        <Button size="small" color="primary">
+          Delete
         </Button>
       </CardActions>
     </Card>
