@@ -23,7 +23,7 @@ _??_ = Optional
 
 ### Home:
 
-- Add new recipe **!Currently working on it**
+- Add new recipe
 - Edit your recipes\*\*
 - View details
 

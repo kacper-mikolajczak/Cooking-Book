@@ -62,6 +62,7 @@ const CreateRecipePage = (props) => (
 );
 
 const CreateRecipeForm = (props) => {
+  const lastKeyStroke = useRef(null);
   const lastList = useRef(null);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -84,6 +85,7 @@ const CreateRecipeForm = (props) => {
             dispatch(
               recipeFormActions.pushEmptyListItem({ name: "ingredients" })
             );
+          lastKeyStroke.current = 13;
           lastList.current = "ingredients";
         }}
         onChange={(e) =>
@@ -97,6 +99,7 @@ const CreateRecipeForm = (props) => {
         }
         inputRef={(input) =>
           lastList.current === "ingredients" &&
+          lastKeyStroke.current === 13 &&
           index === ingredients.length - 1 &&
           input &&
           input.focus()
@@ -122,6 +125,8 @@ const CreateRecipeForm = (props) => {
         onKeyDown={(e) => {
           if (e.keyCode === 13)
             dispatch(recipeFormActions.pushEmptyListItem({ name: "steps" }));
+          lastKeyStroke.current = 13;
+
           lastList.current = "steps";
         }}
         onChange={(e) => {
@@ -135,6 +140,7 @@ const CreateRecipeForm = (props) => {
         }}
         inputRef={(input) =>
           lastList.current === "steps" &&
+          lastKeyStroke.current === 13 &&
           index === steps.length - 1 &&
           input &&
           input.focus()
@@ -295,6 +301,7 @@ const CreateRecipeForm = (props) => {
                 photoUrl,
               });
               console.log("Created new recipe!");
+              dispatch(recipeFormActions.clearState());
             }}
           >
             DANGER! Share a recipe!

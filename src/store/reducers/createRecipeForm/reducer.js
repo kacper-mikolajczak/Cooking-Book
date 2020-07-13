@@ -54,6 +54,8 @@ const reducer = (state = initialState, { type, payload }) => {
         },
       };
     }
+    case types.clearState:
+      return initialState;
 
     default:
       return state;
