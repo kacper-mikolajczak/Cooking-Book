@@ -1,27 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
-
 import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Button from "@material-ui/core/Button";
 
-import RecipeDetails from "./Details";
-import { useSelector, useDispatch } from "react-redux";
-import { recipeDetailsActions } from "../../store/reducers/recipes/recipeDetails";
+import { makeStyles } from "@material-ui/core/styles";
 
 import RecipeMenu from "./RecipeMenu";
+
+import firebase from "../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
 
 function RecipeCard(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const [likes, setLikes] = useState([]);
 
   const { id, title, desc, photoUrl, createdAt } = props;
 
@@ -69,27 +60,38 @@ function RecipeCard(props) {
     </span>
   );
 
-  const isDialogOpen = useSelector((state) => state.recipe.details.open);
+  useEffect(() => {
+    (async () => {
+      try {
+        const likes = await firebase
+          .recipeLikes(id)
+          .get()
+          .then((dbRes) => dbRes.data());
+        const ids = Object.keys(likes);
+        const vals = Object.values(likes);
+        setLikes(ids.filter((id, index) => vals[index]));
+      } catch (error) {
+        setLikes([]);
+      }
+    })();
+  }, [id]);
 
   return (
     <Card className={classes.root}>
-      <CardActionArea
-        onClick={(e) => {
-          dispatch(recipeDetailsActions.openDialog());
-        }}
-      >
+      <CardActionArea onClick={props.handleClick}>
         <CardHeader title={title} subheader={dateField} />
         <CardMedia className={classes.media} image={photoUrl} title={title} />
-        <CardContent>
+        <CardContent
+          style={{ maxHeight: "80px", height: "80px", overflow: "hidden" }}
+        >
           <Typography variant="body2" color="textSecondary" component="p">
             {desc}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing className={classes.icons}>
-        <RecipeMenu />
+        <RecipeMenu recipe={props} likes={likes} />
       </CardActions>
-      {isDialogOpen && <RecipeDetails recipe={id} {...props} />}
     </Card>
   );
 }

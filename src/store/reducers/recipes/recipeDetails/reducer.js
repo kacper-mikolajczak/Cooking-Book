@@ -22,11 +22,13 @@ const reducer = (state = initialState, { type, payload }) => {
         user: payload.user,
         recipe: payload.recipe,
         comments: payload.comments,
+        pending: false,
       };
     case types.fetchRecipeDetailsFailure:
       return {
         ...state,
         error: payload.error,
+        pending: false,
       };
     case types.setRecipeDetails:
       return { ...state, recipe: payload.recipe };

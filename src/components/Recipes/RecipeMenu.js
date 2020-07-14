@@ -1,12 +1,15 @@
 import React from "react";
 
 import IconButton from "@material-ui/core/IconButton";
-import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 import EditSharpIcon from "@material-ui/icons/EditSharp";
 import PageviewSharpIcon from "@material-ui/icons/PageviewSharp";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import { makeStyles } from "@material-ui/core/styles";
+import LikeButton from "../Likes";
+import DeleteButton from "../DeleteButton";
+import { useSelector } from "react-redux";
+
+import firebase from "../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +45,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipeMenu = (props) => {
+const RecipeMenu = ({ recipe: { id }, likes }) => {
   const classes = useStyles();
+
+  const { uid } = useSelector((state) => state.session.authUser);
+
+  const handleLikeClick = (val) => {
+    firebase.recipeLikes(id).set({ [uid]: val }, { merge: true });
+  };
 
   return (
     <>
@@ -53,15 +62,12 @@ const RecipeMenu = (props) => {
       <IconButton aria-label="edit recipe" className={classes.icons}>
         <EditSharpIcon />
       </IconButton>
-      <IconButton aria-label="delete recipe" className={classes.icons}>
-        <ClearSharpIcon />
-      </IconButton>
-      <span className={classes.likes}>
-        <IconButton aria-label="add to favorites" className={classes.icons}>
-          <FavoriteIcon />
-        </IconButton>
-        <p>{250}</p>
-      </span>
+      <DeleteButton />
+      <LikeButton
+        quantity={likes.length}
+        isLiked={likes.some((like) => like === uid)}
+        handleIconClick={handleLikeClick}
+      />
     </>
   );
 };

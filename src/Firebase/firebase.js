@@ -69,7 +69,11 @@ class Firebase {
 
   /* Comments */
   comments = () => this.db.collection("comments");
-  comment = (uid) => this.comments().doc(`${uid}`);
+  comment = (recipeId) => this.comments().doc(`${recipeId}`);
+
+  /* Likes */
+  likes = () => this.db.collection("likes");
+  recipeLikes = (recipeId) => this.likes().doc(`${recipeId}`);
 }
 
 const firebase = new Firebase();

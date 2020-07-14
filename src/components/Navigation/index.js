@@ -60,11 +60,11 @@ const StyledNavbar = styled.nav`
     justify-content: space-evenly;
     align-items: center;
     & > li {
-      border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
       border-radius: 2px;
       font-size: 1.2em;
       &:hover {
-        border-bottom: 3px solid green;
+        border-bottom: 2px solid blue;
       }
       & > a {
         cursor: pointer;

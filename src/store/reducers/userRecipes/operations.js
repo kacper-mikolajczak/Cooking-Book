@@ -5,6 +5,8 @@ import firebase from "../../../Firebase";
 export const get = () => async (dispatch, getState) => {
   const state = getState();
 
+  if (state.userRecipes.data.length > 0) return Promise.resolve();
+
   try {
     const uid = state.session.authUser?.uid;
     if (!uid) throw "User not found!";

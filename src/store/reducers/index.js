@@ -6,14 +6,17 @@ import usersReducer from "./users";
 import userRecipesReducer from "./userRecipes";
 import recipeFormReducer from "./createRecipeForm";
 import recipeReducer from "./recipes";
+import searchReducer from "./search";
+import topRecipesReducer from "./topRecipes";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   users: usersReducer,
-  reduxFirebase: firebaseReducer,
   userRecipes: userRecipesReducer,
   recipeForm: recipeFormReducer,
   recipe: recipeReducer,
+  search: searchReducer,
+  topRecipes: topRecipesReducer,
 });
 
 export default rootReducer;

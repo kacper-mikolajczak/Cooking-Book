@@ -1,11 +1,12 @@
 ##TODO:
 
-- SearchBar
-- Likes
-- Styling Details & Comments
-- Editing
-- Buttons Actions
+- SearchBar -- Problem with dynamic view of searched recipes. Redirect to search is kinda a solution
+- Likes -- done? At least I hope so
+- Styling Details & Comments X
+- Editing X
+- Buttons Actions X
 - ...
+- max description length set to ~200? -- Workaround with height property
 
 ## In views:
 

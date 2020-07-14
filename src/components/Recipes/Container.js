@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-
-// import { withAuthorization, AuthUserContext } from "../Session";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userRecipesOperations } from "../../store/reducers/userRecipes";
 import Loader from "../Loader";
-import RecipeCard from "../Recipes/Recipe";
 import RecipeCardv2 from "../Recipes/Recipev2";
 
+import RecipeDetails from "./Details";
+
 import { makeStyles } from "@material-ui/core/styles";
+
+import { recipeDetailsOperations } from "../../store/reducers/recipes/recipeDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,36 +20,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipesContainer = (props) => {
-  const classes = useStyles();
+const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
-  const user = useSelector((state) => state.session.authUser);
-  const userRecipes = useSelector((state) => state.userRecipes);
-
-  const mappedRecipes =
-    userRecipes?.data?.length > 0 ? (
-      userRecipes.data.map((recipe) => (
-        <RecipeCardv2 key={recipe.id} {...recipe} />
-      ))
-    ) : (
-      <p>User has no recipes! :(</p>
-    );
+  const recipes = useSelector(selectOp);
 
   useEffect(() => {
     (async () => {
-      dispatch(userRecipesOperations.get());
+      dispatch(getOp());
     })();
-  }, []);
+  }, [dispatch, getOp]);
+
+  const handleCardClick = (e, recipe) => {
+    dispatch(recipeDetailsOperations.get(recipe));
+  };
+
+  const mappedRecipes =
+    recipes.data?.length > 0 ? (
+      recipes.data.map((recipe) => (
+        <RecipeCardv2
+          key={recipe.id}
+          {...recipe}
+          storeSrc={storeSrc}
+          handleClick={(e) => handleCardClick(e, recipe)}
+        />
+      ))
+    ) : (
+      <p>{msg}</p>
+    );
 
   return (
     <div className={classes.root}>
-      {userRecipes.pending ? (
-        <Loader isLoading={userRecipes.pending} />
+      {recipes.pending ? (
+        <Loader isLoading={recipes.pending} />
       ) : (
         <div>
-          <p>{userRecipes.error}</p>
+          <p>{recipes.error}</p>
           <div className={classes.recipesContainer}>{mappedRecipes}</div>
+          <RecipeDetails />
         </div>
       )}
     </div>
