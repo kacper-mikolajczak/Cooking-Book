@@ -20,7 +20,15 @@ export const get = (recipe) => async (dispatch, getState) => {
     .get()
     .then((dbRes) => dbRes.data());
 
-  dispatch(actions.fetchRecipeDetailsSuccess(userDetails, recipe, comments));
+  const sortedComments = comments
+    ? Object.values(comments).sort(
+        (a, b) => a.createdAt.seconds - b.createdAt.seconds
+      )
+    : [];
+
+  dispatch(
+    actions.fetchRecipeDetailsSuccess(userDetails, recipe, sortedComments)
+  );
   //   } catch (error) {
   //     dispatch(actions.fetchRecipeDetailsFailure(error));
   //   }

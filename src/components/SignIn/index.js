@@ -19,9 +19,9 @@ const SignInPage = (props) => {
 
 const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
 
-const SignInLink = () => (
+const SignInLink = ({ msg }) => (
   <Link to={ROUTES.SIGN_IN}>
-    <p>Already have an account? Sign In!</p>
+    <p>{msg} Sign In!</p>
   </Link>
 );
 

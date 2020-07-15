@@ -32,6 +32,8 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case types.setRecipeDetails:
       return { ...state, recipe: payload.recipe };
+    case types.addNewComment:
+      return { ...state, comments: [...state.comments, payload.comment] };
     case types.closeDialog:
       return {
         ...state,

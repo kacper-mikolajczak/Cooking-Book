@@ -61,7 +61,7 @@ class Firebase {
   admins = () => this.users().where("admin", "==", true);
 
   /* Recipes */
-  recipes = () => this.db.collection("recipes");
+  recipes = () => this.db.collection("recipes").where("deleted", "==", false);
 
   recipe = (uid) => this.recipes().doc(`${uid}`);
 

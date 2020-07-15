@@ -9,3 +9,6 @@ export const fetchFailure = (error) => ({
   type: types.fetchFailure,
   payload: { error },
 });
+
+export const open = () => ({ type: types.open });
+export const close = () => ({ type: types.close });

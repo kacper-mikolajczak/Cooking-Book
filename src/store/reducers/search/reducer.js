@@ -1,17 +1,28 @@
 import * as types from "./types";
 
 const initialState = {
-  data: {},
+  data: [],
+  users: [],
   pending: false,
   error: null,
+  open: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case types.open:
+      return { ...state, open: true };
+    case types.close:
+      return { ...state, open: false };
     case types.fetchPending:
       return { ...state, pending: true };
     case types.fetchSuccess:
-      return { ...state, pending: false, data: payload.data };
+      return {
+        ...state,
+        pending: false,
+        data: payload.data.recipes,
+        users: payload.data.users,
+      };
     case types.fetchFailure:
       return { ...state, pending: false, error: payload.error };
 

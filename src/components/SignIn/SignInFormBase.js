@@ -16,6 +16,8 @@ import { PasswordForgetLink } from "../PasswordForget";
 import { sessionActions } from "../../store/reducers/session";
 import { useDispatch } from "react-redux";
 
+import firebase from "../../Firebase";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -53,17 +55,18 @@ const SignInFormBase = (props) => {
   };
 
   const onSubmit = (event) => {
-    props.firebase
+    firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(({ user }) => {
         props.firebase
           .user(user.uid)
           .get()
           .then((dbRes) => {
+            console.log(dbRes);
             const userData = dbRes.data();
+            console.log("HELLO", userData);
             dispatch(
               sessionActions.setAuthUser({
-                uid: user.uid,
                 ...userData,
               })
             );

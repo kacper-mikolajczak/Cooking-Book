@@ -5,13 +5,19 @@ import { LANDING } from "../../constants/routes";
 
 import styled from "styled-components";
 
-const Logo = () => (
-  <Link to={LANDING} style={{ textDecoration: "none", color: "inherit" }}>
-    <StyledLogo>
-      <h1>Cooking Search</h1>
-    </StyledLogo>
-  </Link>
-);
+const Logo = ({ handleClick }) => {
+  return (
+    <Link
+      onClick={handleClick}
+      to={LANDING}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <StyledLogo>
+        <h1>Cooking Search</h1>
+      </StyledLogo>
+    </Link>
+  );
+};
 
 const StyledLogo = styled.div`
   & {

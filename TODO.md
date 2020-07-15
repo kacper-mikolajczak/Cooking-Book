@@ -1,9 +1,10 @@
 ##TODO:
 
-- SearchBar -- Problem with dynamic view of searched recipes. Redirect to search is kinda a solution
-- Likes -- done? At least I hope so
+- WARNING! Authentication is not working - cannot add user to firestore
+- SearchBar -- Problem with dynamic view of searched recipes. Redirect to search is kinda a solution DONE
+- Likes -- done? At least I hope so DONE
 - Styling Details & Comments X
-- Editing X
+- Editing X DO THIS PAGE (encapsulate recipeForm in order to use it in many places)
 - Buttons Actions X
 - ...
 - max description length set to ~200? -- Workaround with height property

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import IconButton from "@material-ui/core/IconButton";
 import EditSharpIcon from "@material-ui/icons/EditSharp";
@@ -10,6 +10,8 @@ import DeleteButton from "../DeleteButton";
 import { useSelector } from "react-redux";
 
 import firebase from "../../Firebase";
+import { Dialog } from "@material-ui/core";
+import SignInForm from "../SignIn";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,29 +47,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipeMenu = ({ recipe: { id }, likes }) => {
+const RecipeMenu = ({ recipe: { id }, likes, handleShowClick }) => {
   const classes = useStyles();
 
-  const { uid } = useSelector((state) => state.session.authUser);
+  const authUser = useSelector((state) => state.session?.authUser);
 
   const handleLikeClick = (val) => {
-    firebase.recipeLikes(id).set({ [uid]: val }, { merge: true });
+    firebase.recipeLikes(id).set({ [authUser.uid]: val }, { merge: true });
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <>
-      <IconButton aria-label="view recipe" className={classes.icons}>
+      <IconButton
+        aria-label="view recipe"
+        className={classes.icons}
+        onClick={handleShowClick}
+      >
         <PageviewSharpIcon />
       </IconButton>
       <IconButton aria-label="edit recipe" className={classes.icons}>
         <EditSharpIcon />
       </IconButton>
-      <DeleteButton />
-      <LikeButton
-        quantity={likes.length}
-        isLiked={likes.some((like) => like === uid)}
-        handleIconClick={handleLikeClick}
+      <DeleteButton
+        onYesClick={(e) => {
+          console.log("USER DELETED RECIPE", id);
+          firebase.recipe(id).set({ deletedAt: new Date() }, { merge: true });
+        }}
       />
+      {authUser ? (
+        <LikeButton
+          quantity={likes.length}
+          isLiked={likes.some((like) => like === authUser.uid)}
+          handleIconClick={handleLikeClick}
+          authorized={authUser?.uid}
+        />
+      ) : (
+        <LikeButton
+          quantity={likes.length}
+          handleIconClick={handleClickOpen}
+          authorized={authUser?.uid}
+        />
+      )}
+      <Dialog open={open} onClose={handleClose}>
+        <SignInForm />
+      </Dialog>
     </>
   );
 };

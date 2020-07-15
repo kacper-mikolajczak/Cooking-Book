@@ -28,7 +28,7 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getOp());
+      if (getOp) dispatch(getOp());
     })();
   }, [dispatch, getOp]);
 

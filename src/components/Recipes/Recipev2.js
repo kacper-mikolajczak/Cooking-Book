@@ -90,7 +90,11 @@ function RecipeCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing className={classes.icons}>
-        <RecipeMenu recipe={props} likes={likes} />
+        <RecipeMenu
+          recipe={props}
+          likes={likes}
+          handleShowClick={props.handleClick}
+        />
       </CardActions>
     </Card>
   );

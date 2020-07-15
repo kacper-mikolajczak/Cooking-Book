@@ -20,6 +20,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import firebase from "../../Firebase";
 import { sessionActions } from "../../store/reducers/session";
+import RecipesContainer from "../Recipes/Container";
+import EditPage from "../Edit";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,26 +44,42 @@ const App = () => {
       });
   }
 
+  const searchOpen = useSelector((state) => state.search.open);
+
   return (
     <Router>
       <div>
         <CssBaseline />
         <Header />
         <hr />
-
-        <Route exact path={ROUTES.LANDING} component={LandingPage} />
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-        {authUser && (
-          <>
-            <Route path={ROUTES.HOME} component={HomePage} />
-            <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-            <Route path={ROUTES.ADMIN} component={AdminPage} />
-            <Route path={ROUTES.RECIPE_NEW} component={CreateRecipePage} />
-          </>
+        {searchOpen ? (
+          <RecipesContainer
+            msg={"Error occurred"}
+            selectOp={(state) => state.search}
+            getOp={null}
+            storeSrc={"search"}
+          />
+        ) : (
+          <div>
+            <Route exact path={ROUTES.LANDING} component={LandingPage} />
+            <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+            <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+            <Route
+              path={ROUTES.PASSWORD_FORGET}
+              component={PasswordForgetPage}
+            />
+            {authUser && (
+              <>
+                <Route path={ROUTES.HOME} component={HomePage} />
+                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                <Route path={ROUTES.ADMIN} component={AdminPage} />
+                <Route path={ROUTES.RECIPE_NEW} component={CreateRecipePage} />
+                <Route path={ROUTES.RECIPE_EDIT} component={EditPage} />
+              </>
+            )}
+            {!authUser && <Route path="*" component={NoMatch} />}
+          </div>
         )}
-        {!authUser && <Route path="*" component={NoMatch} />}
       </div>
     </Router>
   );

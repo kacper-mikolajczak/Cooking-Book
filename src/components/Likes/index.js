@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LikeButton({ quantity, isLiked, handleIconClick }) {
+function LikeButton({ quantity, isLiked, handleIconClick, authorized }) {
   const classes = useStyles();
   const [liked, setLiked] = useState(false);
   const [likeAmount, setLikeAmount] = useState(0);
@@ -32,8 +32,10 @@ function LikeButton({ quantity, isLiked, handleIconClick }) {
 
   const handleClick = (e) => {
     if (handleIconClick) handleIconClick(!liked);
-    setLikeAmount(likeAmount + (!liked ? 1 : -1));
-    setLiked((liked) => !liked);
+    if (authorized) {
+      setLikeAmount(likeAmount + (!liked ? 1 : -1));
+      setLiked((liked) => !liked);
+    }
   };
 
   return (

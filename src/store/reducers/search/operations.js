@@ -4,6 +4,7 @@ import firebase from "../../../Firebase";
 
 export const search = (query) => async (dispatch, getState) => {
   dispatch(actions.fetchPending());
+  dispatch(actions.open());
 
   const resRecipes = await firebase
     .recipes()
@@ -23,10 +24,11 @@ export const search = (query) => async (dispatch, getState) => {
     .get()
     .then((res) => res.docs.map((doc) => doc.data()));
 
-  dispatch(
-    actions.fetchSuccess({
-      recipes: resRecipes,
-      users: { ...resUsersLastName, ...resUsersFirstName },
-    })
-  );
+  const searchObj = {
+    recipes: resRecipes,
+    users: { ...resUsersLastName, ...resUsersFirstName },
+  };
+
+  console.log(searchObj);
+  dispatch(actions.fetchSuccess(searchObj));
 };

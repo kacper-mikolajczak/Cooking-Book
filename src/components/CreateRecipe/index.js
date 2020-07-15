@@ -53,13 +53,30 @@ const useStyles = makeStyles((theme) => ({
 
 // table nutrition
 
-const CreateRecipePage = (props) => (
-  <div>
-    <Container content="main">
-      <CreateRecipeForm />
-    </Container>
-  </div>
-);
+const CreateRecipePage = (props) => {
+  const classes = useStyles();
+  return (
+    <div>
+      <Container content="main">
+        <Grid>
+          <Grid item xs={12}>
+            <div className={classes.header}>
+              <Typography compnt="h1" variant="h1">
+                {" "}
+                Fresh idea in mind?
+              </Typography>
+              <Typography compnt="h3" variant="h5">
+                {" "}
+                Add new recipe and share it with others!
+              </Typography>
+            </div>
+          </Grid>
+          <CreateRecipeForm />
+        </Grid>
+      </Container>
+    </div>
+  );
+};
 
 const CreateRecipeForm = (props) => {
   const lastKeyStroke = useRef(null);
@@ -166,19 +183,6 @@ const CreateRecipeForm = (props) => {
     <div className={classes.root}>
       <Container container="main">
         <Grid>
-          <Grid item xs={12}>
-            <div className={classes.header}>
-              <Typography compnt="h1" variant="h1">
-                {" "}
-                Fresh idea in mind?
-              </Typography>
-              <Typography compnt="h3" variant="h5">
-                {" "}
-                Add new recipe and share it with others!
-              </Typography>
-            </div>
-          </Grid>
-
           <Grid item xs={12} md={6}>
             <Grid item xs={12}>
               <div className={classes.form}>

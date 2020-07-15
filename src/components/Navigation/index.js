@@ -8,25 +8,29 @@ import { AuthUserContext } from "../Session";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-const Navigation = () => {
+const Navigation = ({ handleItemClick }) => {
   const user = useSelector((state) => state.session.authUser);
-  return <div>{user ? <NavigationAuth /> : <NavigationNonAuth />}</div>;
+  return (
+    <div>
+      {user ? <NavigationAuth handleItemClick /> : <NavigationNonAuth />}
+    </div>
+  );
 };
 
-const NavigationAuth = (props) => {
+const NavigationAuth = ({ handleItemClick }) => {
   return (
     <StyledNavbar>
       <ul>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.HOME}>Home</Link>
         </li>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.RECIPE_NEW}>New Recipe</Link>
         </li>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.ACCOUNT}>Account</Link>
         </li>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.ADMIN}>Admin</Link>
         </li>
         <li>
@@ -37,14 +41,14 @@ const NavigationAuth = (props) => {
   );
 };
 
-const NavigationNonAuth = (props) => {
+const NavigationNonAuth = ({ handleItemClick }) => {
   return (
     <StyledNavbar>
       <ul>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.SIGN_IN}>Sign In</Link>
         </li>
-        <li>
+        <li onClick={handleItemClick}>
           <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
         </li>
       </ul>

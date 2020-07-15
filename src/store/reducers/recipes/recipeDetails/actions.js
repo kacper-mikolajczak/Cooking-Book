@@ -17,6 +17,11 @@ export const fetchRecipeDetailsFailure = (error) => ({
   payload: { error },
 });
 
+export const addNewComment = (comment) => ({
+  type: types.addNewComment,
+  payload: { comment },
+});
+
 export const closeDialog = () => ({ type: types.closeDialog });
 
 export const openDialog = () => ({ type: types.openDialog });

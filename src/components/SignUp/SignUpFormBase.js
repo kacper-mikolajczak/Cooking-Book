@@ -7,10 +7,13 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
+import { useDispatch } from "react-redux";
 import * as ROUTES from "../../constants/routes";
 
 import { SignInLink } from "../SignIn";
+import { sessionActions } from "../../store/reducers/session";
+
+import firebase from "../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +46,7 @@ const INIT_STATE = {
 };
 
 const SignUpFormBase = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [
     { firstName, lastName, email, password, photoUrl, error },
@@ -54,26 +58,34 @@ const SignUpFormBase = (props) => {
   const clearState = () => setState(INIT_STATE);
 
   const onSubmit = (event) => {
-    props.firebase
+    firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then((authUser) => {
-        return props.firebase.user(authUser.user.uid).set({
-          id: authUser.user.uid,
+        const uid = authUser.user.uid;
+        const user = {
+          id: uid,
           createdAt: new Date(),
+          deleted: false,
           firstName: firstName ? firstName : null,
           lastName: lastName ? lastName : null,
           email,
           admin: true,
           recipes: null,
+          comments: null,
           photoUrl: photoUrl ? photoUrl : null,
-        });
+        };
+        return user;
       })
-      .then(() => {
-        clearState();
-        props.history.push(ROUTES.HOME);
-      })
-      .catch((error) => {
-        setState({ error });
+      .then((user) => {
+        firebase
+          .user("234")
+          .set(user)
+          .then(() => {
+            console.log("Not working", user);
+            dispatch(sessionActions.setAuthUser(user));
+            clearState();
+            props.history.push(ROUTES.HOME);
+          });
       });
     event.preventDefault();
   };
@@ -168,7 +180,7 @@ const SignUpFormBase = (props) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <SignInLink />
+              <SignInLink msg="Already have an account? " />
             </Grid>
           </Grid>
         </form>

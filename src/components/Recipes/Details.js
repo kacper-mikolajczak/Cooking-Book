@@ -5,6 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { Grid, Container, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDialog } from "../../store/reducers/recipes/recipeDetails/actions";
 import CommentBox from "../Comments";
@@ -22,12 +23,24 @@ grid?? Comments
 
 */
 
+const useStyles = makeStyles((theme) => {
+  const bgColors = ["white"];
+  const colors = ["black"];
+  return {
+    paper: {
+      backgroundColor: bgColors[Math.floor(Math.random() * bgColors.length)],
+      color: colors[Math.floor(Math.random() * colors.length)],
+    },
+  };
+});
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function RecipeDetails(props) {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const handleClose = () => {
     dispatch(closeDialog());
@@ -35,13 +48,16 @@ function RecipeDetails(props) {
 
   const recipeDetails = useSelector((state) => state.recipe.details);
   const { user, recipe, comments, pending, open } = recipeDetails;
-  const { title, desc, photoUrl, steps, ingredients } = recipe;
+  const { id, title, desc, photoUrl, steps, ingredients } = recipe;
 
   console.log(pending);
 
   return (
     <div>
       <Dialog
+        PaperProps={{
+          className: classes.paper,
+        }}
         open={open}
         TransitionComponent={Transition}
         keepMounted
@@ -55,22 +71,37 @@ function RecipeDetails(props) {
           <>
             <DialogActions></DialogActions>
             <DialogTitle id="alert-dialog-slide-title">
-              <Typography variant="h2">{title}</Typography>
+              <Typography variant="h3">{title}</Typography>
+              <hr />
             </DialogTitle>
             <DialogContent>
               <Container content="main" maxWidth="lg">
                 <Grid>
                   <Grid item>{desc}</Grid>
                   <Grid item>
+                    <h4>Ingredients: </h4>
+                    <ul>
+                      {ingredients?.length > 0 ? (
+                        ingredients.map((ing) => (
+                          <li key={ing.id}>{ing.value}</li>
+                        ))
+                      ) : (
+                        <p>No ingredients added in this recipe!</p>
+                      )}
+                    </ul>
+                  </Grid>
+                  <Grid item>
+                    <h4>Steps: </h4>
                     <ol>
-                      {steps &&
-                        steps.map((step) => (
-                          <li key={step.id}>{step.value}</li>
-                        ))}
+                      {steps?.length > 0 ? (
+                        steps.map((step) => <li key={step.id}>{step.value}</li>)
+                      ) : (
+                        <p>No steps added in this recipe!</p>
+                      )}
                     </ol>
                   </Grid>
                 </Grid>
-                <CommentBox comments={comments} recipe={props.id} />
+                <CommentBox comments={comments} recipeId={id} />
               </Container>
             </DialogContent>
           </>

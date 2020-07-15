@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-import { IconButton, Dialog } from "@material-ui/core";
+import {
+  IconButton,
+  Dialog,
+  Button,
+  DialogActions,
+  DialogTitle,
+} from "@material-ui/core";
 import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -19,15 +25,22 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.9em",
     color: "rgba(0,0,0,.6)",
   },
+  gutter: {
+    padding: "30px",
+  },
 }));
 
-function DeleteButton({ recipeId }) {
+function DeleteButton({ recipeId, onYesClick }) {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleClick = (e) => {
     setDialogOpen(true);
+  };
+
+  const handleDialogClose = (e) => {
+    setDialogOpen(false);
   };
 
   console.log(dialogOpen);
@@ -42,10 +55,27 @@ function DeleteButton({ recipeId }) {
         <ClearSharpIcon />
       </IconButton>
       {dialogOpen && (
-        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <div>
-            <p>Are you sure? </p>
-          </div>
+        <Dialog
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                onYesClick();
+                handleDialogClose();
+                handleDialogClose();
+              }}
+              color="secondary"
+              autoFocus
+            >
+              Agree
+            </Button>
+            <Button onClick={handleDialogClose}>Disagree</Button>
+          </DialogActions>
         </Dialog>
       )}
     </>
