@@ -33,7 +33,7 @@ const CommentsBox = ({ comments, recipeId }) => {
         deleted: false,
         user: {
           name: user.lastName + " " + user.firstName,
-          id: user.uid,
+          id: user.id,
           photoUrl: user.photoUrl,
         },
         createdAt: new Date(),

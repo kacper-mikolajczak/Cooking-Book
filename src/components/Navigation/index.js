@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import SignOutButton from "../SignOut";
@@ -7,17 +7,36 @@ import { AuthUserContext } from "../Session";
 
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { IconButton, Avatar, Menu, MenuItem } from "@material-ui/core";
 
 const Navigation = ({ handleItemClick }) => {
   const user = useSelector((state) => state.session.authUser);
   return (
     <div>
-      {user ? <NavigationAuth handleItemClick /> : <NavigationNonAuth />}
+      {user ? (
+        <NavigationAuth user={user} handleItemClick={handleItemClick} />
+      ) : (
+        <NavigationNonAuth />
+      )}
     </div>
   );
 };
 
-const NavigationAuth = ({ handleItemClick }) => {
+const NavigationAuth = ({ user, handleItemClick }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleAvatarClick = (e) => {
+    console.log(e.currentTarget);
+    setAnchorEl(e.currentTarget);
+  };
+  const handleMenuClose = (e) => {
+    setAnchorEl(null);
+  };
+  const handleMenuItemClick = (e) => {
+    handleMenuClose();
+    handleItemClick();
+  };
+
   return (
     <StyledNavbar>
       <ul>
@@ -27,15 +46,37 @@ const NavigationAuth = ({ handleItemClick }) => {
         <li onClick={handleItemClick}>
           <Link to={ROUTES.RECIPE_NEW}>New Recipe</Link>
         </li>
-        <li onClick={handleItemClick}>
-          <Link to={ROUTES.ACCOUNT}>Account</Link>
-        </li>
-        <li onClick={handleItemClick}>
-          <Link to={ROUTES.ADMIN}>Admin</Link>
-        </li>
-        <li>
-          <SignOutButton />
-        </li>
+
+        <IconButton
+          onClick={handleAvatarClick}
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+        >
+          <Avatar alt={user.lastName} src={user.photoUrl} />
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleMenuItemClick}>
+            <Link className="menuItem" to={ROUTES.ACCOUNT}>
+              Account
+            </Link>
+          </MenuItem>
+          {user.admin && (
+            <MenuItem onClick={handleMenuItemClick}>
+              <Link className="menuItem" to={ROUTES.ADMIN}>
+                Admin
+              </Link>
+            </MenuItem>
+          )}
+          <MenuItem>
+            <SignOutButton />
+          </MenuItem>
+        </Menu>
       </ul>
     </StyledNavbar>
   );

@@ -13,7 +13,10 @@ import * as ROUTES from "../../constants/routes";
 import { SignUpLink } from "../SignUp";
 import { PasswordForgetLink } from "../PasswordForget";
 
-import { sessionActions } from "../../store/reducers/session";
+import {
+  sessionActions,
+  sessionOperations,
+} from "../../store/reducers/session";
 import { useDispatch } from "react-redux";
 
 import firebase from "../../Firebase";
@@ -55,28 +58,11 @@ const SignInFormBase = (props) => {
   };
 
   const onSubmit = (event) => {
-    firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(({ user }) => {
-        props.firebase
-          .user(user.uid)
-          .get()
-          .then((dbRes) => {
-            console.log(dbRes);
-            const userData = dbRes.data();
-            console.log("HELLO", userData);
-            dispatch(
-              sessionActions.setAuthUser({
-                ...userData,
-              })
-            );
-            clearState();
-            props.history.push(ROUTES.HOME);
-          });
-      })
-      .catch((error) => {
-        setState({ error });
-      });
+    firebase.doSignInWithEmailAndPassword(email, password).then(({ user }) => {
+      dispatch(sessionOperations.getAuthUser(user.uid));
+      clearState();
+      props.history.push(ROUTES.HOME);
+    });
 
     event.preventDefault();
   };

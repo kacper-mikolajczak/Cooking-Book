@@ -12,3 +12,5 @@ export const fetchFailure = (error) => ({
 
 export const open = () => ({ type: types.open });
 export const close = () => ({ type: types.close });
+
+export const clear = () => ({ type: types.clear });

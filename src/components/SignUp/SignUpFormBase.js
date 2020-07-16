@@ -69,19 +69,15 @@ const SignUpFormBase = (props) => {
           firstName: firstName ? firstName : null,
           lastName: lastName ? lastName : null,
           email,
-          admin: true,
+          admin: false,
           recipes: null,
           comments: null,
           photoUrl: photoUrl ? photoUrl : null,
         };
-        return user;
-      })
-      .then((user) => {
         firebase
-          .user("234")
+          .user(user.id)
           .set(user)
           .then(() => {
-            console.log("Not working", user);
             dispatch(sessionActions.setAuthUser(user));
             clearState();
             props.history.push(ROUTES.HOME);

@@ -21,21 +21,24 @@ export const get = () => async (dispatch, getState) => {
   const firstTen = likes.slice(0, 10).map((like) => like.id);
 
   const recipes = await firebase
-    .recipes()
+    .recipesAlive()
     .where("id", "in", firstTen)
     .get()
     .then((res) => res.docs.map((doc) => doc.data()));
   const filler =
     likes.length < 9
       ? await firebase
-          .recipes()
+          .recipesAlive()
           .limit(10)
           .get()
           .then((res) => res.docs.map((doc) => doc.data()))
       : [];
+  console.log({ filler });
   const filteredFiller = filler.filter(
     (f) => recipes.find((recipe) => recipe.id === f.id) === undefined
   );
+
+  console.log({ filteredFiller });
 
   const combinedRecipes = [...recipes, ...filteredFiller]
     .map((recipe) => {

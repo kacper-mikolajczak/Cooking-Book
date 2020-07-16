@@ -6,29 +6,35 @@ export const search = (query) => async (dispatch, getState) => {
   dispatch(actions.fetchPending());
   dispatch(actions.open());
 
+  const lowerQuery = query.toLowerCase();
+
   const resRecipes = await firebase
-    .recipes()
-    .where("title", "==", query)
+    .recipesAlive()
+    //.where("title", "==", query)
     .get()
     .then((res) => res.docs.map((doc) => doc.data()));
 
-  const resUsersLastName = await firebase
+  const recipes = Object.values(resRecipes).filter((item) =>
+    Object.values(item)
+      .reduce((item, str) => str + item.toLowerCase(), "")
+      .includes(lowerQuery)
+  );
+
+  const resUsers = await firebase
     .users()
-    .where("lastName", "==", query)
+    //.where("lastName", "==", query)
     .get()
     .then((res) => res.docs.map((doc) => doc.data()));
 
-  const resUsersFirstName = await firebase
-    .users()
-    .where("firstName", "==", query)
-    .get()
-    .then((res) => res.docs.map((doc) => doc.data()));
+  const users = Object.values(resUsers).filter((item) =>
+    Object.values(item)
+      .reduce((item, str) => str + item.toLowerCase(), "")
+      .includes(lowerQuery)
+  );
 
   const searchObj = {
-    recipes: resRecipes,
-    users: { ...resUsersLastName, ...resUsersFirstName },
+    recipes,
+    users,
   };
-
-  console.log(searchObj);
   dispatch(actions.fetchSuccess(searchObj));
 };

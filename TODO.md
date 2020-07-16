@@ -1,7 +1,7 @@
 ##TODO:
 
 - WARNING! Authentication is not working - cannot add user to firestore
-- SearchBar -- Problem with dynamic view of searched recipes. Redirect to search is kinda a solution DONE
+- SearchBar -- Fetch all recipes and filter them on a client? OR leave it as it is but now user has to type whole title correctly
 - Likes -- done? At least I hope so DONE
 - Styling Details & Comments X
 - Editing X DO THIS PAGE (encapsulate recipeForm in order to use it in many places)

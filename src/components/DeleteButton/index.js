@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DeleteButton({ recipeId, onYesClick }) {
+function DeleteButton({ condition, onYesClick }) {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -43,11 +43,10 @@ function DeleteButton({ recipeId, onYesClick }) {
     setDialogOpen(false);
   };
 
-  console.log(dialogOpen);
-
   return (
     <>
       <IconButton
+        disabled={!condition}
         aria-label="add to favorites"
         className={classes.icons}
         onClick={handleClick}
@@ -61,12 +60,13 @@ function DeleteButton({ recipeId, onYesClick }) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            Are you sure you want to delete this recipe?
+          </DialogTitle>
           <DialogActions>
             <Button
               onClick={() => {
                 onYesClick();
-                handleDialogClose();
                 handleDialogClose();
               }}
               color="secondary"

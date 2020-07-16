@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 
 import LandingPage from "../Landing";
@@ -19,32 +19,19 @@ import Header from "../Header";
 import { useSelector, useDispatch } from "react-redux";
 
 import firebase from "../../Firebase";
-import { sessionActions } from "../../store/reducers/session";
+import { sessionOperations } from "../../store/reducers/session";
 import RecipesContainer from "../Recipes/Container";
 import EditPage from "../Edit";
 
 const App = () => {
   const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.session.authUser);
-
-  //W --> firebase user uid
-  if (firebase?.auth?.W && !authUser) {
-    const uid = firebase.auth.W;
-    firebase
-      .user(uid)
-      .get()
-      .then((dbRes) => {
-        const userData = dbRes.data();
-        dispatch(
-          sessionActions.setAuthUser({
-            uid: uid,
-            ...userData,
-          })
-        );
-      });
-  }
 
   const searchOpen = useSelector((state) => state.search.open);
+  const authUser = useSelector((state) => state.session.authUser);
+
+  if ((!authUser || authUser.id !== firebase.auth.W) && firebase.auth.W) {
+    dispatch(sessionOperations.getAuthUser(firebase.auth.W));
+  }
 
   return (
     <Router>
@@ -54,7 +41,7 @@ const App = () => {
         <hr />
         {searchOpen ? (
           <RecipesContainer
-            msg={"Error occurred"}
+            msg={"No recipes founds"}
             selectOp={(state) => state.search}
             getOp={null}
             storeSrc={"search"}

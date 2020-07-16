@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-
+import React, { useRef, useState, useEffect } from "react";
+import { useWindowDimensions } from "../../hooks";
 import {
   Container,
   Typography,
@@ -16,6 +16,7 @@ import { recipeFormActions } from "../../store/reducers/createRecipeForm";
 
 import firebase from "../../Firebase";
 import { v4 as uuid } from "uuid";
+import { DetailsFormBase } from "../Recipes/Details";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -83,6 +84,7 @@ const CreateRecipeForm = (props) => {
   const lastList = useRef(null);
   const dispatch = useDispatch();
   const classes = useStyles();
+  const { height, width } = useWindowDimensions();
 
   const {
     title,
@@ -182,8 +184,8 @@ const CreateRecipeForm = (props) => {
   return (
     <div className={classes.root}>
       <Container container="main">
-        <Grid>
-          <Grid item xs={12} md={6}>
+        <Grid container direction="row">
+          <Grid item xs={12} md={12}>
             <Grid item xs={12}>
               <div className={classes.form}>
                 <div className={classes.formElem}>
@@ -288,6 +290,17 @@ const CreateRecipeForm = (props) => {
               {/* Here Nutrition Table */}
             </Grid>
           </Grid>
+          {width > 9999 && (
+            <Grid item md={6}>
+              <h3>This is presumably going to be a preview for a recipe</h3>
+              <span style={{ fontSize: "8px" }}>Stupid idea...</span>
+              <DetailsFormBase
+                ingredients={ingredients}
+                steps={steps}
+                desc={desc}
+              />
+            </Grid>
+          )}
           <Button
             color="primary"
             variant="contained"

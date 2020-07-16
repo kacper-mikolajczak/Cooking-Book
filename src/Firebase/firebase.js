@@ -37,22 +37,7 @@ class Firebase {
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
 
-  /* Database */
-  /* User API */
-  // user = (uid) => this.db.ref(`users/${uid}`);
-
-  // users = () => this.db.ref("users");
-
-  // /* Data API */
-  // data = () => this.db.ref("data");
-
-  // /* Recipes API */
-  // newRecipe = () => this.db.ref(`recipes/${uuid()}`);
-
-  // recipes = () => this.db.ref(`recipes`);
-
   /* Users */
-
   users = () => this.db.collection("users");
 
   user = (uid) => this.users().doc(`${uid}`);
@@ -61,7 +46,9 @@ class Firebase {
   admins = () => this.users().where("admin", "==", true);
 
   /* Recipes */
-  recipes = () => this.db.collection("recipes").where("deleted", "==", false);
+  recipes = () => this.db.collection("recipes");
+  recipesAlive = () =>
+    this.db.collection("recipes").where("deleted", "==", false);
 
   recipe = (uid) => this.recipes().doc(`${uid}`);
 

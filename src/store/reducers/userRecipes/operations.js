@@ -8,7 +8,7 @@ export const get = () => async (dispatch, getState) => {
   if (state.userRecipes.data.length > 0) return Promise.resolve();
 
   try {
-    const uid = state.session.authUser?.uid;
+    const uid = state.session.authUser?.id;
     if (!uid) throw "User not found!";
 
     dispatch(actions.fetchPending());

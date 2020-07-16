@@ -1,6 +1,7 @@
 import * as types from "./types";
 
 const initialState = {
+  query: "",
   data: [],
   users: [],
   pending: false,
@@ -25,7 +26,8 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case types.fetchFailure:
       return { ...state, pending: false, error: payload.error };
-
+    case types.clear:
+      return { ...state, query: "" };
     default:
       return state;
   }

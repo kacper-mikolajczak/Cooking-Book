@@ -53,13 +53,13 @@ const UsersList = ({ users }) => {
       {users.map((user) => (
         <li key={user.uid}>
           <p>
-            <strong>ID:</strong> {user.uid}
+            <strong>ID:</strong> {user.id}
           </p>
           <p>
             <strong>E-Mail:</strong> {user.email}
           </p>
           <p>
-            <strong>Username:</strong> {user.username}
+            <strong>Name:</strong> {user.lastName} {user.firstName}
           </p>
         </li>
       ))}

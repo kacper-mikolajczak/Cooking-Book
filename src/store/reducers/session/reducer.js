@@ -9,7 +9,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case types.authUserSet:
       return {
         ...state,
-        authUser: payload.authUser,
+        authUser: payload,
       };
     case types.authUserUnset:
       return {

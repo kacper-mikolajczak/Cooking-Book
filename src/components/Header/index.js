@@ -25,7 +25,7 @@ export function Header() {
           <Search />
         </Grid>
         <Grid item xs={12} md>
-          <Navigation handleItemClick />
+          <Navigation handleItemClick={handleItemClick} />
         </Grid>
       </Grid>
     </header>
