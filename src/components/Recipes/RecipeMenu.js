@@ -13,6 +13,7 @@ import firebase from "../../Firebase";
 import { Dialog } from "@material-ui/core";
 import SignInForm from "../SignIn";
 import EditButton from "../Edit/EditButton";
+import RegainButton from "../RegainButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipeMenu = ({ recipe: { id, user }, likes, handleShowClick }) => {
+const RecipeMenu = ({
+  recipe: { id, user, deleted },
+  likes,
+  handleShowClick,
+}) => {
   const classes = useStyles();
 
   const authUser = useSelector((state) => state.session?.authUser);
@@ -67,6 +72,8 @@ const RecipeMenu = ({ recipe: { id, user }, likes, handleShowClick }) => {
     setOpen(false);
   };
 
+  const editionRights = authUser?.id === user || authUser?.admin;
+
   return (
     <>
       <IconButton
@@ -76,24 +83,31 @@ const RecipeMenu = ({ recipe: { id, user }, likes, handleShowClick }) => {
       >
         <PageviewSharpIcon />
       </IconButton>
-      {authUser?.id === user && (
+      {editionRights && (
         <>
-          <EditButton
-            condition={authUser?.id === user}
-            onYesClick={() => {
-              console.log("Edit");
-            }}
-          />
-          <DeleteButton
-            condition={authUser?.id === user}
-            onYesClick={(e) => {
-              firebase.recipe(id).set({ deleted: true }, { merge: true });
-            }}
-          />
+          <EditButton condition={editionRights && !deleted} recipeId={id} />
+          {deleted ? (
+            <RegainButton
+              condition={editionRights && deleted}
+              onYesClick={(e) => {
+                firebase.recipe(id).set({ deleted: false }, { merge: true });
+                window.location.reload();
+              }}
+            />
+          ) : (
+            <DeleteButton
+              condition={editionRights && !deleted}
+              onYesClick={(e) => {
+                firebase.recipe(id).set({ deleted: true }, { merge: true });
+                window.location.reload();
+              }}
+            />
+          )}
         </>
       )}
       {authUser ? (
         <LikeButton
+          condition={!deleted}
           quantity={likes.length}
           isLiked={likes.some((like) => like === authUser?.id)}
           handleIconClick={handleLikeClick}
@@ -101,6 +115,7 @@ const RecipeMenu = ({ recipe: { id, user }, likes, handleShowClick }) => {
         />
       ) : (
         <LikeButton
+          condition={!deleted}
           quantity={likes.length}
           handleIconClick={handleClickOpen}
           authorized={authUser?.id}

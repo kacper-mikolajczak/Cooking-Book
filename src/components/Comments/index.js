@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CommentsBox = ({ comments, recipeId }) => {
+const CommentsBox = ({ comments, recipeId, deleted }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
@@ -50,21 +50,19 @@ const CommentsBox = ({ comments, recipeId }) => {
       });
   };
 
+  const commentsOrMsg = !deleted && (
+    <CommentFormBase
+      user={user}
+      recipeId={recipeId}
+      handleSubmit={handleCommentSubmit}
+    />
+  );
+
   return (
     <div className={classes.root}>
       <Comments comments={comments} />
       {user ? (
-        <div>
-          {loading ? (
-            <Loader isLoading={loading} />
-          ) : (
-            <CommentFormBase
-              user={user}
-              recipeId={recipeId}
-              handleSubmit={handleCommentSubmit}
-            />
-          )}
-        </div>
+        <div>{loading ? <Loader isLoading={loading} /> : commentsOrMsg}</div>
       ) : (
         <SignInLink msg="Want to leave a comment? " />
       )}

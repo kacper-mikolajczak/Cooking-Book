@@ -52,7 +52,7 @@ function RecipeCard(props) {
 
   const [likes, setLikes] = useState([]);
 
-  const { id, title, desc, photoUrl, createdAt } = props;
+  const { id, title, desc, photoUrl, createdAt, deleted } = props;
 
   const dateField = (
     <span className={classes.dateField}>
@@ -78,7 +78,10 @@ function RecipeCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={props.handleClick}>
+      <CardActionArea
+        onClick={deleted ? () => {} : props.handleClick}
+        style={deleted ? { opacity: "0.6" } : {}}
+      >
         <CardHeader title={title} subheader={dateField} />
         <CardMedia className={classes.media} image={photoUrl} title={title} />
         <CardContent

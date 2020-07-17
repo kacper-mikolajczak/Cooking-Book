@@ -23,7 +23,7 @@ function Comments({ comments }) {
     commentsArr.length > 0 ? (
       commentsArr.map((com) => (
         <div className={classes.comment}>
-          <Comment key={com.id} comment={com} />
+          <Comment key={com.id} {...com} />
         </div>
       ))
     ) : (

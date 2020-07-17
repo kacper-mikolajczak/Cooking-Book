@@ -4,7 +4,6 @@ import firebase from "../../../../Firebase";
 
 export const get = (recipe) => async (dispatch, getState) => {
   dispatch(actions.openDialog());
-  console.log(`get Recipe Details Op: `, { recipe });
   //if (getState().recipe.details.recipe === recipe) return new Promise.resolve();
   dispatch(actions.fetchRecipeDetailsPending());
 

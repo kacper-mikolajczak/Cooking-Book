@@ -18,7 +18,7 @@ export const get = () => async (dispatch, getState) => {
 
     dispatch(actions.fetchSuccess(recipes));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     dispatch(actions.fetchFailure(error));
   }
 };

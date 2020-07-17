@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeDialog } from "../../store/reducers/recipes/recipeDetails/actions";
 import CommentBox from "../Comments";
 import Loader from "../Loader";
+import RecipeMenu from "./RecipeMenu";
 
 /* Details layout: 
 
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => {
       paddingBottom: "0",
     },
     subheader: {
+      marginLeft: "2em",
       fontSize: "1em",
       display: "flex",
       flexDirection: "row",
@@ -107,7 +109,12 @@ function RecipeDetails(props) {
               id="alert-dialog-slide-title"
               className={classes.header}
             >
-              <Typography variant="h4">{title}</Typography>
+              {title}{" "}
+              {recipe.deleted && (
+                <span style={{ fontSize: "0.5em", color: "red" }}>
+                  - recipe removed
+                </span>
+              )}
               <hr />
             </DialogTitle>
             <div className={classes.subheader}>
@@ -123,12 +130,16 @@ function RecipeDetails(props) {
             </div>
             <DialogContent>
               <Container content="main" maxWidth="lg">
-                <DetailsFormBase
+                <DetailsList
                   desc={desc}
                   steps={steps}
                   ingredients={ingredients}
                 />
-                <CommentBox comments={comments} recipeId={id} />
+                <CommentBox
+                  comments={comments}
+                  recipeId={id}
+                  deleted={recipe.deleted ?? false}
+                />
               </Container>
             </DialogContent>
           </>
@@ -138,7 +149,7 @@ function RecipeDetails(props) {
   );
 }
 
-const DetailsFormBase = ({ ingredients, desc, steps }) => {
+const DetailsList = ({ ingredients, desc, steps }) => {
   return (
     <Grid>
       <Grid item>{desc}</Grid>
@@ -168,4 +179,4 @@ const DetailsFormBase = ({ ingredients, desc, steps }) => {
 
 export default RecipeDetails;
 
-export { DetailsFormBase };
+export { DetailsList };

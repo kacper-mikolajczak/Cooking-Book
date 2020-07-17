@@ -17,5 +17,9 @@ export const setListInput = ({ id, name, value }) => ({
   type: types.setListInput,
   payload: { id, name, value },
 });
+export const setList = (name, list) => ({
+  type: types.setList,
+  payload: { name, list },
+});
 
 export const clearState = () => ({ type: types.clearState });

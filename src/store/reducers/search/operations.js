@@ -8,11 +8,17 @@ export const search = (query) => async (dispatch, getState) => {
 
   const lowerQuery = query.toLowerCase();
 
-  const resRecipes = await firebase
-    .recipesAlive()
-    //.where("title", "==", query)
-    .get()
-    .then((res) => res.docs.map((doc) => doc.data()));
+  const resRecipes = getState().session.authUser.admin
+    ? await firebase
+        .recipes()
+        //.where("title", "==", query)
+        .get()
+        .then((res) => res.docs.map((doc) => doc.data()))
+    : await firebase
+        .recipesAlive()
+        //.where("title", "==", query)
+        .get()
+        .then((res) => res.docs.map((doc) => doc.data()));
 
   const recipes = Object.values(resRecipes).filter((item) =>
     Object.values(item)

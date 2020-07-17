@@ -35,10 +35,11 @@ const App = () => {
 
   return (
     <Router>
-      <div>
+      <div
+        style={{ backgroundColor: "rgba(245,245,245,1)", minHeight: "100vh" }}
+      >
         <CssBaseline />
         <Header />
-        <hr />
         {searchOpen ? (
           <RecipesContainer
             msg={"No recipes founds"}

@@ -17,7 +17,6 @@ const reducer = (state = initialState, { type, payload }) => {
         pending: true,
       };
     case types.fetchRecipeDetailsSuccess:
-      console.log({ payload });
       return {
         ...state,
         user: payload.user,

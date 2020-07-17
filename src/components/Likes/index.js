@@ -20,7 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LikeButton({ quantity, isLiked, handleIconClick, authorized }) {
+function LikeButton({
+  quantity,
+  isLiked,
+  handleIconClick,
+  authorized,
+  condition,
+}) {
   const classes = useStyles();
   const [liked, setLiked] = useState(false);
   const [likeAmount, setLikeAmount] = useState(0);
@@ -41,6 +47,7 @@ function LikeButton({ quantity, isLiked, handleIconClick, authorized }) {
   return (
     <span className={classes.likes}>
       <IconButton
+        disabled={!condition}
         aria-label="add to favorites"
         className={classes.icons}
         onClick={(e) => handleClick(e)}

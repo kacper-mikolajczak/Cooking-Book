@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateRecipeForm } from "../CreateRecipe";
+import { RecipeForm } from "../CreateRecipe";
+import { recipeFormActions } from "../../store/reducers/createRecipeForm";
 
 const EditPage = (props) => {
   const dispatch = useDispatch();
 
-  const recipe = useSelector((state) => state.recipe.details.recipe);
+  const recipe = useSelector((state) => state.editedRecipe.recipe);
   const user = useSelector((state) => state.session.authUser);
-  console.log("EDIT", recipe, user);
+
   return (
     <div>
       <h2>Edit Page</h2>
-      <CreateRecipeForm />
+      <RecipeForm
+        recipe={recipe}
+        recipeId={recipe.id}
+        msg={"Edit this recipe!"}
+      />
     </div>
   );
 };

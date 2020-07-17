@@ -42,6 +42,15 @@ const reducer = (state = initialState, { type, payload }) => {
         },
       };
     }
+    case types.setList: {
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [payload.name]: payload.list,
+        },
+      };
+    }
     case types.pushEmptyListItem: {
       return {
         ...state,

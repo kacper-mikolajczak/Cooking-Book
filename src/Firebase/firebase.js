@@ -20,7 +20,6 @@ class Firebase {
     // this.db = app.database();
 
     this.db = app.firestore();
-    //console.log(this.db, this.firestore);
   }
 
   /* Auth API */
@@ -64,12 +63,5 @@ class Firebase {
 }
 
 const firebase = new Firebase();
-// (async () => {
-//   await firebase.user("111").set({ name: "Kevin", admin: false });
-//   const snap = await firebase.admins().get();
-//   console.log(snap.docs.map((doc) => doc.data()));
-//   const snap2 = await firebase.clients().get();
-//   console.log(snap2.docs.map((doc) => doc.data()));
-// })();
 
 export default firebase;

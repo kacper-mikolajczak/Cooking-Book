@@ -41,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// interface IState {
+//   email: string;
+//   password: string;
+//   error?: string | null;
+//}
+
 const INIT_STATE = {
   email: "",
   password: "",
@@ -75,7 +81,7 @@ const SignInFormBase = (props) => {
   const isInvalid = email === "" || password === "";
 
   return (
-    <Container content="main" maxWidth="xs">
+    <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -108,7 +114,7 @@ const SignInFormBase = (props) => {
             autoComplete="current-password"
             onChange={onChange}
           />
-          {error && <p>{error.message}</p>}
+          {error && <p>{error}</p>}
           <Button
             type="submit"
             fullWidth

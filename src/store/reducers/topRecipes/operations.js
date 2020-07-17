@@ -3,8 +3,6 @@ import * as actions from "./actions";
 import firebase from "../../../Firebase";
 
 export const get = () => async (dispatch, getState) => {
-  if (getState().topRecipes.data.length > 0) return Promise.resolve();
-
   dispatch(actions.fetchPending());
 
   const likeDocs = await firebase
@@ -33,12 +31,9 @@ export const get = () => async (dispatch, getState) => {
           .get()
           .then((res) => res.docs.map((doc) => doc.data()))
       : [];
-  console.log({ filler });
   const filteredFiller = filler.filter(
     (f) => recipes.find((recipe) => recipe.id === f.id) === undefined
   );
-
-  console.log({ filteredFiller });
 
   const combinedRecipes = [...recipes, ...filteredFiller]
     .map((recipe) => {

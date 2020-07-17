@@ -47,7 +47,7 @@ const Search = (props) => {
   return (
     <div className={classes.root}>
       <Input
-        className={focus && classes.focused}
+        className={focus ? classes.focused : ""}
         type="search"
         onChange={handleChange}
         autoFocus
@@ -56,8 +56,8 @@ const Search = (props) => {
         onBlur={(e) => setFocus(false)}
         placeholder="Search for recipes..."
       />
-      <IconButton>
-        <SearchIcon onClick={search} />
+      <IconButton onClick={search}>
+        <SearchIcon />
       </IconButton>
     </div>
   );

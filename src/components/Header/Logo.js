@@ -21,7 +21,7 @@ const Logo = ({ handleClick }) => {
 
 const StyledLogo = styled.div`
   & {
-    padding-left: 20px;
+    margin-top: 30px;
     text-align: center;
   }
 `;

@@ -1,6 +1,23 @@
 import React from "react";
 
-const Comment = ({ comment }) => {
+interface ICreatedAt {
+  seconds: number;
+  nanoseconds: number;
+}
+
+interface IUser {
+  name: string;
+}
+
+interface IComment {
+  value: string;
+  user: IUser;
+  createdAt: ICreatedAt;
+  text: string[];
+  fun: (arg1: number, arg2: string) => void;
+}
+
+const Comment = (comment: IComment) => {
   const time = comment?.createdAt?.seconds;
   const timestamp = time ? new Date(time * 1000) : new Date();
   return (

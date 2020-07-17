@@ -1,8 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
 import IconButton from "@material-ui/core/IconButton";
 import EditSharpIcon from "@material-ui/icons/EditSharp";
 import { makeStyles } from "@material-ui/core/styles";
+
+import { useHistory } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
+import { editedRecipeOperations } from "../../store/reducers/edit";
 
 const useStyles = makeStyles((theme) => ({
   icons: {
@@ -12,11 +17,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditButton = ({ condition, onYesClick }) => {
+const EditButton = ({ condition, recipeId }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
 
   const handleClick = (e) => {
-    onYesClick();
+    dispatch(editedRecipeOperations.getEditedRecipe(recipeId));
+    history.push(`${ROUTES.RECIPE_EDIT}`);
   };
 
   return (

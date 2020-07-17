@@ -1,13 +1,21 @@
 ##TODO:
 
-- WARNING! Authentication is not working - cannot add user to firestore
-- SearchBar -- Fetch all recipes and filter them on a client? OR leave it as it is but now user has to type whole title correctly
-- Likes -- done? At least I hope so DONE
-- Styling Details & Comments X
+- SearchBar -- DONE
+- Likes -- DONE
+- Styling Details & Comments X <-- Working on it
 - Editing X DO THIS PAGE (encapsulate recipeForm in order to use it in many places)
 - Buttons Actions X
-- ...
-- max description length set to ~200? -- Workaround with height property
+- Avatar menu styles
+- Color theme
+- Titles
+- Where to place an image?
+
+Edit has its own page
+View has its own page? Or just a preview?
+
+View vs Preview:
+
+- view has comments section
 
 ## In views:
 

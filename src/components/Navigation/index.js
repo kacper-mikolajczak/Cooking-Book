@@ -26,7 +26,6 @@ const NavigationAuth = ({ user, handleItemClick }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleAvatarClick = (e) => {
-    console.log(e.currentTarget);
     setAnchorEl(e.currentTarget);
   };
   const handleMenuClose = (e) => {
@@ -46,14 +45,22 @@ const NavigationAuth = ({ user, handleItemClick }) => {
         <li onClick={handleItemClick}>
           <Link to={ROUTES.RECIPE_NEW}>New Recipe</Link>
         </li>
-
-        <IconButton
-          onClick={handleAvatarClick}
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-        >
-          <Avatar alt={user.lastName} src={user.photoUrl} />
-        </IconButton>
+        <div>
+          <IconButton
+            onClick={handleAvatarClick}
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+          >
+            <Avatar alt={user.lastName} src={user.photoUrl} />
+          </IconButton>
+          <span
+            style={{
+              color: "rgba(0,0,0,.8)",
+            }}
+          >
+            {user.lastName + " " + user.firstName}
+          </span>
+        </div>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
@@ -62,13 +69,21 @@ const NavigationAuth = ({ user, handleItemClick }) => {
           onClose={handleMenuClose}
         >
           <MenuItem onClick={handleMenuItemClick}>
-            <Link className="menuItem" to={ROUTES.ACCOUNT}>
+            <Link
+              className="menuItem"
+              to={ROUTES.ACCOUNT}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               Account
             </Link>
           </MenuItem>
           {user.admin && (
             <MenuItem onClick={handleMenuItemClick}>
-              <Link className="menuItem" to={ROUTES.ADMIN}>
+              <Link
+                className="menuItem"
+                to={ROUTES.ADMIN}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 Admin
               </Link>
             </MenuItem>

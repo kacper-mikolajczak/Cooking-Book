@@ -5,8 +5,6 @@ import firebase from "../../../Firebase";
 export const get = () => async (dispatch, getState) => {
   const state = getState();
 
-  if (state.userRecipes.data.length > 0) return Promise.resolve();
-
   try {
     const uid = state.session.authUser?.id;
     if (!uid) throw "User not found!";
@@ -20,7 +18,7 @@ export const get = () => async (dispatch, getState) => {
 
     dispatch(actions.fetchSuccess(recipes));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     dispatch(actions.fetchFailure(error));
   }
 };
@@ -38,7 +36,6 @@ export const set = (recipe) => async (dispatch, getState) => {
         ...recipe,
       })
       .then((data) => {
-        console.log(data);
         const recipeKey = `recipes.${recipe.uid}`;
         firebase.user(authUser.uid).update({
           [recipeKey]: recipe.uid,

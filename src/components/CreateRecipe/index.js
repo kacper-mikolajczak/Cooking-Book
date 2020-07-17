@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { useWindowDimensions } from "../../hooks";
 import {
   Container,
@@ -16,7 +16,10 @@ import { recipeFormActions } from "../../store/reducers/createRecipeForm";
 
 import firebase from "../../Firebase";
 import { v4 as uuid } from "uuid";
-import { DetailsFormBase } from "../Recipes/Details";
+import { DetailsList } from "../Recipes/Details";
+
+import { useHistory } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -56,13 +59,15 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateRecipePage = (props) => {
   const classes = useStyles();
+
+  const id = uuid();
   return (
     <div>
       <Container content="main">
         <Grid>
           <Grid item xs={12}>
             <div className={classes.header}>
-              <Typography compnt="h1" variant="h1">
+              <Typography compnt="h2" variant="h2">
                 {" "}
                 Fresh idea in mind?
               </Typography>
@@ -72,19 +77,36 @@ const CreateRecipePage = (props) => {
               </Typography>
             </div>
           </Grid>
-          <CreateRecipeForm />
+          <RecipeForm msg={"Share this recipe!"} recipeId={id} />
         </Grid>
       </Container>
     </div>
   );
 };
 
-const CreateRecipeForm = (props) => {
+const RecipeForm = ({ recipe, msg, recipeId }) => {
   const lastKeyStroke = useRef(null);
   const lastList = useRef(null);
   const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
   const { height, width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (recipe) {
+      dispatch(
+        recipeFormActions.setInput({ name: "title", value: recipe.title })
+      );
+      dispatch(
+        recipeFormActions.setInput({ name: "desc", value: recipe.desc })
+      );
+      dispatch(
+        recipeFormActions.setInput({ name: "photoUrl", value: recipe.photoUrl })
+      );
+      dispatch(recipeFormActions.setList("ingredients", recipe.ingredients));
+      dispatch(recipeFormActions.setList("steps", recipe.steps));
+    }
+  }, [recipe, dispatch]);
 
   const {
     title,
@@ -93,54 +115,58 @@ const CreateRecipeForm = (props) => {
     lists: { ingredients, steps },
   } = useSelector((state) => state.recipeForm);
 
-  const user = useSelector((state) => state.session.authUser.uid);
+  const user = useSelector((state) => state.session.authUser.id);
 
-  const ingItems = ingredients.map((item, index) => (
-    <ListItem key={item.id}>
-      <Input
-        fullWidth
-        onKeyDown={(e) => {
-          if (e.keyCode === 13)
+  const ingItems = ingredients.map((item, index) => {
+    return (
+      <ListItem key={item.id}>
+        <Input
+          value={item.value}
+          fullWidth
+          onKeyDown={(e) => {
+            if (e.keyCode === 13)
+              dispatch(
+                recipeFormActions.pushEmptyListItem({ name: "ingredients" })
+              );
+            lastKeyStroke.current = 13;
+            lastList.current = "ingredients";
+          }}
+          onChange={(e) =>
             dispatch(
-              recipeFormActions.pushEmptyListItem({ name: "ingredients" })
-            );
-          lastKeyStroke.current = 13;
-          lastList.current = "ingredients";
-        }}
-        onChange={(e) =>
-          dispatch(
-            recipeFormActions.setListInput({
-              id: item.id,
-              name: "ingredients",
-              value: e.target.value,
-            })
-          )
-        }
-        inputRef={(input) =>
-          lastList.current === "ingredients" &&
-          lastKeyStroke.current === 13 &&
-          index === ingredients.length - 1 &&
-          input &&
-          input.focus()
-        }
-      >
-        {item.value}
-      </Input>
-      <Button
-        onClick={(e) =>
-          dispatch(recipeFormActions.removeItemsList("ingredients", item.id))
-        }
-      >
-        <ClearSharpIcon />
-      </Button>
-    </ListItem>
-  ));
+              recipeFormActions.setListInput({
+                id: item.id,
+                name: "ingredients",
+                value: e.target.value,
+              })
+            )
+          }
+          inputRef={(input) =>
+            lastList.current === "ingredients" &&
+            lastKeyStroke.current === 13 &&
+            index === ingredients.length - 1 &&
+            input &&
+            input.focus()
+          }
+        >
+          {item.value}
+        </Input>
+        <Button
+          onClick={(e) =>
+            dispatch(recipeFormActions.removeItemsList("ingredients", item.id))
+          }
+        >
+          <ClearSharpIcon />
+        </Button>
+      </ListItem>
+    );
+  });
 
   const stepsItems = steps.map((item, index) => (
     <ListItem key={item.id}>
       <span>{index + 1}.</span>
       <Input
         fullWidth
+        value={item.value}
         onKeyDown={(e) => {
           if (e.keyCode === 13)
             dispatch(recipeFormActions.pushEmptyListItem({ name: "steps" }));
@@ -294,7 +320,7 @@ const CreateRecipeForm = (props) => {
             <Grid item md={6}>
               <h3>This is presumably going to be a preview for a recipe</h3>
               <span style={{ fontSize: "8px" }}>Stupid idea...</span>
-              <DetailsFormBase
+              <DetailsList
                 ingredients={ingredients}
                 steps={steps}
                 desc={desc}
@@ -306,22 +332,27 @@ const CreateRecipeForm = (props) => {
             variant="contained"
             className={classes.addBtn}
             onClick={() => {
-              const uid = uuid();
-              firebase.recipe(`/${uid}`).set({
-                id: uid,
-                title,
-                desc,
-                createdAt: new Date(),
-                user,
-                ingredients: ingredients.filter((ing) => ing.value.length > 0),
-                steps: steps.filter((step) => step.value.lenght > 0),
-                photoUrl,
-              });
-              console.log("Created new recipe!");
+              firebase.recipe(`/${recipeId}`).set(
+                {
+                  id: recipeId,
+                  title,
+                  desc,
+                  createdAt: new Date(),
+                  user,
+                  ingredients: ingredients.filter(
+                    (ing) => ing.value.length > 0
+                  ),
+                  steps: steps.filter((step) => step.value.lenght > 0),
+                  photoUrl,
+                  deleted: false,
+                },
+                { merge: true }
+              );
               dispatch(recipeFormActions.clearState());
+              history.push(ROUTES.HOME);
             }}
           >
-            DANGER! Share a recipe!
+            {msg}
           </Button>
         </Grid>
       </Container>
@@ -331,4 +362,4 @@ const CreateRecipeForm = (props) => {
 
 export default CreateRecipePage;
 
-export { CreateRecipeForm };
+export { RecipeForm };

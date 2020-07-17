@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
-import RecipeCardv2 from "../Recipes/Recipev2";
+import RecipeCardv2 from "./Recipev2";
 
 import RecipeDetails from "./Details";
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   recipesContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     gridGap: "2em",
   },
 }));
