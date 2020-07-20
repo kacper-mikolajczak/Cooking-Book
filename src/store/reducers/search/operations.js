@@ -2,25 +2,27 @@ import * as actions from "./actions";
 
 import firebase from "../../../Firebase";
 
+var lastItem = null;
+
 export const search = (query) => async (dispatch, getState) => {
   dispatch(actions.fetchPending());
   dispatch(actions.open());
 
   const lowerQuery = query.toLowerCase();
 
-  const resRecipes = getState().session.authUser.admin
-    ? await firebase
-        .recipes()
-        //.where("title", "==", query)
-        .get()
-        .then((res) => res.docs.map((doc) => doc.data()))
-    : await firebase
-        .recipesAlive()
-        //.where("title", "==", query)
-        .get()
-        .then((res) => res.docs.map((doc) => doc.data()));
+  const auth = getState().session.authUser.admin === "admin";
 
-  const recipes = Object.values(resRecipes).filter((item) =>
+  const allOrAlive = firebase.recipesAllOrAlive(auth);
+
+  const recipesRef = await allOrAlive()
+    .orderBy("createdAt")
+    // .limit(5)
+    //.where("title", "==", query)
+    .get();
+
+  const recipesData = recipesRef.docs.map((doc) => doc.data());
+
+  const recipes = Object.values(recipesData).filter((item) =>
     Object.values(item)
       .reduce((item, str) => str + item.toLowerCase(), "")
       .includes(lowerQuery)
@@ -28,7 +30,6 @@ export const search = (query) => async (dispatch, getState) => {
 
   const resUsers = await firebase
     .users()
-    //.where("lastName", "==", query)
     .get()
     .then((res) => res.docs.map((doc) => doc.data()));
 
@@ -39,7 +40,10 @@ export const search = (query) => async (dispatch, getState) => {
   );
 
   const searchObj = {
-    recipes,
+    recipes: {
+      data: recipes,
+      next: null,
+    },
     users,
   };
   dispatch(actions.fetchSuccess(searchObj));

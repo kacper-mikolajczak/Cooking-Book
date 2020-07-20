@@ -14,7 +14,7 @@ export const get = () => async (dispatch, getState) => {
       id: doc.id,
       n: Object.keys(doc.data()).length,
     }))
-    .sort((a, b) => a.n - b.n);
+    .sort((a, b) => b.n - a.n);
 
   const firstTen = likes.slice(0, 10).map((like) => like.id);
 

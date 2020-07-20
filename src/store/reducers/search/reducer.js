@@ -7,6 +7,7 @@ const initialState = {
   pending: false,
   error: null,
   open: false,
+  next: null,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -21,7 +22,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         pending: false,
-        data: payload.data.recipes,
+        data: payload.data.recipes.data,
+        next: payload.data.recipes.next,
         users: payload.data.users,
       };
     case types.fetchFailure:

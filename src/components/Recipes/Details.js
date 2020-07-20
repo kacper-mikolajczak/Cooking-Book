@@ -12,6 +12,12 @@ import CommentBox from "../Comments";
 import Loader from "../Loader";
 import RecipeMenu from "./RecipeMenu";
 
+import Author from "./details/RecipeDetails.Author";
+import CreationTimestamp from "./details/RecipeDetails.Timestamp";
+import Description from "./details/RecipeDetails.Description";
+import AccordionBase from "./details/RecipeDetails.Accordion";
+import List from "./details/RecipeDetails.List";
+
 /* Details layout: 
 
 h2 Title p CreatedAt by FirstName LastName <- link to Profile? Avatar??]
@@ -23,27 +29,30 @@ grid NutritionTable??
 grid?? Comments
 
 */
-
-const useStyles = makeStyles((theme) => {
-  const bgColors = ["white"];
-  const colors = ["black"];
-  return {
-    paper: {
-      backgroundColor: bgColors[Math.floor(Math.random() * bgColors.length)],
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-    header: {
-      paddingBottom: "0",
-    },
-    subheader: {
-      marginLeft: "2em",
-      fontSize: "1em",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      paddingBottom: "10px",
-    },
-  };
+const bgColors = ["white"];
+const colors = ["black"];
+const useStyles = makeStyles({
+  paper: {
+    backgroundColor: bgColors[Math.floor(Math.random() * bgColors.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
+  },
+  header: {
+    textAlign: "center",
+    margin: "0 20px",
+    padding: "0",
+    borderBottom: "1px solid rgba(0,0,0,.3)",
+  },
+  conent: {
+    padding: "0",
+    margin: "0",
+    backgroundColor: "red",
+  },
+  subheader: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -79,17 +88,11 @@ function RecipeDetails(props) {
     photoUrl: userPhotoUrl,
   } = nullToString(user);
 
-  const seconds = recipe?.createdAt?.seconds;
-
-  const createdAt = seconds
-    ? `${new Date(seconds * 1000).toLocaleTimeString()} ${new Date(
-        seconds * 1000
-      ).toLocaleDateString()}`
-    : "No data";
-
   return (
     <div>
       <Dialog
+        fullWidth
+        maxWidth="md"
         PaperProps={{
           className: classes.paper,
         }}
@@ -100,59 +103,58 @@ function RecipeDetails(props) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        {pending ? (
-          <Loader isLoading={pending} />
-        ) : (
-          <>
-            <DialogActions></DialogActions>
-            <DialogTitle
-              id="alert-dialog-slide-title"
-              className={classes.header}
-            >
-              {title}{" "}
-              {recipe.deleted && (
-                <span style={{ fontSize: "0.5em", color: "red" }}>
-                  - recipe removed
-                </span>
-              )}
-              <hr />
-            </DialogTitle>
-            <div className={classes.subheader}>
-              <div>
-                Author:{" "}
-                <strong>
-                  {lastName} {firstName}
-                </strong>
-              </div>
-              <div>
-                Created at: <strong>{createdAt}</strong>
-              </div>
-            </div>
-            <DialogContent>
-              <Container content="main" maxWidth="lg">
-                <DetailsList
-                  desc={desc}
-                  steps={steps}
-                  ingredients={ingredients}
+        <DialogActions></DialogActions>
+        <DialogTitle id="alert-dialog-slide-title" className={classes.header}>
+          <h3>{title} </h3>
+          {recipe.deleted && (
+            <span style={{ fontSize: "0.5em", color: "red" }}>
+              - recipe removed
+            </span>
+          )}
+        </DialogTitle>
+        <DialogContent classes={{ root: classes.content }}>
+          <div className={classes.subheader}>
+            <Author {...user} />
+            <CreationTimestamp seconds={recipe?.createdAt?.seconds} />
+          </div>
+          <div>
+            <Description text={desc} />
+          </div>
+          <Container content="main" maxWidth="lg">
+            {/* <DetailsList desc={desc} steps={steps} ingredients={ingredients} /> */}
+            <AccordionBase
+              title={"Ingredients"}
+              renderComponent={
+                <List
+                  items={ingredients}
+                  error={"There is no ingredients in this recipe! :("}
                 />
-                <CommentBox
-                  comments={comments}
-                  recipeId={id}
-                  deleted={recipe.deleted ?? false}
+              }
+            />
+            <AccordionBase
+              title={"Steps"}
+              renderComponent={
+                <List
+                  items={steps}
+                  error={"There is no steps in this recipe"}
                 />
-              </Container>
-            </DialogContent>
-          </>
-        )}
+              }
+            />
+            <CommentBox
+              comments={comments}
+              recipeId={id}
+              deleted={recipe.deleted ?? false}
+            />
+          </Container>
+        </DialogContent>
       </Dialog>
     </div>
   );
 }
 
-const DetailsList = ({ ingredients, desc, steps }) => {
+const DetailsList = ({ ingredients, steps }) => {
   return (
     <Grid>
-      <Grid item>{desc}</Grid>
       <Grid item>
         <h4>Ingredients: </h4>
         <ul>

@@ -8,21 +8,28 @@ import { AuthUserContext } from "../Session";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { IconButton, Avatar, Menu, MenuItem } from "@material-ui/core";
+import { useWindowDimensions } from "../../hooks";
 
 const Navigation = ({ handleItemClick }) => {
   const user = useSelector((state) => state.session.authUser);
+  const { height, width } = useWindowDimensions();
+  const small = width < 768;
   return (
     <div>
       {user ? (
-        <NavigationAuth user={user} handleItemClick={handleItemClick} />
+        <NavigationAuth
+          user={user}
+          handleItemClick={handleItemClick}
+          small={small}
+        />
       ) : (
-        <NavigationNonAuth />
+        <NavigationNonAuth small={small} />
       )}
     </div>
   );
 };
 
-const NavigationAuth = ({ user, handleItemClick }) => {
+const NavigationAuth = ({ user, handleItemClick, small }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleAvatarClick = (e) => {
@@ -53,13 +60,15 @@ const NavigationAuth = ({ user, handleItemClick }) => {
           >
             <Avatar alt={user.lastName} src={user.photoUrl} />
           </IconButton>
-          <span
-            style={{
-              color: "rgba(0,0,0,.8)",
-            }}
-          >
-            {user.lastName + " " + user.firstName}
-          </span>
+          {!small && (
+            <span
+              style={{
+                color: "rgba(0,0,0,.8)",
+              }}
+            >
+              {user.lastName + " " + user.firstName}
+            </span>
+          )}
         </div>
         <Menu
           id="simple-menu"
@@ -97,7 +106,7 @@ const NavigationAuth = ({ user, handleItemClick }) => {
   );
 };
 
-const NavigationNonAuth = ({ handleItemClick }) => {
+const NavigationNonAuth = ({ handleItemClick, small }) => {
   return (
     <StyledNavbar>
       <ul>
@@ -113,7 +122,14 @@ const NavigationNonAuth = ({ handleItemClick }) => {
 };
 
 const StyledNavbar = styled.nav`
+  & {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
   & > ul {
+    width: 100%;
+    margin: 0;
     padding: 0;
     display: flex;
     list-style: none;

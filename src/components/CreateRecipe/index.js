@@ -124,11 +124,13 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
           value={item.value}
           fullWidth
           onKeyDown={(e) => {
-            if (e.keyCode === 13)
+            if (e.keyCode === 13) {
               dispatch(
                 recipeFormActions.pushEmptyListItem({ name: "ingredients" })
               );
-            lastKeyStroke.current = 13;
+              lastKeyStroke.current = 13;
+            }
+            lastKeyStroke.current = e.keyCode;
             lastList.current = "ingredients";
           }}
           onChange={(e) =>
@@ -168,9 +170,11 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
         fullWidth
         value={item.value}
         onKeyDown={(e) => {
-          if (e.keyCode === 13)
+          if (e.keyCode === 13) {
             dispatch(recipeFormActions.pushEmptyListItem({ name: "steps" }));
-          lastKeyStroke.current = 13;
+            lastKeyStroke.current = 13;
+          }
+          lastKeyStroke.current = e.keyCode;
 
           lastList.current = "steps";
         }}

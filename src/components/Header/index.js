@@ -17,6 +17,7 @@ export function Header() {
   };
 
   const { height, width } = useWindowDimensions();
+  const small = width < 768;
 
   return (
     <header
@@ -29,19 +30,30 @@ export function Header() {
       }}
     >
       <Grid container>
-        {width < 768 ? (
+        {small ? (
           <>
-            <Grid item xs={12} md>
-              <Navigation handleItemClick={handleItemClick} />
+            <Grid item xs={3}>
+              <Logo
+                handleClick={handleItemClick}
+                logoText={"CS"}
+                small={small}
+              />
+            </Grid>
+            <Grid item xs={9} md>
+              <Search />
             </Grid>
             <Grid item xs={12} md>
-              <Search />
+              <Navigation handleItemClick={handleItemClick} />
             </Grid>
           </>
         ) : (
           <>
             <Grid item xs={12} md={3}>
-              <Logo handleClick={handleItemClick} />
+              <Logo
+                handleClick={handleItemClick}
+                logoText={"Cooking Search"}
+                small={small}
+              />
             </Grid>
             <Grid item xs={12} md>
               <Search />

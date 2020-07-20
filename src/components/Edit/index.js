@@ -11,7 +11,6 @@ const EditPage = (props) => {
 
   return (
     <div>
-      <h2>Edit Page</h2>
       <RecipeForm
         recipe={recipe}
         recipeId={recipe.id}
