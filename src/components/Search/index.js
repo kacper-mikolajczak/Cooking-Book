@@ -5,7 +5,8 @@ import { searchOperations } from "../../store/reducers/search";
 
 import { Input, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
+import Groups from "./Groups";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,6 +60,7 @@ const Search = (props) => {
       <IconButton onClick={search}>
         <SearchIcon />
       </IconButton>
+      <Groups />
     </div>
   );
 };

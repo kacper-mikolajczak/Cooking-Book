@@ -4,6 +4,7 @@ const initialState = {
   title: "",
   desc: "",
   photoUrl: "",
+  groups: "",
   lists: {
     ingredients: [{ id: "1", value: "" }],
     steps: [{ id: "1", value: "" }],

@@ -12,6 +12,8 @@ export const search = (query) => async (dispatch, getState) => {
 
   const auth = getState().session.authUser.admin === "admin";
 
+  const group = getState().search.group;
+
   const allOrAlive = firebase.recipesAllOrAlive(auth);
 
   const recipesRef = await allOrAlive()
@@ -22,11 +24,18 @@ export const search = (query) => async (dispatch, getState) => {
 
   const recipesData = recipesRef.docs.map((doc) => doc.data());
 
-  const recipes = Object.values(recipesData).filter((item) =>
-    Object.values(item)
-      .reduce((item, str) => str + item.toLowerCase(), "")
-      .includes(lowerQuery)
+  const recipes = Object.values(
+    recipesData.filter((item) =>
+      Object.values(item)
+        .reduce((item, str) => str + item.toLowerCase(), "")
+        .includes(lowerQuery)
+    )
   );
+
+  const filteredRecipes =
+    group === "all"
+      ? recipes
+      : recipes.filter((item) => item?.groups?.includes(group));
 
   const resUsers = await firebase
     .users()
@@ -41,7 +50,7 @@ export const search = (query) => async (dispatch, getState) => {
 
   const searchObj = {
     recipes: {
-      data: recipes,
+      data: filteredRecipes,
       next: null,
     },
     users,

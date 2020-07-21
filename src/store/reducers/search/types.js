@@ -6,3 +6,5 @@ export const open = "SEARCH_OPEN";
 export const close = "SEARCH_CLOSE";
 
 export const clear = "SEARCH_CLEAR";
+
+export const setGroup = "SEARCH_GROUP_SET";

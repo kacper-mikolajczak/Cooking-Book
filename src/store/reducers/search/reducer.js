@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   open: false,
   next: null,
+  group: "all",
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -28,6 +29,11 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case types.fetchFailure:
       return { ...state, pending: false, error: payload.error };
+    case types.setGroup:
+      return {
+        ...state,
+        group: payload.group,
+      };
     case types.clear:
       return { ...state, query: "" };
     default:

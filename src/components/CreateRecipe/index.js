@@ -112,6 +112,8 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
     title,
     desc,
     photoUrl,
+
+    groups,
     lists: { ingredients, steps },
   } = useSelector((state) => state.recipeForm);
 
@@ -264,6 +266,20 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
                     fullWidth
                   />
                 </div>
+                <div className={classes.formElem}>
+                  <Typography variant="h5" compnt="h5">
+                    Groups:{" "}
+                  </Typography>
+                  <Input
+                    id="groups"
+                    label="groups"
+                    placeholder="Type in groups this dish belongs to..."
+                    name="groups"
+                    onChange={onInputChange}
+                    value={groups}
+                    fullWidth
+                  />
+                </div>
               </div>
             </Grid>
 
@@ -316,9 +332,7 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
                 </Button>
               </Grid>
             </div>
-            <Grid item xs={12}>
-              {/* Here Nutrition Table */}
-            </Grid>
+            <Grid item xs={12}></Grid>
           </Grid>
           {width > 9999 && (
             <Grid item md={6}>
@@ -349,6 +363,7 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
                   steps: steps.filter((step) => step.value.length > 0),
                   photoUrl,
                   deleted: false,
+                  groups: groups,
                 },
                 { merge: true }
               );
