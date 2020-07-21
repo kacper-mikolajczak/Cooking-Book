@@ -21,7 +21,7 @@ const Comment = (comment: IComment) => {
   const time = comment?.createdAt?.seconds;
   const timestamp = time ? new Date(time * 1000) : new Date();
   return (
-    <div>
+    <div style={{ paddingLeft: "10px" }}>
       <p>{comment.value}</p>
       <h5>
         <span>

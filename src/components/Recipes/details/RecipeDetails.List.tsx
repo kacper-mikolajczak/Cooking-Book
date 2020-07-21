@@ -8,22 +8,38 @@ interface ListItem {
 const List = ({
   items,
   error,
-  variant,
+  ordered,
 }: {
   items: ListItem[];
   error: string;
-  variant: string;
+  ordered: boolean;
 }) => {
   return (
     <div>
-      {items?.length > 0 ? (
-        <ul>
-          {items.map((ing) => (
-            <li key={ing.id}>{ing.value}</li>
-          ))}
-        </ul>
+      {ordered ? (
+        <>
+          {items?.length > 0 ? (
+            <ol>
+              {items.map((ing) => (
+                <li key={ing.id}>{ing.value}</li>
+              ))}
+            </ol>
+          ) : (
+            <p>{error}</p>
+          )}
+        </>
       ) : (
-        <p>{error}</p>
+        <>
+          {items?.length > 0 ? (
+            <ul>
+              {items.map((ing) => (
+                <li key={ing.id}>{ing.value}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{error}</p>
+          )}
+        </>
       )}
     </div>
   );

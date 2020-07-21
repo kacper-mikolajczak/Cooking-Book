@@ -21,8 +21,17 @@ function Comments({ comments }) {
 
   const mappedComments =
     commentsArr.length > 0 ? (
-      commentsArr.map((com) => (
-        <div className={classes.comment}>
+      commentsArr.map((com, index) => (
+        <div
+          className={classes.comment}
+          style={{
+            backgroundColor:
+              index % 2 ? "rgba(100,100,255,.2)" : "rgba(200,200,200,.2)",
+            marginTop: "5px",
+            marginBottom: "5px",
+            borderRadius: "10px",
+          }}
+        >
           <Comment key={com.id} {...com} />
         </div>
       ))

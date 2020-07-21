@@ -346,7 +346,7 @@ const RecipeForm = ({ recipe, msg, recipeId }) => {
                   ingredients: ingredients.filter(
                     (ing) => ing.value.length > 0
                   ),
-                  steps: steps.filter((step) => step.value.lenght > 0),
+                  steps: steps.filter((step) => step.value.length > 0),
                   photoUrl,
                   deleted: false,
                 },

@@ -61,6 +61,7 @@ const CommentsBox = ({ comments, recipeId, deleted }) => {
   return (
     <div className={classes.root}>
       <Comments comments={comments} />
+      <hr />
       {user ? (
         <div>{loading ? <Loader isLoading={loading} /> : commentsOrMsg}</div>
       ) : (

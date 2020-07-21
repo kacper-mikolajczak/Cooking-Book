@@ -17,6 +17,8 @@ import CreationTimestamp from "./details/RecipeDetails.Timestamp";
 import Description from "./details/RecipeDetails.Description";
 import AccordionBase from "./details/RecipeDetails.Accordion";
 import List from "./details/RecipeDetails.List";
+import Gallery from "./details/RecipeDetails.Gallery";
+import CaloriesTable from "./details/RecipeDetails.Table";
 
 /* Details layout: 
 
@@ -113,33 +115,63 @@ function RecipeDetails(props) {
           )}
         </DialogTitle>
         <DialogContent classes={{ root: classes.content }}>
-          <div className={classes.subheader}>
-            <Author {...user} />
-            <CreationTimestamp seconds={recipe?.createdAt?.seconds} />
-          </div>
-          <div>
-            <Description text={desc} />
-          </div>
+          <Grid container>
+            <Grid item md={6} xs={6}>
+              <Author {...user} />
+            </Grid>
+            <Grid item md={6} xs={6}>
+              <CreationTimestamp seconds={recipe?.createdAt?.seconds} />
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginBottom: "20px" }} spacing={2}>
+            <Grid item xs={12} md={5}>
+              <Description text={desc} />
+            </Grid>
+            <Grid item xs={12} md={7}>
+              <Gallery url={photoUrl} />
+            </Grid>
+          </Grid>
           <Container content="main" maxWidth="lg">
+            <h3>Details: </h3>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <AccordionBase
+                  title={"Ingredients"}
+                  renderComponent={
+                    <List
+                      items={ingredients}
+                      error={"There is no ingredients in this recipe! :("}
+                    />
+                  }
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <AccordionBase
+                  title={"Steps"}
+                  renderComponent={
+                    <List
+                      items={steps}
+                      error={"There is no steps in this recipe"}
+                      ordered
+                    />
+                  }
+                />
+              </Grid>
+            </Grid>
             {/* <DetailsList desc={desc} steps={steps} ingredients={ingredients} /> */}
-            <AccordionBase
-              title={"Ingredients"}
-              renderComponent={
-                <List
-                  items={ingredients}
-                  error={"There is no ingredients in this recipe! :("}
-                />
-              }
+            <CaloriesTable
+              //Placeholder
+              rows={[
+                {
+                  calories: 222,
+                  fat: 333,
+                  carbs: 20,
+                  protein: 9,
+                },
+              ]}
+              title={title}
             />
-            <AccordionBase
-              title={"Steps"}
-              renderComponent={
-                <List
-                  items={steps}
-                  error={"There is no steps in this recipe"}
-                />
-              }
-            />
+            <h3>Comments: </h3>
             <CommentBox
               comments={comments}
               recipeId={id}
