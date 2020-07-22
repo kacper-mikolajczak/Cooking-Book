@@ -3,6 +3,11 @@ export interface ITimestamp {
   nanoseconds: number;
 }
 
+export interface IListItem {
+  id: string;
+  value: string;
+}
+
 export interface IIngredient {
   id: string;
   value: string;
@@ -24,4 +29,9 @@ export interface IRecipe {
   groups: string;
   steps: IStep[];
   ingredients: IIngredient[];
+}
+
+export interface IError {
+  error: string | null;
+  timestamp?: Date;
 }

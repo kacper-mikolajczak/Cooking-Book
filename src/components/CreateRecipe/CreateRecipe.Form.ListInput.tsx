@@ -5,6 +5,7 @@ import { ListItem, Input, Button } from "@material-ui/core";
 import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 
 export interface IRecipeListInput {
+  ordered: boolean;
   index: number;
   item: IListItem;
   listName: string;
@@ -15,6 +16,7 @@ export interface IRecipeListInput {
 }
 
 const RecipeListInput = ({
+  ordered,
   index,
   item,
   listName,
@@ -24,8 +26,8 @@ const RecipeListInput = ({
   handleListItemKeyDown,
 }: IRecipeListInput) => {
   return (
-    <ListItem key={item.id}>
-      <span>{index + 1}.</span>
+    <ListItem>
+      {ordered && <span>{index + 1}.</span>}
       <Input
         fullWidth
         value={item.value}

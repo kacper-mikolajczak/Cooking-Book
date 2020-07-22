@@ -120,11 +120,12 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                   />
                 </div>
                 <div className={classes.formElem}>
-                  <RecipeInput
-                    value={photoUrl}
+                  <RecipeTextField
+                    variant="h5"
                     name="photoUrl"
+                    value={photoUrl}
                     onInputChange={onInputChange}
-                    titleVariant="h5"
+                    rows={2}
                   />
                 </div>
                 <div className={classes.formElem}>

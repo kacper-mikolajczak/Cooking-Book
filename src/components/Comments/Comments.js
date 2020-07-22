@@ -18,11 +18,13 @@ function Comments({ comments }) {
   const classes = useStyles();
 
   const commentsArr = Object.values(comments || {});
+  console.log("COMS", comments);
 
   const mappedComments =
     commentsArr.length > 0 ? (
       commentsArr.map((com, index) => (
         <div
+          key={index}
           className={classes.comment}
           style={{
             backgroundColor:

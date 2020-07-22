@@ -64,11 +64,16 @@ const SignInFormBase = (props) => {
   };
 
   const onSubmit = (event) => {
-    firebase.doSignInWithEmailAndPassword(email, password).then(({ user }) => {
-      dispatch(sessionOperations.getAuthUser(user.uid));
-      clearState();
-      props.history.push(ROUTES.HOME);
-    });
+    firebase
+      .doSignInWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        dispatch(sessionOperations.getAuthUser(user.uid));
+        clearState();
+        props.history.push(ROUTES.HOME);
+      })
+      .catch((err) => {
+        setState({ error: err.message });
+      });
 
     event.preventDefault();
   };

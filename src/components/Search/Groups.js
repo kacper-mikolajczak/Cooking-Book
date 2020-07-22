@@ -18,7 +18,6 @@ const Groups = ({ handleGroupChange, currentValue }) => {
   const dispatch = useDispatch();
   const group = useSelector((state) => state.search.group);
   const handleChange = (e) => {
-    console.log(e.target.value);
     dispatch(searchActions.setGroup(e.target.value));
   };
   return (

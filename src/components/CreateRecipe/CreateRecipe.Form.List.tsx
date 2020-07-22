@@ -72,6 +72,8 @@ const RecipeList = ({
 
   const mappedItems = items.map((item: IListItem, index: number) => (
     <RecipeListInput
+      key={index}
+      ordered={variant === "ol"}
       index={index}
       item={item}
       listName={name}

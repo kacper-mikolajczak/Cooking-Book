@@ -1,6 +1,19 @@
 import * as types from "./types";
+import { IListItem } from "../../../interfaces";
 
-const initialState = {
+interface IState {
+  title: string;
+  desc: string;
+  photoUrl: string;
+  groups: string;
+  lists: {
+    ingredients: IListItem[];
+    steps: IListItem[];
+    [key: string]: IListItem[];
+  };
+}
+
+const initialState: IState = {
   title: "",
   desc: "",
   photoUrl: "",
@@ -13,32 +26,36 @@ const initialState = {
 
 let nextId = 2;
 
-const reducer = (state = initialState, { type, payload }) => {
-  switch (type) {
+const reducer = (state = initialState, action: types.RecipeFormActions) => {
+  switch (action.type) {
     case types.setInput:
       return {
         ...state,
-        [payload.name]: payload.value,
+        [action.payload.name]: action.payload.value,
       };
     case types.removeListItem: {
-      const list = state.lists[payload.name];
+      const list = state.lists[action.payload.name];
 
       return {
         ...state,
         lists: {
           ...state.lists,
-          [payload.name]: list.filter((item) => item.id !== payload.id),
+          [action.payload.name]: list.filter(
+            (item: IListItem) => item.id !== action.payload.id
+          ),
         },
       };
     }
     case types.setListInput: {
-      const list = state.lists[payload.name];
+      const list = state.lists[action.payload.name];
       return {
         ...state,
         lists: {
           ...state.lists,
-          [payload.name]: list.map((item) =>
-            item.id === payload.id ? { ...item, value: payload.value } : item
+          [action.payload.name]: list.map((item: IListItem) =>
+            item.id === action.payload.id
+              ? { ...item, value: action.payload.value }
+              : item
           ),
         },
       };
@@ -48,7 +65,7 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         lists: {
           ...state.lists,
-          [payload.name]: payload.list,
+          [action.payload.name]: action.payload.list,
         },
       };
     }
@@ -57,8 +74,8 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         lists: {
           ...state.lists,
-          [payload.name]: [
-            ...state.lists[payload.name],
+          [action.payload.name]: [
+            ...state.lists[action.payload.name],
             { id: nextId++, value: "" },
           ],
         },

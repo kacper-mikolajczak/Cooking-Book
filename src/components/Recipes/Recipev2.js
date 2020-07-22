@@ -83,7 +83,11 @@ function RecipeCard(props) {
         style={deleted ? { opacity: "0.6" } : {}}
       >
         <CardHeader title={title} subheader={dateField} />
-        <CardMedia className={classes.media} image={photoUrl} title={title} />
+        <CardMedia
+          className={classes.media}
+          image={photoUrl.split("\n")[0]}
+          title={title}
+        />
         <CardContent
           style={{ maxHeight: "80px", height: "80px", overflow: "hidden" }}
         >

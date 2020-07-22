@@ -20,6 +20,8 @@ import List from "./details/RecipeDetails.List";
 import Gallery from "./details/RecipeDetails.Gallery";
 import CaloriesTable from "./details/RecipeDetails.Table";
 
+import { useWindowDimensions } from "../../hooks";
+
 /* Details layout: 
 
 h2 Title p CreatedAt by FirstName LastName <- link to Profile? Avatar??]
@@ -64,6 +66,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function RecipeDetails(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const { height, width } = useWindowDimensions();
 
   const handleClose = () => {
     dispatch(closeDialog());
@@ -159,7 +162,7 @@ function RecipeDetails(props) {
               </Grid>
             </Grid>
             {/* <DetailsList desc={desc} steps={steps} ingredients={ingredients} /> */}
-            <CaloriesTable
+            {/* <CaloriesTable
               //Placeholder
               rows={[
                 {
@@ -170,7 +173,7 @@ function RecipeDetails(props) {
                 },
               ]}
               title={title}
-            />
+            /> */}
             <h3>Comments: </h3>
             <CommentBox
               comments={comments}

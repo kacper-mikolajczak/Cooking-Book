@@ -82,7 +82,8 @@ const SignUpFormBase = (props) => {
             clearState();
             props.history.push(ROUTES.HOME);
           });
-      });
+      })
+      .catch((err) => setState({ error: err }));
     event.preventDefault();
   };
 

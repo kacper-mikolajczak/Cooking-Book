@@ -1,5 +1,8 @@
 import React from "react";
 
+import { IconButton, Avatar } from "@material-ui/core";
+import { useWindowDimensions } from "../../hooks";
+
 interface ICreatedAt {
   seconds: number;
   nanoseconds: number;
@@ -7,6 +10,7 @@ interface ICreatedAt {
 
 interface IUser {
   name: string;
+  photoUrl: string;
 }
 
 interface IComment {
@@ -14,20 +18,44 @@ interface IComment {
   user: IUser;
   createdAt: ICreatedAt;
   text: string[];
-  fun: (arg1: number, arg2: string) => void;
 }
 
 const Comment = (comment: IComment) => {
+  const { height, width } = useWindowDimensions();
   const time = comment?.createdAt?.seconds;
   const timestamp = time ? new Date(time * 1000) : new Date();
+  const small = width < 768;
   return (
-    <div style={{ paddingLeft: "10px" }}>
-      <p>{comment.value}</p>
-      <h5>
+    <div style={{ paddingLeft: `${small ? "0" : "10px"}` }}>
+      <p
+        style={
+          small
+            ? { paddingLeft: "10px" }
+            : {
+                margin: "0",
+                marginBottom: "0",
+                padding: "20px 0 0 20px",
+              }
+        }
+      >
+        {comment.value}
+      </p>
+
+      <p
+        style={{
+          float: "right",
+          margin: "0",
+          padding: "0px",
+          paddingRight: "5px",
+          fontSize: "0.8em",
+        }}
+      >
         <span>
           {" "}
-          at <i>{timestamp.toLocaleTimeString()}</i>{" "}
-          <i>{timestamp.toLocaleDateString()}</i>
+          at{" "}
+          <strong>
+            {timestamp.toLocaleTimeString()} {timestamp.toLocaleDateString()}
+          </strong>
         </span>
         <span>
           {" "}
@@ -35,8 +63,13 @@ const Comment = (comment: IComment) => {
           <strong>
             <i>{comment.user.name}</i>
           </strong>{" "}
+          {!small && (
+            <IconButton>
+              <Avatar src={comment.user.photoUrl} />
+            </IconButton>
+          )}
         </span>
-      </h5>
+      </p>
     </div>
   );
 };
