@@ -22,7 +22,7 @@ const Navigation = ({ handleItemClick }) => {
           small={small}
         />
       ) : (
-        <NavigationNonAuth small={small} />
+        <NavigationNonAuth small={small} handleItemClick={handleItemClick} />
       )}
     </>
   );
@@ -38,8 +38,8 @@ const NavigationAuth = ({ user, handleItemClick, small }) => {
     setAnchorEl(null);
   };
   const handleMenuItemClick = (e) => {
-    handleMenuClose();
     handleItemClick();
+    handleMenuClose();
   };
 
   return (
