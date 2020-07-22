@@ -10,7 +10,9 @@ export const search = (query) => async (dispatch, getState) => {
 
   const lowerQuery = query.toLowerCase();
 
-  const auth = getState().session.authUser.admin === "admin";
+  const logged = getState().session.authUser;
+
+  const auth = logged ? logged.admin === "admin" : false;
 
   const group = getState().search.group;
 
