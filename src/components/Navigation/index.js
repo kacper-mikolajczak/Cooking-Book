@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import SignOutButton from "../SignOut";
 import * as ROUTES from "../../constants/routes";
-import { AuthUserContext } from "../Session";
 
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -15,7 +14,7 @@ const Navigation = ({ handleItemClick }) => {
   const { height, width } = useWindowDimensions();
   const small = width < 768;
   return (
-    <div>
+    <>
       {user ? (
         <NavigationAuth
           user={user}
@@ -25,7 +24,7 @@ const Navigation = ({ handleItemClick }) => {
       ) : (
         <NavigationNonAuth small={small} />
       )}
-    </div>
+    </>
   );
 };
 

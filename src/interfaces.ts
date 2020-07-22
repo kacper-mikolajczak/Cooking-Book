@@ -21,6 +21,7 @@ export interface IRecipe {
   desc: string;
   deleted: boolean;
   photoUrl: string;
+  groups: string;
   steps: IStep[];
   ingredients: IIngredient[];
 }
