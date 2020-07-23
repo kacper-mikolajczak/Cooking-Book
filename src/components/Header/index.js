@@ -16,7 +16,7 @@ export function Header() {
     dispatch(searchActions.close());
   };
 
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const small = width < 768;
 
   return (

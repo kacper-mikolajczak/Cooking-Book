@@ -66,7 +66,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function RecipeDetails(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const handleClose = () => {
     dispatch(closeDialog());

@@ -2,7 +2,7 @@ import React from "react";
 import { useWindowDimensions } from "../../../hooks";
 
 const CreationTimestamp = ({ seconds }: { seconds: number }) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const timestamp: string = seconds
     ? `${new Date(seconds * 1000).toLocaleTimeString()} ${new Date(
         seconds * 1000

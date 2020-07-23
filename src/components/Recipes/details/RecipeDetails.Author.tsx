@@ -8,6 +8,9 @@ import {
   createStyles,
 } from "@material-ui/core";
 import { useWindowDimensions } from "../../../hooks";
+import { searchOperations } from "../../../store/reducers/search";
+import { recipeDetailsActions } from "../../../store/reducers/recipes/recipeDetails";
+import { useDispatch } from "react-redux";
 
 interface IRecipeDetailsAuthor {
   firstName: string;
@@ -31,8 +34,9 @@ const Author = ({
   photoUrl,
   id,
 }: IRecipeDetailsAuthor) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const displayName =
     firstName && lastName ? `${firstName} ${lastName}` : "Anonymous";
 
@@ -51,7 +55,13 @@ const Author = ({
     >
       {!small && <span>Author: </span>}
       <strong>{displayName}</strong>
-      <IconButton className={small ? classes.small : ""}>
+      <IconButton
+        className={small ? classes.small : ""}
+        onClick={(e) => {
+          dispatch(searchOperations.searchByUsers([id]));
+          dispatch(recipeDetailsActions.closeDialog());
+        }}
+      >
         <Avatar src={photoSrc} />
       </IconButton>
     </p>

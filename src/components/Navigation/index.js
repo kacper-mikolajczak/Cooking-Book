@@ -11,7 +11,7 @@ import { useWindowDimensions } from "../../hooks";
 
 const Navigation = ({ handleItemClick }) => {
   const user = useSelector((state) => state.session.authUser);
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const small = width < 768;
   return (
     <>

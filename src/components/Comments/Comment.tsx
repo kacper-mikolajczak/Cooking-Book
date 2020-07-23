@@ -3,6 +3,10 @@ import React from "react";
 import { IconButton, Avatar } from "@material-ui/core";
 import { useWindowDimensions } from "../../hooks";
 
+import { useDispatch } from "react-redux";
+import { searchOperations } from "../../store/reducers/search";
+import { recipeDetailsActions } from "../../store/reducers/recipes/recipeDetails";
+
 interface ICreatedAt {
   seconds: number;
   nanoseconds: number;
@@ -21,7 +25,8 @@ interface IComment {
 }
 
 const Comment = (comment: IComment) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
+  const dispatch = useDispatch();
   const time = comment?.createdAt?.seconds;
   const timestamp = time ? new Date(time * 1000) : new Date();
   const small = width < 768;
@@ -64,7 +69,12 @@ const Comment = (comment: IComment) => {
             <i>{comment.user.name}</i>
           </strong>{" "}
           {!small && (
-            <IconButton>
+            <IconButton
+              onClick={(e) => {
+                dispatch(searchOperations.searchByUsers([comment.user.id]));
+                dispatch(recipeDetailsActions.closeDialog());
+              }}
+            >
               <Avatar src={comment.user.photoUrl} />
             </IconButton>
           )}
