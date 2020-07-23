@@ -48,11 +48,10 @@ const Gallery = ({
       {urls.length > 0 ? (
         <StyledWrapper small={small}>
           <StyledArrow className={"left"}>
-            <IconButton
-              color="secondary"
-              onClick={(e) => handleArrowClick("left")}
-            >
-              <ArrowLeftIcon />
+            <IconButton onClick={(e) => handleArrowClick("left")}>
+              <ArrowLeftIcon
+                style={{ transform: "scale(2)", color: "white" }}
+              />
             </IconButton>
           </StyledArrow>
 
@@ -62,7 +61,9 @@ const Gallery = ({
               color="secondary"
               onClick={(e) => handleArrowClick("right")}
             >
-              <ArrowRightIcon />
+              <ArrowRightIcon
+                style={{ transform: "scale(2)", color: "white" }}
+              />
             </IconButton>
           </StyledArrow>
         </StyledWrapper>
@@ -93,12 +94,12 @@ const StyledArrow = styled.div`
   & {
     position: absolute;
     top: calc(50%-10px);
-    left: 0;
-    background-color: rgba(100, 100, 255, 0.1);
+    left: 10px;
+    background-color: rgba(100, 100, 255, 0.5);
     border-radius: 50%;
   }
   &.right {
-    left: calc(100% - 50px);
+    left: calc(100% - 60px);
   }
 `;
 

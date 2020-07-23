@@ -62,23 +62,24 @@ const Comment = (comment: IComment) => {
             {timestamp.toLocaleTimeString()} {timestamp.toLocaleDateString()}
           </strong>
         </span>
-        <span>
-          {" "}
-          by{" "}
-          <strong>
-            <i>{comment.user.name}</i>
-          </strong>{" "}
-          {!small && (
-            <IconButton
-              onClick={(e) => {
-                dispatch(searchOperations.searchByUsers([comment.user.id]));
-                dispatch(recipeDetailsActions.closeDialog());
-              }}
-            >
-              <Avatar src={comment.user.photoUrl} />
-            </IconButton>
-          )}
-        </span>
+
+        {!small && (
+          <span>
+            {" "}
+            by{" "}
+            <strong>
+              <i>{comment.user.name}</i>
+            </strong>{" "}
+          </span>
+        )}
+        <IconButton
+          onClick={(e) => {
+            dispatch(searchOperations.searchByUsers([comment.user.id]));
+            dispatch(recipeDetailsActions.closeDialog());
+          }}
+        >
+          <Avatar src={comment.user.photoUrl} />
+        </IconButton>
       </p>
     </div>
   );
