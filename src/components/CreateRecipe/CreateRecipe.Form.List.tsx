@@ -81,6 +81,7 @@ const RecipeList = ({
       handleListItemButtonClick={handleListItemButtonClick}
       handleListItemChange={handleListItemChange}
       handleListItemKeyDown={handleListItemKeyDown}
+      placeholder={`New ${name} item...`}
     />
   ));
   return (

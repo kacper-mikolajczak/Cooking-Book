@@ -35,3 +35,16 @@ export interface IError {
   error: string | null;
   timestamp?: Date;
 }
+
+export interface IUser {
+  admin: boolean;
+  comments?: null | [];
+  createdAt: ITimestamp | null;
+  id: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  photoUrl: string;
+  recipes?: null | [];
+}

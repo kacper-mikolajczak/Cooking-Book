@@ -8,6 +8,7 @@ import RecipeDetails from "./Details";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { recipeDetailsOperations } from "../../store/reducers/recipes/recipeDetails";
+import CenterMsg from "../CenterMsg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,18 +38,16 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
   };
 
   const mappedRecipes =
-    recipes.data?.length > 0 ? (
-      recipes.data.map((recipe) => (
-        <RecipeCardv2
-          key={recipe.id}
-          {...recipe}
-          storeSrc={storeSrc}
-          handleClick={(e) => handleCardClick(e, recipe)}
-        />
-      ))
-    ) : (
-      <p>{msg}</p>
-    );
+    recipes.data?.length > 0
+      ? recipes.data.map((recipe) => (
+          <RecipeCardv2
+            key={recipe.id}
+            {...recipe}
+            storeSrc={storeSrc}
+            handleClick={(e) => handleCardClick(e, recipe)}
+          />
+        ))
+      : [];
 
   return (
     <div className={classes.root}>
@@ -56,8 +55,12 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
         <Loader isLoading={recipes.pending} />
       ) : (
         <div>
-          <p>{recipes.error}</p>
-          <div className={classes.recipesContainer}>{mappedRecipes}</div>
+          <p></p>
+          {mappedRecipes.length > 0 ? (
+            <div className={classes.recipesContainer}>{mappedRecipes}</div>
+          ) : (
+            <CenterMsg msg={msg} gutter={20} variant="h5" />
+          )}
           <RecipeDetails />
         </div>
       )}

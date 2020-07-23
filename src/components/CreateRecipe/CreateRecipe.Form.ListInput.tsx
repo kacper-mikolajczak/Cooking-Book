@@ -13,6 +13,7 @@ export interface IRecipeListInput {
   handleListItemKeyDown: any;
   handleListItemChange: any;
   handleListItemButtonClick: any;
+  placeholder: string;
 }
 
 const RecipeListInput = ({
@@ -24,6 +25,7 @@ const RecipeListInput = ({
   handleListItemButtonClick,
   handleListItemChange,
   handleListItemKeyDown,
+  placeholder,
 }: IRecipeListInput) => {
   return (
     <ListItem>
@@ -34,6 +36,7 @@ const RecipeListInput = ({
         onKeyDown={(e) => handleListItemKeyDown(e, listName)}
         onChange={(e) => handleListItemChange(e, item, listName)}
         inputRef={(input) => focused && input && input.focus()}
+        placeholder={placeholder}
       ></Input>
       <Button onClick={(e) => handleListItemButtonClick(e, item, listName)}>
         <ClearSharpIcon />

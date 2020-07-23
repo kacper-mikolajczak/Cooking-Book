@@ -7,6 +7,7 @@ export interface IRecipeInput {
   value: string;
   onInputChange: any;
   titleVariant: "h5" | "h4" | "h3";
+  placeholder: string;
 }
 
 const RecipeInput = ({
@@ -14,17 +15,18 @@ const RecipeInput = ({
   value,
   onInputChange,
   titleVariant,
+  placeholder,
 }: IRecipeInput) => {
   return (
     <>
       <Typography variant={titleVariant} component={titleVariant}>
-        {name}:{" "}
+        {name.substr(0, 1).toLocaleUpperCase() + name.substr(1, name.length)}:{" "}
       </Typography>
       <Input
         autoFocus
         id={name}
         required
-        placeholder={`${value}...`}
+        placeholder={placeholder}
         name={name}
         onChange={onInputChange}
         value={value}

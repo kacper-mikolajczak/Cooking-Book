@@ -4,6 +4,11 @@ import { withFirebase } from "../../Firebase";
 
 import { withAuthorization, AuthUserContext } from "../Session";
 
+import { Button } from "@material-ui/core";
+
+import CenterMsg from "../CenterMsg";
+import UserTable from "./UserTable";
+
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +28,6 @@ class AdminPage extends Component {
       .get()
       .then((dbRes) => {
         const usersList = dbRes.docs.map((doc) => doc.data());
-
         this.setState({
           users: usersList,
           loading: false,
@@ -36,10 +40,11 @@ class AdminPage extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            <h1>Admin Dashboard {this.state.data} </h1>
+            <CenterMsg variant="h4" msg="Admin Dashboard" gutter={20} />
             {this.state.loading && <div>Loading...</div>}
 
-            <UsersList users={this.state.users} />
+            <UserTable users={this.state.users} />
+            {/* <UsersList users={this.state.users} /> */}
           </div>
         )}
       </AuthUserContext.Consumer>
@@ -51,16 +56,17 @@ const UsersList = ({ users }) => {
   return (
     <ul>
       {users.map((user) => (
-        <li key={user.uid}>
-          <p>
-            <strong>ID:</strong> {user.id}
-          </p>
-          <p>
-            <strong>E-Mail:</strong> {user.email}
-          </p>
-          <p>
+        <li key={user.uid} style={{ margin: "10px" }}>
+          <span>
             <strong>Name:</strong> {user.lastName} {user.firstName}
-          </p>
+          </span>
+          <Button
+            color="secondary"
+            variant="outlined"
+            style={{ marginLeft: "10px" }}
+          >
+            Delete
+          </Button>
         </li>
       ))}
     </ul>

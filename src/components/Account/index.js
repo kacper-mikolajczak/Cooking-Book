@@ -3,6 +3,7 @@ import { PasswordChangeForm } from "../PasswordChange";
 import { withAuthorization, AuthUserContext } from "../Session";
 import { Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import CenterMsg from "../CenterMsg";
 
 const Account = (props) => {
   const user = useSelector((state) => state.session.authUser);
@@ -10,7 +11,11 @@ const Account = (props) => {
     <AuthUserContext.Consumer>
       {(authUser) => (
         <div>
-          <h1>Your Account {user.lastName + " " + user.firstName}</h1>
+          <CenterMsg
+            msg={`Your account ${user.firstName} ${user.lastName}`}
+            variant="h4"
+            gutter={20}
+          />
           <Grid>
             <Grid></Grid>
             <Grid>

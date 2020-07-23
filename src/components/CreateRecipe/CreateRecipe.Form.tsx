@@ -108,6 +108,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                     name="title"
                     onInputChange={onInputChange}
                     titleVariant="h4"
+                    placeholder="Type in recipe title"
                   />
                 </div>
                 <div className={classes.formElem}>
@@ -117,6 +118,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                     value={desc}
                     onInputChange={onInputChange}
                     rows={4}
+                    placeholder="Type in short description about your recipe"
                   />
                 </div>
                 <div className={classes.formElem}>
@@ -126,6 +128,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                     value={photoUrl}
                     onInputChange={onInputChange}
                     rows={2}
+                    placeholder="Paste in urls of photos - Press enter after every link"
                   />
                 </div>
                 <div className={classes.formElem}>
@@ -134,6 +137,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                     name="groups"
                     onInputChange={onInputChange}
                     titleVariant="h5"
+                    placeholder="Meal Soup Breakfast etc. - separate with spaces"
                   />
                 </div>
               </div>

@@ -4,6 +4,8 @@ import firebase from "../../../Firebase";
 
 var lastItem = null;
 
+const allOrAlive = (auth) => firebase.recipesAllOrAlive(auth)();
+
 export const search = (query) => async (dispatch, getState) => {
   dispatch(actions.fetchPending());
   dispatch(actions.open());
@@ -16,9 +18,7 @@ export const search = (query) => async (dispatch, getState) => {
 
   const group = getState().search.group;
 
-  const allOrAlive = firebase.recipesAllOrAlive(auth);
-
-  const recipesRef = await allOrAlive()
+  const recipesRef = await allOrAlive(auth)
     .orderBy("createdAt")
     // .limit(5)
     //.where("title", "==", query)
@@ -57,5 +57,29 @@ export const search = (query) => async (dispatch, getState) => {
     },
     users,
   };
+  dispatch(actions.fetchSuccess(searchObj));
+};
+
+export const searchByUser = (id) => async (dispatch, getState) => {
+  console.log("SEARCHBYUSER");
+  dispatch(actions.fetchPending());
+  dispatch(actions.open());
+
+  const logged = getState().session.authUser;
+
+  const auth = logged ? logged.admin === "admin" : false;
+
+  const recipesRef = await allOrAlive(auth).where("user", "==", id).get();
+
+  const recipesData = recipesRef.docs.map((doc) => doc.data());
+
+  const searchObj = {
+    recipes: {
+      data: Object.values(recipesData),
+      next: null,
+    },
+    users: [getState().session.authUser],
+  };
+
   dispatch(actions.fetchSuccess(searchObj));
 };
