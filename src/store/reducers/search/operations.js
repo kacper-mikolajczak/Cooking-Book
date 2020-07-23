@@ -60,7 +60,7 @@ export const search = (query) => async (dispatch, getState) => {
   dispatch(actions.fetchSuccess(searchObj));
 };
 
-export const searchByUser = (id) => async (dispatch, getState) => {
+export const searchByUsers = (ids) => async (dispatch, getState) => {
   console.log("SEARCHBYUSER");
   dispatch(actions.fetchPending());
   dispatch(actions.open());
@@ -69,7 +69,7 @@ export const searchByUser = (id) => async (dispatch, getState) => {
 
   const auth = logged ? logged.admin === "admin" : false;
 
-  const recipesRef = await allOrAlive(auth).where("user", "==", id).get();
+  const recipesRef = await allOrAlive(auth).where("user", "in", ids).get();
 
   const recipesData = recipesRef.docs.map((doc) => doc.data());
 
