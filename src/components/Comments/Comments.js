@@ -18,7 +18,6 @@ function Comments({ comments }) {
   const classes = useStyles();
 
   const commentsArr = Object.values(comments || {});
-  console.log("COMS", comments);
 
   const mappedComments =
     commentsArr.length > 0 ? (

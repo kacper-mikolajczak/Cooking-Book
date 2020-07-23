@@ -9,7 +9,6 @@ const ChangeInput = ({ name, display }: { name: string; display: string }) => {
   const id = useSelector((state) => state.session.authUser.id);
 
   const handleClick = (e) => {
-    console.log(id);
     firebase.user(id).set({ [name]: value }, { merge: true });
   };
 

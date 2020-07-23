@@ -3,6 +3,7 @@ import React from "react";
 import { withFirebase } from "../../Firebase";
 import { withRouter } from "react-router-dom";
 import { sessionActions } from "../../store/reducers/session";
+import { searchActions } from "../../store/reducers/search";
 import { useDispatch } from "react-redux";
 
 import * as ROUTES from "../../constants/routes";
@@ -13,6 +14,7 @@ const SignOutButton = ({ firebase, history }) => {
     firebase.auth.W = null;
     firebase.doSignOut();
     dispatch(sessionActions.unsetAuthUser());
+    dispatch(searchActions.clear());
     history.push(ROUTES.LANDING);
   };
 

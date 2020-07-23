@@ -14,7 +14,7 @@ export const search = (query) => async (dispatch, getState) => {
 
   const logged = getState().session.authUser;
 
-  const auth = logged ? logged.admin === "admin" : false;
+  const auth = logged !== null ? logged.admin : false;
 
   const group = getState().search.group;
 
@@ -61,7 +61,6 @@ export const search = (query) => async (dispatch, getState) => {
 };
 
 export const searchByUsers = (ids) => async (dispatch, getState) => {
-  console.log("SEARCHBYUSER");
   dispatch(actions.fetchPending());
   dispatch(actions.open());
 

@@ -43,7 +43,9 @@ const Search = (props) => {
     return () => clearTimeout(timeoutRef.current);
   }, [query, dispatch]);
 
-  const search = () => dispatch(searchOperations.search(query));
+  const search = () => {
+    dispatch(searchOperations.search(query));
+  };
 
   return (
     <div className={classes.root}>

@@ -35,7 +35,7 @@ const reducer = (state = initialState, { type, payload }) => {
         group: payload.group,
       };
     case types.clear:
-      return { ...state, query: "" };
+      return { ...initialState };
     default:
       return state;
   }
