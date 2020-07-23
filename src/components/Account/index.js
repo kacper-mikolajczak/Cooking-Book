@@ -1,9 +1,10 @@
 import React from "react";
 import { PasswordChangeForm } from "../PasswordChange";
 import { withAuthorization, AuthUserContext } from "../Session";
-import { Grid } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import CenterMsg from "../CenterMsg";
+import ChangeInput from "./Account.ChangeInput";
 
 const Account = (props) => {
   const user = useSelector((state) => state.session.authUser);
@@ -16,9 +17,15 @@ const Account = (props) => {
             variant="h4"
             gutter={20}
           />
-          <Grid>
-            <Grid></Grid>
-            <Grid>
+          <Grid container alignItems="center" justify="center">
+            <Grid item sm={12} md={6}>
+              <Container maxWidth="xs">
+                <ChangeInput name="lastName" display="Last Name" />
+                <ChangeInput name="firstName" display="First Name" />
+                <ChangeInput name="photoUrl" display="Photo URL" />
+              </Container>
+            </Grid>
+            <Grid item sm={12} md={6}>
               <PasswordChangeForm />
             </Grid>
           </Grid>
