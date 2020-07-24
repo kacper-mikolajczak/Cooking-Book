@@ -12,6 +12,17 @@ export const setRange = ({
   payload: { name, range },
 });
 
+export const toggleRange = ({
+  name,
+  tick,
+}: {
+  name: string;
+  tick: boolean;
+}) => ({
+  type: types.toggleRange,
+  payload: { name, tick },
+});
+
 export const clearState = (): types.ClearState => ({ type: types.clearState });
 
 export const setGroup = (group: string): types.SetGroup => ({

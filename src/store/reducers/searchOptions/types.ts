@@ -3,6 +3,8 @@ import { IRange } from "../../../interfaces";
 const base = "SEARCH_OPTIONS";
 
 export const setRange = base + "_SET_RANGE";
+export const toggleRange = base + "_TOGGLE_RANGE";
+
 export const clearState = base + "_CLEAR_STATE";
 
 export const setGroup = base + "_SET_GROUP";
@@ -16,6 +18,14 @@ export interface SetRange {
   payload: {
     range: IRange;
     name: string;
+  };
+}
+
+export interface ToggleRange {
+  type: typeof toggleRange;
+  payload: {
+    name: string;
+    tick: boolean;
   };
 }
 

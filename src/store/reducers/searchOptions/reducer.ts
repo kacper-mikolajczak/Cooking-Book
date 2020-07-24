@@ -1,39 +1,44 @@
 import * as types from "./types";
-import { IRange } from "../../../interfaces";
+import { IRangeToggle } from "../../../interfaces";
 
 interface IState {
   group: string;
   sliders: {
-    calories: IRange;
-    carbs: IRange;
-    fats: IRange;
-    proteins: IRange;
-    salt: IRange;
+    kcal: IRangeToggle;
+    carbs: IRangeToggle;
+    fats: IRangeToggle;
+    proteins: IRangeToggle;
+    salt: IRangeToggle;
   };
 }
 
 const initialState = {
   group: "all",
   sliders: {
-    calories: {
+    kcal: {
       min: 0,
       max: 9999,
+      tick: true,
     },
     carbs: {
       min: 0,
       max: 9999,
+      tick: true,
     },
     fats: {
       min: 0,
       max: 9999,
+      tick: true,
     },
     proteins: {
       min: 0,
       max: 9999,
+      tick: true,
     },
     salt: {
       min: 0,
       max: 9999,
+      tick: true,
     },
   },
 };
@@ -45,7 +50,22 @@ const reducer = (state = initialState, action: types.SearchOptionsActions) => {
         ...state,
         sliders: {
           ...state.sliders,
-          [action.payload.name]: { ...action.payload.range },
+          [action.payload.name]: {
+            ...state.sliders[action.payload.name],
+            min: action.payload.range.min,
+            max: action.payload.range.max,
+          },
+        },
+      };
+    case types.toggleRange:
+      return {
+        ...state,
+        sliders: {
+          ...state.sliders,
+          [action.payload.name]: {
+            ...state.sliders[action.payload.name],
+            tick: action.payload.tick,
+          },
         },
       };
     case types.setGroup:

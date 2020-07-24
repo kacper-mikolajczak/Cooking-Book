@@ -16,7 +16,8 @@ export const search = (query) => async (dispatch, getState) => {
 
   const auth = logged !== null ? logged.admin : false;
 
-  const group = getState().searchOptions.group;
+  const { group, sliders } = getState().searchOptions;
+  console.log(group, sliders);
 
   const recipesRef = await allOrAlive(auth)
     .orderBy("createdAt")
@@ -34,10 +35,24 @@ export const search = (query) => async (dispatch, getState) => {
     )
   );
 
-  const filteredRecipes =
+  const groupedRecipes =
     group === "all"
       ? recipes
       : recipes.filter((item) => item?.groups?.includes(group));
+
+  let filteredRecipes = groupedRecipes;
+
+  console.log({ filteredRecipes });
+
+  for (const [key, val] of Object.entries(sliders)) {
+    if (!val.tick) continue;
+    filteredRecipes = filteredRecipes.filter(
+      (recipe) =>
+        recipe.nutrients &&
+        recipe.nutrients[key] < val.max &&
+        recipe.nutrients[key] > val.min
+    );
+  }
 
   const resUsers = await firebase
     .users()

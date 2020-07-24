@@ -4,11 +4,17 @@ import styled from "styled-components";
 
 import RangeSlider from "./Search.Options.Range";
 import { searchOptionsActions } from "../../store/reducers/searchOptions";
-import { IRange } from "../../interfaces";
+import { IRangeToggle } from "../../interfaces";
 import Groups from "./Groups";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Menu, IconButton, Grid, Typography } from "@material-ui/core";
+import {
+  Menu,
+  IconButton,
+  Grid,
+  Typography,
+  Checkbox,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -39,18 +45,36 @@ const Options = () => {
     setAnchorEl(null);
   };
 
-  const sliders: IRange[] = useSelector((state) => state.searchOptions.sliders);
+  const sliders: IRangeToggle[] = useSelector(
+    (state) => state.searchOptions.sliders
+  );
 
   const slidersEntries = Object.entries(sliders);
 
   const mappedSliders = slidersEntries.map(([key, val]) => (
     <Grid item xs={12} md={6}>
+      <Typography style={{ marginLeft: "50px" }}>
+        <Checkbox
+          checked={val.tick}
+          onClick={(e) => {
+            dispatch(
+              searchOptionsActions.toggleRange({
+                name: key,
+                tick: e.target.checked,
+              })
+            );
+          }}
+        />
+        {key}{" "}
+      </Typography>
+
       <RangeSlider
+        disabled={!val.tick}
         min={0}
-        max={key === "calories" ? 5000 : 100}
+        max={key === "kcal" ? 5000 : 100}
         key={key}
         name={key}
-        minmax={val}
+        minmax={{ min: val.min, max: val.max }}
         handleRangeChange={(val) => {
           dispatch(
             searchOptionsActions.setRange({

@@ -9,12 +9,14 @@ const useStyles = makeStyles({
 });
 
 const RangeSlider = ({
+  disabled,
   name,
   min,
   max,
   minmax,
   handleRangeChange,
 }: {
+  disabled: boolean;
   name: string;
   min: number;
   max: number;
@@ -38,8 +40,8 @@ const RangeSlider = ({
 
   return (
     <>
-      <Typography align={"center"}>{name}</Typography>
       <Slider
+        disabled={disabled}
         className={classes.slider}
         classes={{ valueLabel: classes.valueLabel }}
         min={min}

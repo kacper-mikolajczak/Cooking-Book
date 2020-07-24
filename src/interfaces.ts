@@ -64,3 +64,7 @@ export interface IRange {
   min: number;
   max: NumericInput;
 }
+
+export interface IRangeToggle extends IRange {
+  tick: boolean;
+}
