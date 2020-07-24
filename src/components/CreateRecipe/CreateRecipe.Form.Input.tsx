@@ -6,8 +6,9 @@ export interface IRecipeInput {
   name: string;
   value: string;
   onInputChange: any;
-  titleVariant: "h5" | "h4" | "h3";
+  titleVariant: "h6" | "h5" | "h4" | "h3";
   placeholder: string;
+  type?: "number" | "text";
 }
 
 const RecipeInput = ({
@@ -16,6 +17,7 @@ const RecipeInput = ({
   onInputChange,
   titleVariant,
   placeholder,
+  type,
 }: IRecipeInput) => {
   return (
     <>
@@ -23,6 +25,7 @@ const RecipeInput = ({
         {name.substr(0, 1).toLocaleUpperCase() + name.substr(1, name.length)}:{" "}
       </Typography>
       <Input
+        type={type ? type : "text"}
         autoFocus
         id={name}
         required

@@ -8,7 +8,7 @@ import firebase from "../../Firebase";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 
-import { Container, Grid, Button } from "@material-ui/core";
+import { Container, Grid, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import RecipeList from "./CreateRecipe.Form.List";
 import RecipeInput from "./CreateRecipe.Form.Input";
@@ -57,21 +57,8 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (recipe) {
-      dispatch(
-        recipeFormActions.setInput({ name: "title", value: recipe.title })
-      );
-      dispatch(
-        recipeFormActions.setInput({ name: "desc", value: recipe.desc })
-      );
-      dispatch(
-        recipeFormActions.setInput({ name: "photoUrl", value: recipe.photoUrl })
-      );
-      dispatch(
-        recipeFormActions.setInput({ name: "groups", value: recipe.groups })
-      );
-      dispatch(recipeFormActions.setList("ingredients", recipe.ingredients));
-      dispatch(recipeFormActions.setList("steps", recipe.steps));
+    if (recipe.id) {
+      dispatch(recipeFormActions.setState(recipe));
     }
   }, [recipe, dispatch]);
 
@@ -79,9 +66,10 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
     title,
     desc,
     photoUrl,
-
+    nutrients,
     groups,
-    lists: { ingredients, steps },
+    ingredients,
+    steps,
   } = useSelector((state: any): any => state.recipeForm);
 
   const user = useSelector((state: any): string => state.session.authUser.id);
@@ -95,96 +83,159 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
     dispatch(recipeFormActions.setInput(e.target));
   };
 
+  const onNutritientChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    dispatch(recipeFormActions.setNutritientInput(e.target));
+  };
+
   return (
     <div className={classes.root}>
       <Container component="main">
         <Grid container direction="row">
-          <Grid item xs={12} md={12}>
-            <Grid item xs={12}>
-              <div className={classes.form}>
-                <div className={classes.formElem}>
-                  <RecipeInput
-                    value={title}
-                    name="title"
-                    onInputChange={onInputChange}
-                    titleVariant="h4"
-                    placeholder="Type in recipe title"
+          <Grid item xs={12} md={8}>
+            <div className={classes.form}>
+              <div className={classes.formElem}>
+                <RecipeInput
+                  value={title}
+                  name="title"
+                  onInputChange={onInputChange}
+                  titleVariant="h4"
+                  placeholder="Type in recipe title"
+                />
+              </div>
+              <div className={classes.formElem}>
+                <RecipeTextField
+                  variant="h5"
+                  name="desc"
+                  value={desc}
+                  onInputChange={onInputChange}
+                  rows={4}
+                  placeholder="Type in short description about your recipe"
+                />
+              </div>
+              <div className={classes.formElem}>
+                <RecipeTextField
+                  variant="h5"
+                  name="photoUrl"
+                  value={photoUrl}
+                  onInputChange={onInputChange}
+                  rows={3}
+                  placeholder="Paste in urls of photos - Press enter after every link"
+                />
+              </div>
+              <div className={classes.formElem}>
+                <RecipeInput
+                  value={groups}
+                  name="groups"
+                  onInputChange={onInputChange}
+                  titleVariant="h5"
+                  placeholder="Meal Soup Breakfast etc. - separate with spaces"
+                />
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={4} style={{ textAlign: "center" }}>
+            <div className={classes.formElem}>
+              <RecipeInput
+                type="number"
+                value={nutrients?.kcal}
+                name="kcal"
+                onInputChange={onNutritientChange}
+                titleVariant="h6"
+                placeholder=""
+              />
+            </div>
+            <div className={classes.formElem}>
+              <RecipeInput
+                type="number"
+                value={nutrients?.fats}
+                name="fats"
+                onInputChange={onNutritientChange}
+                titleVariant="h6"
+                placeholder=""
+              />
+            </div>
+            <div className={classes.formElem}>
+              <RecipeInput
+                type="number"
+                value={nutrients?.carbs}
+                name="carbs"
+                onInputChange={onNutritientChange}
+                titleVariant="h6"
+                placeholder=""
+              />
+            </div>
+            <div className={classes.formElem}>
+              <RecipeInput
+                type="number"
+                value={nutrients?.proteins}
+                name="proteins"
+                onInputChange={onNutritientChange}
+                titleVariant="h6"
+                placeholder=""
+              />
+            </div>
+            <div className={classes.formElem}>
+              <RecipeInput
+                type="number"
+                value={nutrients?.salt}
+                name="salt"
+                onInputChange={onNutritientChange}
+                titleVariant="h6"
+                placeholder=""
+              />
+            </div>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <div className={classes.formElem}>
+                <Grid item xs={12} className={classes.listBox}>
+                  {/* Ingredient List */}
+                  <RecipeList
+                    name="ingredients"
+                    items={ingredients}
+                    variant="ul"
+                    focused={
+                      lastList.current === "ingredients" &&
+                      lastKeyStroke.current === 13
+                    }
+                    onListFocus={handleListFocusChange}
                   />
-                </div>
-                <div className={classes.formElem}>
-                  <RecipeTextField
-                    variant="h5"
-                    name="desc"
-                    value={desc}
-                    onInputChange={onInputChange}
-                    rows={4}
-                    placeholder="Type in short description about your recipe"
-                  />
-                </div>
-                <div className={classes.formElem}>
-                  <RecipeTextField
-                    variant="h5"
-                    name="photoUrl"
-                    value={photoUrl}
-                    onInputChange={onInputChange}
-                    rows={2}
-                    placeholder="Paste in urls of photos - Press enter after every link"
-                  />
-                </div>
-                <div className={classes.formElem}>
-                  <RecipeInput
-                    value={groups}
-                    name="groups"
-                    onInputChange={onInputChange}
-                    titleVariant="h5"
-                    placeholder="Meal Soup Breakfast etc. - separate with spaces"
-                  />
-                </div>
+                </Grid>
               </div>
             </Grid>
-
-            <div className={classes.formElem}>
-              <Grid item xs={12} className={classes.listBox}>
-                {/* Ingredient List */}
-                <RecipeList
-                  name="ingredients"
-                  items={ingredients}
-                  variant="ul"
-                  focused={
-                    lastList.current === "ingredients" &&
-                    lastKeyStroke.current === 13
-                  }
-                  onListFocus={handleListFocusChange}
-                />
-              </Grid>
-            </div>
-            <div className={classes.formElem}>
-              <Grid item xs={12} className={classes.listBox}>
-                {/* Cooking Steps */}
-                <RecipeList
-                  name="steps"
-                  items={steps}
-                  variant="ol"
-                  focused={
-                    lastList.current === "steps" && lastKeyStroke.current === 13
-                  }
-                  onListFocus={handleListFocusChange}
-                />
-              </Grid>
-            </div>
-            <Grid item xs={12}></Grid>
+            <Grid item xs={12} md={6}>
+              <div className={classes.formElem}>
+                <Grid item xs={12} className={classes.listBox}>
+                  {/* Cooking Steps */}
+                  <RecipeList
+                    name="steps"
+                    items={steps}
+                    variant="ol"
+                    focused={
+                      lastList.current === "steps" &&
+                      lastKeyStroke.current === 13
+                    }
+                    onListFocus={handleListFocusChange}
+                  />
+                </Grid>
+              </div>
+            </Grid>
           </Grid>
+
+          <Grid item xs={12}></Grid>
           <Button
             color="primary"
             variant="contained"
             className={classes.addBtn}
             onClick={() => {
+              const currentDate = new Date();
               firebase.recipe(`/${recipeId}`).set(
                 {
                   id: recipeId,
                   title,
                   desc,
-                  createdAt: new Date(),
+                  createdAt: recipe.createdAt ? recipe.createdAt : currentDate,
+                  editedAt: currentDate,
                   user,
                   ingredients: ingredients.filter(
                     (ing: IListItem) => ing.value.length > 0
@@ -195,6 +246,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                   photoUrl,
                   deleted: false,
                   groups: groups,
+                  nutrients,
                 },
                 { merge: true }
               );

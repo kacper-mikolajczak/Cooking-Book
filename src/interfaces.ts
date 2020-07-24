@@ -18,6 +18,14 @@ export interface IStep {
   value: string;
 }
 
+export interface INutrient {
+  kcal: number | null;
+  proteins: number | null;
+  fats: number | null;
+  carbs: number | null;
+  salt: number | null;
+}
+
 export interface IRecipe {
   createdAt: ITimestamp | null;
   user: string | null;
@@ -29,6 +37,7 @@ export interface IRecipe {
   groups: string;
   steps: IStep[];
   ingredients: IIngredient[];
+  nutrients?: INutrient;
 }
 
 export interface IError {

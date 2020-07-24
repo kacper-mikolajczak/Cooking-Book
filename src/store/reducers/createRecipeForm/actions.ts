@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { IListItem } from "../../../interfaces";
+import { IListItem, IRecipe } from "../../../interfaces";
 
 export const setInput = ({
   name,
@@ -9,6 +9,17 @@ export const setInput = ({
   value: string;
 }): types.SetInput => ({
   type: types.setInput,
+  payload: { name, value },
+});
+
+export const setNutritientInput = ({
+  name,
+  value,
+}: {
+  name: string;
+  value: number;
+}): types.SetNutritientInput => ({
+  type: types.setNutritienInput,
   payload: { name, value },
 });
 
@@ -45,3 +56,7 @@ export const setList = (name: string, list: IListItem[]): types.SetList => ({
 });
 
 export const clearState = (): types.ClearState => ({ type: types.clearState });
+export const setState = (recipe: IRecipe): types.SetState => ({
+  type: types.setState,
+  payload: recipe,
+});
