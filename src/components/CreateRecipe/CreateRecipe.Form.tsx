@@ -57,7 +57,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (recipe.id) {
+    if (recipe) {
       dispatch(recipeFormActions.setState(recipe));
     }
   }, [recipe, dispatch]);

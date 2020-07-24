@@ -6,7 +6,7 @@ import { searchOperations } from "../../store/reducers/search";
 import { Input, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
-import Groups from "./Groups";
+import Options from "./Search.Options";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme) => ({
   focused: {
     transition: "width 10s",
     width: "100%",
+  },
+  search: {
+    flexGrow: 1,
+    display: "flex",
+  },
+  options: {
+    justifySelf: "flex-end",
+    flexShrink: 1,
   },
 }));
 
@@ -62,7 +70,7 @@ const Search = (props) => {
       <IconButton onClick={search}>
         <SearchIcon />
       </IconButton>
-      <Groups />
+      <Options />
     </div>
   );
 };

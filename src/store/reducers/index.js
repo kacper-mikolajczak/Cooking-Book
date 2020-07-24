@@ -9,6 +9,7 @@ import recipeReducer from "./recipes";
 import searchReducer from "./search";
 import topRecipesReducer from "./topRecipes";
 import editedRecipeReducer from "./edit";
+import searchOptionsReducer from "./searchOptions";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   topRecipes: topRecipesReducer,
   editedRecipe: editedRecipeReducer,
+  searchOptions: searchOptionsReducer,
 });
 
 export default rootReducer;

@@ -3,7 +3,7 @@ import { FormControl, Select, MenuItem, InputBase } from "@material-ui/core";
 
 import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { searchActions } from "../../store/reducers/search";
+import { searchOptionsActions } from "../../store/reducers/searchOptions";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -13,12 +13,12 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Groups = ({ handleGroupChange, currentValue }) => {
+const Groups = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const group = useSelector((state) => state.search.group);
+  const group = useSelector((state) => state.searchOptions.group);
   const handleChange = (e) => {
-    dispatch(searchActions.setGroup(e.target.value));
+    dispatch(searchOptionsActions.setGroup(e.target.value));
   };
   return (
     <div>

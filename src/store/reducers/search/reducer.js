@@ -29,11 +29,6 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case types.fetchFailure:
       return { ...state, pending: false, error: payload.error };
-    case types.setGroup:
-      return {
-        ...state,
-        group: payload.group,
-      };
     case types.clear:
       return { ...initialState };
     default:

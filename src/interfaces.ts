@@ -1,3 +1,5 @@
+import { NumericInput } from "./store/reducers/createRecipeForm/types";
+
 export interface ITimestamp {
   seconds: number;
   nanoseconds: number;
@@ -56,4 +58,9 @@ export interface IUser {
   lastName: string;
   photoUrl: string;
   recipes?: null | [];
+}
+
+export interface IRange {
+  min: number;
+  max: NumericInput;
 }

@@ -16,7 +16,7 @@ export const search = (query) => async (dispatch, getState) => {
 
   const auth = logged !== null ? logged.admin : false;
 
-  const group = getState().search.group;
+  const group = getState().searchOptions.group;
 
   const recipesRef = await allOrAlive(auth)
     .orderBy("createdAt")
