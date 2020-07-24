@@ -25,6 +25,8 @@ export const toggleRange = ({
 
 export const clearState = (): types.ClearState => ({ type: types.clearState });
 
+export const toggle = (): types.Toggle => ({ type: types.toggle });
+
 export const setGroup = (group: string): types.SetGroup => ({
   type: types.setGroup,
   payload: { group },

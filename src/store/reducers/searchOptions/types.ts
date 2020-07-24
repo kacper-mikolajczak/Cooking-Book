@@ -9,6 +9,8 @@ export const clearState = base + "_CLEAR_STATE";
 
 export const setGroup = base + "_SET_GROUP";
 
+export const toggle = base + "_TOGGLE";
+
 export interface ClearState {
   type: typeof clearState;
 }
@@ -36,4 +38,13 @@ export interface SetGroup {
   };
 }
 
-export type SearchOptionsActions = ClearState | SetRange | SetGroup;
+export interface Toggle {
+  type: typeof toggle;
+}
+
+export type SearchOptionsActions =
+  | ClearState
+  | SetRange
+  | SetGroup
+  | ToggleRange
+  | Toggle;

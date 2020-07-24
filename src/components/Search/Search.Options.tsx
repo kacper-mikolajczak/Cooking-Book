@@ -14,6 +14,7 @@ import {
   Grid,
   Typography,
   Checkbox,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -45,9 +46,15 @@ const Options = () => {
     setAnchorEl(null);
   };
 
+  const handleToggleFilterClick = (e) => {
+    dispatch(searchOptionsActions.toggle());
+  };
+
   const sliders: IRangeToggle[] = useSelector(
     (state) => state.searchOptions.sliders
   );
+
+  const toggle: boolean = useSelector((state) => state.searchOptions.toggle);
 
   const slidersEntries = Object.entries(sliders);
 
@@ -55,7 +62,7 @@ const Options = () => {
     <Grid item xs={12} md={6}>
       <Typography style={{ marginLeft: "50px" }}>
         <Checkbox
-          checked={val.tick}
+          checked={toggle && val.tick}
           onClick={(e) => {
             dispatch(
               searchOptionsActions.toggleRange({
@@ -69,7 +76,7 @@ const Options = () => {
       </Typography>
 
       <RangeSlider
-        disabled={!val.tick}
+        disabled={!(toggle && val.tick)}
         min={0}
         max={key === "kcal" ? 5000 : 100}
         key={key}
@@ -104,6 +111,19 @@ const Options = () => {
               <Groups />
             </Grid>
             {mappedSliders}
+          </Grid>
+          <Grid
+            item
+            md={12}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleToggleFilterClick}
+            >
+              Toggle Filters
+            </Button>
           </Grid>
         </StyledOptions>
       </Menu>

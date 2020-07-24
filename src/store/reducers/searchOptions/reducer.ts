@@ -2,6 +2,7 @@ import * as types from "./types";
 import { IRangeToggle } from "../../../interfaces";
 
 interface IState {
+  toggle: boolean;
   group: string;
   sliders: {
     kcal: IRangeToggle;
@@ -13,6 +14,7 @@ interface IState {
 }
 
 const initialState = {
+  toggle: false,
   group: "all",
   sliders: {
     kcal: {
@@ -72,6 +74,11 @@ const reducer = (state = initialState, action: types.SearchOptionsActions) => {
       return {
         ...state,
         group: action.payload.group,
+      };
+    case types.toggle:
+      return {
+        ...state,
+        toggle: !state.toggle,
       };
     case types.clearState:
       return initialState;

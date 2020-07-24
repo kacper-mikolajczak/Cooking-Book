@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) =>
 const Groups = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const group = useSelector((state) => state.searchOptions.group);
+  const { group, toggle } = useSelector((state) => state.searchOptions);
   const handleChange = (e) => {
     dispatch(searchOptionsActions.setGroup(e.target.value));
   };
@@ -24,6 +24,7 @@ const Groups = () => {
     <div>
       <FormControl className={classes.margin}>
         <Select
+          disabled={!toggle}
           labelId="demo-customized-select-label"
           id="demo-customized-select"
           value={group}
