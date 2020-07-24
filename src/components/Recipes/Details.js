@@ -83,9 +83,15 @@ function RecipeDetails(props) {
 
   const recipeDetails = useSelector((state) => state.recipe.details);
   const { user, recipe, comments, pending, open } = recipeDetails;
-  const { id, title, desc, photoUrl, steps, ingredients } = nullToString(
-    recipe
-  );
+  const {
+    id,
+    title,
+    desc,
+    photoUrl,
+    steps,
+    ingredients,
+    nutrients,
+  } = nullToString(recipe);
   const {
     lastName,
     firstName,
@@ -162,18 +168,7 @@ function RecipeDetails(props) {
               </Grid>
             </Grid>
             {/* <DetailsList desc={desc} steps={steps} ingredients={ingredients} /> */}
-            {/* <CaloriesTable
-              //Placeholder
-              rows={[
-                {
-                  calories: 222,
-                  fat: 333,
-                  carbs: 20,
-                  protein: 9,
-                },
-              ]}
-              title={title}
-            /> */}
+            <CaloriesTable nutrients={nutrients} title={title} />
             <h3>Comments: </h3>
             <CommentBox
               comments={comments}

@@ -9,41 +9,83 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import { useWindowDimensions } from "../../../hooks";
+import { INutrient } from "../../../interfaces";
+
+import { smallScreen } from "../../../constants/screen";
 
 const CaloriesTable = ({
   nutrients,
   title,
 }: {
-  rows: any[];
+  nutrients: INutrient;
   title: string;
 }) => {
   const { width } = useWindowDimensions();
 
+  const small = width < smallScreen;
+
+  const nutrientKeys = Object.keys(
+    nutrients
+      ? nutrients
+      : { kcal: null, carbs: null, fats: null, proteins: null, salt: null }
+  );
+
+  const displayNutrient = (name: string) =>
+    nutrients?.[name] ? nutrients?.[name] : "N/A";
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>{title} (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={Math.floor(Math.random() * 99999)}>
-              <TableCell component="th" scope="row">
-                Values
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {small ? (
+          <>
+            <TableHead>
+              <TableRow>
+                <TableCell>100g serving</TableCell>
+                <TableCell align="right">#</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {nutrientKeys.map((key) => {
+                return (
+                  <TableRow key={key}>
+                    <TableCell component="th" scope="row">
+                      {key.substr(0, 1).toLocaleUpperCase() +
+                        key.substr(1, key.length)}
+                    </TableCell>
+                    <TableCell align="right">{displayNutrient(key)}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </>
+        ) : (
+          <>
+            <TableHead>
+              <TableRow>
+                <TableCell>{title} (100g serving)</TableCell>
+                <TableCell align="right">Calories</TableCell>
+                <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                <TableCell align="right">Salt&nbsp;(g)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  #
+                </TableCell>
+                <TableCell align="right">{displayNutrient("kcal")}</TableCell>
+                <TableCell align="right">{displayNutrient("carbs")}</TableCell>
+                <TableCell align="right">{displayNutrient("fats")}</TableCell>
+                <TableCell align="right">
+                  {displayNutrient("proteins")}
+                </TableCell>
+                <TableCell align="right">{displayNutrient("salt")}</TableCell>
+              </TableRow>
+            </TableBody>
+          </>
+        )}
       </Table>
     </TableContainer>
   );

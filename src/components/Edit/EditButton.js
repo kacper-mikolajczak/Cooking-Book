@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import { editedRecipeOperations } from "../../store/reducers/edit";
+import { searchActions } from "../../store/reducers/search";
 
 const useStyles = makeStyles((theme) => ({
   icons: {
@@ -24,6 +25,7 @@ const EditButton = ({ condition, recipeId }) => {
 
   const handleClick = (e) => {
     dispatch(editedRecipeOperations.getEditedRecipe(recipeId));
+    dispatch(searchActions.close());
     history.push(`${ROUTES.RECIPE_EDIT}`);
   };
 
