@@ -27,7 +27,7 @@ export interface SetInput {
   payload: Input;
 }
 
-export interface SetNutritientInput {
+export interface SetNutrientInput {
   type: typeof setNutritienInput;
   payload: NumericInput;
 }
@@ -74,7 +74,7 @@ export interface SetState {
 
 export type RecipeFormActions =
   | SetInput
-  | SetNutritientInput
+  | SetNutrientInput
   | PushEmptyListItem
   | RemoveItemsList
   | SetListInput

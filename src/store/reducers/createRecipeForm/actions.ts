@@ -12,13 +12,13 @@ export const setInput = ({
   payload: { name, value },
 });
 
-export const setNutritientInput = ({
+export const setNutrientInput = ({
   name,
   value,
 }: {
   name: string;
   value: number;
-}): types.SetNutritientInput => ({
+}): types.SetNutrientInput => ({
   type: types.setNutritienInput,
   payload: { name, value },
 });

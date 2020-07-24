@@ -8,7 +8,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-const CaloriesTable = ({ rows, title }: { rows: any[]; title: string }) => {
+import { useWindowDimensions } from "../../../hooks";
+
+const CaloriesTable = ({
+  nutrients,
+  title,
+}: {
+  rows: any[];
+  title: string;
+}) => {
+  const { width } = useWindowDimensions();
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">

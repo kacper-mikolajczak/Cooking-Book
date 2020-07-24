@@ -83,8 +83,8 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
     dispatch(recipeFormActions.setInput(e.target));
   };
 
-  const onNutritientChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    dispatch(recipeFormActions.setNutritientInput(e.target));
+  const onNutrientChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    dispatch(recipeFormActions.setNutrientInput(e.target));
   };
 
   return (
@@ -139,7 +139,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 type="number"
                 value={nutrients?.kcal}
                 name="kcal"
-                onInputChange={onNutritientChange}
+                onInputChange={onNutrientChange}
                 titleVariant="h6"
                 placeholder=""
               />
@@ -149,7 +149,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 type="number"
                 value={nutrients?.fats}
                 name="fats"
-                onInputChange={onNutritientChange}
+                onInputChange={onNutrientChange}
                 titleVariant="h6"
                 placeholder=""
               />
@@ -159,7 +159,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 type="number"
                 value={nutrients?.carbs}
                 name="carbs"
-                onInputChange={onNutritientChange}
+                onInputChange={onNutrientChange}
                 titleVariant="h6"
                 placeholder=""
               />
@@ -169,7 +169,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 type="number"
                 value={nutrients?.proteins}
                 name="proteins"
-                onInputChange={onNutritientChange}
+                onInputChange={onNutrientChange}
                 titleVariant="h6"
                 placeholder=""
               />
@@ -179,7 +179,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 type="number"
                 value={nutrients?.salt}
                 name="salt"
-                onInputChange={onNutritientChange}
+                onInputChange={onNutrientChange}
                 titleVariant="h6"
                 placeholder=""
               />
