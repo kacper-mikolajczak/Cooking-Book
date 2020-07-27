@@ -19,6 +19,7 @@ import AccordionBase from "./details/RecipeDetails.Accordion";
 import List from "./details/RecipeDetails.List";
 import Gallery from "./details/RecipeDetails.Gallery";
 import CaloriesTable from "./details/RecipeDetails.Table";
+import DetailsMenu from "./details/RecipeDetails.Menu";
 
 import { useWindowDimensions } from "../../hooks";
 
@@ -116,12 +117,19 @@ function RecipeDetails(props) {
       >
         <DialogActions></DialogActions>
         <DialogTitle id="alert-dialog-slide-title" className={classes.header}>
-          <h3>{title} </h3>
-          {recipe.deleted && (
-            <span style={{ fontSize: "0.5em", color: "red" }}>
-              - recipe removed
-            </span>
-          )}
+          <Grid container>
+            <Grid item xs={6}>
+              <h3>{title} </h3>
+              {recipe.deleted && (
+                <span style={{ fontSize: "0.5em", color: "red" }}>
+                  - recipe removed
+                </span>
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <DetailsMenu handleDialogClose={handleClose} recipe={recipe} />
+            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent classes={{ root: classes.content }}>
           <Grid container>

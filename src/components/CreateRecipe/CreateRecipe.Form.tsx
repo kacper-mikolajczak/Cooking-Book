@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import RecipeList from "./CreateRecipe.Form.List";
 import RecipeInput from "./CreateRecipe.Form.Input";
 import RecipeTextField from "./CreateRecipe.Form.TextField";
+import recipesReducer from "../../store/reducers/recipes";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -236,7 +237,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                   desc,
                   createdAt: recipe.createdAt ? recipe.createdAt : currentDate,
                   editedAt: currentDate,
-                  user,
+                  user: recipe.user ? recipe.user : user,
                   ingredients: ingredients.filter(
                     (ing: IListItem) => ing.value.length > 0
                   ),

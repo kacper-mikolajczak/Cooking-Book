@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditButton = ({ condition, recipeId }) => {
+const EditButton = ({ condition, recipeId, handleCallback }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
@@ -26,6 +26,7 @@ const EditButton = ({ condition, recipeId }) => {
   const handleClick = (e) => {
     dispatch(editedRecipeOperations.getEditedRecipe(recipeId));
     dispatch(searchActions.close());
+    handleCallback();
     history.push(`${ROUTES.RECIPE_EDIT}`);
   };
 

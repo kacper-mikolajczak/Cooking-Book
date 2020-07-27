@@ -59,7 +59,7 @@ const Options = () => {
   const slidersEntries = Object.entries(sliders);
 
   const mappedSliders = slidersEntries.map(([key, val]) => (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={6} key={key}>
       <Typography style={{ marginLeft: "50px" }}>
         <Checkbox
           checked={toggle && val.tick}
@@ -106,23 +106,24 @@ const Options = () => {
       >
         <StyledOptions className={classes.menu}>
           <Grid container spacing={4}>
+            <Grid item></Grid>
+            <Grid
+              item
+              md={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={handleToggleFilterClick}
+              >
+                Toggle Filters
+              </Button>
+            </Grid>
             <Grid item xs={12} md={6} className={classes.group}>
               <Groups />
             </Grid>
             {mappedSliders}
-          </Grid>
-          <Grid
-            item
-            md={12}
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={handleToggleFilterClick}
-            >
-              Toggle Filters
-            </Button>
           </Grid>
         </StyledOptions>
       </Menu>

@@ -85,7 +85,11 @@ const RecipeMenu = ({
       </IconButton>
       {editionRights && (
         <>
-          <EditButton condition={editionRights && !deleted} recipeId={id} />
+          <EditButton
+            handleCallback={() => {}}
+            condition={editionRights && !deleted}
+            recipeId={id}
+          />
           {deleted ? (
             <RegainButton
               condition={editionRights && deleted}

@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogTitle,
 } from "@material-ui/core";
-import ClearSharpIcon from "@material-ui/icons/ClearSharp";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 
 import firebase from "../../Firebase";
@@ -51,7 +51,7 @@ function DeleteButton({ condition, onYesClick }) {
         className={classes.icons}
         onClick={handleClick}
       >
-        <ClearSharpIcon />
+        <DeleteIcon />
       </IconButton>
       {dialogOpen && (
         <Dialog
