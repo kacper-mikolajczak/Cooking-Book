@@ -4,11 +4,20 @@ import firebase from "../../../Firebase";
 
 var lastItem = null;
 
-const allOrAlive = (auth) => firebase.recipesAllOrAlive(auth)();
+const setLastItem = async (item) => {
+  lastItem = item ? item : await firebase.recipe("0").get();
+};
 
-export const search = (query) => async (dispatch, getState) => {
-  dispatch(actions.fetchPending());
-  dispatch(actions.open());
+(async () => await setLastItem())();
+
+const allOrAlive = (auth) => firebase.recipesAllOrAlive(auth);
+
+export const search = (query, append) => async (dispatch, getState) => {
+  if (!append) {
+    await setLastItem();
+    dispatch(actions.fetchPending());
+    dispatch(actions.open());
+  }
 
   const lowerQuery = query.toLowerCase();
 
@@ -19,10 +28,13 @@ export const search = (query) => async (dispatch, getState) => {
   const { group, sliders, toggle, groupTick } = getState().searchOptions;
 
   const recipesRef = await allOrAlive(auth)
-    .orderBy("createdAt")
-    // .limit(5)
+    .orderBy("createdAt", "desc")
+    .startAfter(lastItem)
+    .limit(8)
     //.where("title", "==", query)
     .get();
+
+  await setLastItem(recipesRef.docs[recipesRef.docs.length - 1]);
 
   const recipesData = recipesRef.docs.map((doc) => doc.data());
 
@@ -43,15 +55,22 @@ export const search = (query) => async (dispatch, getState) => {
 
   if (toggle) {
     for (const [key, val] of Object.entries(sliders)) {
+      console.log("FILTER", key, val);
       if (!val.tick) continue;
       filteredRecipes = filteredRecipes.filter(
         (recipe) =>
           recipe.nutrients &&
-          recipe.nutrients[key] < val.max &&
-          recipe.nutrients[key] > val.min
+          recipe.nutrients[key] <= val.max &&
+          recipe.nutrients[key] >= val.min
       );
     }
   }
+
+  console.log(
+    filteredRecipes,
+    groupedRecipes,
+    filteredRecipes === groupedRecipes
+  );
 
   const resUsers = await firebase
     .users()
@@ -67,11 +86,12 @@ export const search = (query) => async (dispatch, getState) => {
   const searchObj = {
     recipes: {
       data: filteredRecipes,
-      next: null,
+      next: lastItem,
     },
     users,
   };
-  dispatch(actions.fetchSuccess(searchObj));
+  if (!append) dispatch(actions.fetchSuccess(searchObj, query));
+  else dispatch(actions.fetchMoreSuccess(searchObj));
 };
 
 export const searchByUsers = (ids) => async (dispatch, getState) => {

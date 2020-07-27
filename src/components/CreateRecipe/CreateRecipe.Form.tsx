@@ -246,7 +246,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                   ),
                   photoUrl,
                   deleted: false,
-                  groups: groups,
+                  groups: groups ? groups : "all",
                   nutrients,
                 },
                 { merge: true }

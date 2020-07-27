@@ -49,7 +49,7 @@ class Firebase {
   recipesAlive = () =>
     this.db.collection("recipes").where("deleted", "==", false);
   recipesAllOrAlive = (condition) =>
-    condition ? this.recipes : this.recipesAlive;
+    condition ? this.recipes() : this.recipesAlive();
 
   recipe = (uid) => this.recipes().doc(`${uid}`);
 

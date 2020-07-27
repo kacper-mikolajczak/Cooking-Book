@@ -21,27 +21,27 @@ const initialState = {
   sliders: {
     kcal: {
       min: 0,
-      max: 9999,
+      max: 1000,
       tick: true,
     },
     carbs: {
       min: 0,
-      max: 9999,
+      max: 100,
       tick: true,
     },
     fats: {
       min: 0,
-      max: 9999,
+      max: 100,
       tick: true,
     },
     proteins: {
       min: 0,
-      max: 9999,
+      max: 100,
       tick: true,
     },
     salt: {
       min: 0,
-      max: 9999,
+      max: 100,
       tick: true,
     },
   },

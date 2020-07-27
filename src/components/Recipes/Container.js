@@ -9,6 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { recipeDetailsOperations } from "../../store/reducers/recipes/recipeDetails";
 import CenterMsg from "../CenterMsg";
+import { Button, Grid } from "@material-ui/core";
+import { searchOperations } from "../../store/reducers/search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +39,10 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
     dispatch(recipeDetailsOperations.get(recipe));
   };
 
+  const handleMoreClick = (e) => {
+    dispatch(searchOperations.search(recipes.query, true));
+  };
+
   const mappedRecipes =
     recipes.data?.length > 0
       ? recipes.data.map((recipe) => (
@@ -61,6 +67,16 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
           ) : (
             <CenterMsg msg={msg} gutter={20} variant="h5" />
           )}
+          <Grid container>
+            <Grid item xs={12} style={{ textAlign: "center", margin: "20px" }}>
+              {recipes.next && (
+                <Button onClick={handleMoreClick} variant="outlined">
+                  Show More
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+
           <RecipeDetails />
         </div>
       )}

@@ -49,6 +49,9 @@ const Options = () => {
   const handleToggleFilterClick = (e) => {
     dispatch(searchOptionsActions.toggle());
   };
+  const handleClearFilterClick = (e) => {
+    dispatch(searchOptionsActions.clearState());
+  };
 
   const sliders: IRangeToggle[] = useSelector(
     (state) => state.searchOptions.sliders
@@ -78,7 +81,7 @@ const Options = () => {
       <RangeSlider
         disabled={!(toggle && val.tick)}
         min={0}
-        max={key === "kcal" ? 5000 : 100}
+        max={key === "kcal" ? 1000 : 100}
         key={key}
         name={key}
         minmax={{ min: val.min, max: val.max }}
@@ -106,10 +109,9 @@ const Options = () => {
       >
         <StyledOptions className={classes.menu}>
           <Grid container spacing={4}>
-            <Grid item></Grid>
             <Grid
               item
-              md={12}
+              md={6}
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Button
@@ -117,7 +119,20 @@ const Options = () => {
                 variant="outlined"
                 onClick={handleToggleFilterClick}
               >
-                Toggle Filters
+                Toggle
+              </Button>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={handleClearFilterClick}
+              >
+                Clear
               </Button>
             </Grid>
             <Grid item xs={12} md={6} className={classes.group}>

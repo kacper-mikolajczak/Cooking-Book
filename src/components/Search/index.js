@@ -52,7 +52,7 @@ const Search = (props) => {
   }, [query, dispatch]);
 
   const search = () => {
-    dispatch(searchOperations.search(query));
+    dispatch(searchOperations.search(query, false));
   };
 
   return (

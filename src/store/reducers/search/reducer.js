@@ -22,8 +22,17 @@ const reducer = (state = initialState, { type, payload }) => {
     case types.fetchSuccess:
       return {
         ...state,
+        query: payload.query,
         pending: false,
         data: payload.data.recipes.data,
+        next: payload.data.recipes.next,
+        users: payload.data.users,
+      };
+    case types.fetchMoreSuccess:
+      return {
+        ...state,
+        pending: false,
+        data: [...state.data, ...payload.data.recipes.data],
         next: payload.data.recipes.next,
         users: payload.data.users,
       };
