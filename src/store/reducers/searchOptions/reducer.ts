@@ -4,6 +4,7 @@ import { IRangeToggle } from "../../../interfaces";
 interface IState {
   toggle: boolean;
   group: string;
+  groupTick: boolean;
   sliders: {
     kcal: IRangeToggle;
     carbs: IRangeToggle;
@@ -16,6 +17,7 @@ interface IState {
 const initialState = {
   toggle: false,
   group: "all",
+  groupTick: false,
   sliders: {
     kcal: {
       min: 0,
@@ -74,6 +76,11 @@ const reducer = (state = initialState, action: types.SearchOptionsActions) => {
       return {
         ...state,
         group: action.payload.group,
+      };
+    case types.toggleGroup:
+      return {
+        ...state,
+        groupTick: action.payload.tick,
       };
     case types.toggle:
       return {

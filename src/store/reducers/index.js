@@ -10,6 +10,7 @@ import searchReducer from "./search";
 import topRecipesReducer from "./topRecipes";
 import editedRecipeReducer from "./edit";
 import searchOptionsReducer from "./searchOptions";
+import likedRecipesReducer from "./likedRecipes";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   recipe: recipeReducer,
   search: searchReducer,
   topRecipes: topRecipesReducer,
+  likedRecipes: likedRecipesReducer,
   editedRecipe: editedRecipeReducer,
   searchOptions: searchOptionsReducer,
 });

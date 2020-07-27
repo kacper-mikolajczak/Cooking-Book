@@ -22,6 +22,7 @@ import firebase from "../../Firebase";
 import { sessionOperations } from "../../store/reducers/session";
 import RecipesContainer from "../Recipes/Container";
 import EditPage from "../Edit";
+import UserRecipes from "../UserRecipes";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ const App = () => {
                 <Route path={ROUTES.ADMIN} component={AdminPage} />
                 <Route path={ROUTES.RECIPE_NEW} component={CreateRecipePage} />
                 <Route path={ROUTES.RECIPE_EDIT} component={EditPage} />
+                <Route path={ROUTES.USER_RECIPES} component={UserRecipes} />
               </>
             )}
             {!authUser && <Route path="*" component={NoMatch} />}

@@ -16,7 +16,7 @@ export const search = (query) => async (dispatch, getState) => {
 
   const auth = logged !== null ? logged.admin : false;
 
-  const { group, sliders, toggle } = getState().searchOptions;
+  const { group, sliders, toggle, groupTick } = getState().searchOptions;
 
   const recipesRef = await allOrAlive(auth)
     .orderBy("createdAt")
@@ -35,7 +35,7 @@ export const search = (query) => async (dispatch, getState) => {
   );
 
   const groupedRecipes =
-    group === "all" || !toggle
+    group === "all" || !groupTick
       ? recipes
       : recipes.filter((item) => item?.groups?.includes(group));
 

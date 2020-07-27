@@ -52,27 +52,6 @@ class AdminPage extends Component {
   }
 }
 
-const UsersList = ({ users }) => {
-  return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.uid} style={{ margin: "10px" }}>
-          <span>
-            <strong>Name:</strong> {user.lastName} {user.firstName}
-          </span>
-          <Button
-            color="secondary"
-            variant="outlined"
-            style={{ marginLeft: "10px" }}
-          >
-            Delete
-          </Button>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
 const condition = (authUser) => authUser !== null;
 
 export default withAuthorization(condition)(withFirebase(AdminPage));

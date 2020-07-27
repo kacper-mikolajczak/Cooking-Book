@@ -31,3 +31,8 @@ export const setGroup = (group: string): types.SetGroup => ({
   type: types.setGroup,
   payload: { group },
 });
+
+export const toggleGroup = (tick: boolean): types.ToggleGroup => ({
+  type: types.toggleGroup,
+  payload: { tick },
+});

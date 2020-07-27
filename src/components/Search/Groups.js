@@ -1,5 +1,12 @@
 import React from "react";
-import { FormControl, Select, MenuItem, InputBase } from "@material-ui/core";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  InputBase,
+  Checkbox,
+  Typography,
+} from "@material-ui/core";
 
 import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,15 +23,31 @@ const useStyles = makeStyles((theme) =>
 const Groups = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { group, toggle } = useSelector((state) => state.searchOptions);
+  const { group, groupTick, toggle } = useSelector(
+    (state) => state.searchOptions
+  );
   const handleChange = (e) => {
     dispatch(searchOptionsActions.setGroup(e.target.value));
   };
+  const handleCheckboxChange = (e) => {
+    dispatch(searchOptionsActions.toggleGroup(e.target.checked));
+  };
   return (
-    <div>
-      <FormControl className={classes.margin}>
+    <div style={{ width: "100%" }}>
+      <FormControl
+        className={classes.margin}
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        <Checkbox onChange={handleCheckboxChange} checked={groupTick} />
+        <Typography variant="subtitle1">Group:</Typography>
         <Select
-          disabled={!toggle}
+          disabled={!groupTick}
           labelId="demo-customized-select-label"
           id="demo-customized-select"
           value={group}

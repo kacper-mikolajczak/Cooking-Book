@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { IUser } from "../../interfaces";
 
 import firebase from "../../Firebase";
@@ -13,16 +13,11 @@ import {
   TableCell,
   Checkbox,
   Avatar,
-  Menu,
-  MenuItem,
-  IconButton,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { searchOperations } from "../../store/reducers/search";
+
+import TableMenu from "./UserTable.Menu";
+import TableItemMenu from "./UserTable.ItemMenu";
 
 export interface IUserWithCheck extends IUser {
   checked: boolean;
@@ -154,100 +149,4 @@ const UserTable = ({ users }: { users: IUser[] }) => {
   );
 };
 
-export const TableMenu = ({
-  disabled,
-  handleProfilesClick,
-  handleDeleteClick,
-  handleRestoreClick,
-}) => {
-  const handleClose = (e) => {
-    setAnchor(null);
-  };
-  const [anchor, setAnchor] = useState<null | EventTarget>(null);
-  return (
-    <>
-      <IconButton
-        onClick={(e) => setAnchor(e.currentTarget)}
-        disabled={disabled}
-      >
-        <MoreHorizIcon />
-      </IconButton>
-      <Menu
-        anchorEl={anchor}
-        keepMounted
-        open={Boolean(anchor)}
-        onClose={handleClose}
-      >
-        {/* {options.map(option => (<MenuItem>
-            
-        </MenuItem>))} */}
-        <MenuItem onClick={handleProfilesClick}>
-          <VisibilityIcon />
-          <span style={{ marginLeft: "10px" }}>Recipes</span>
-        </MenuItem>
-        <MenuItem onClick={handleDeleteClick}>
-          <DeleteIcon />
-          <span style={{ marginLeft: "10px" }}> Delete</span>
-        </MenuItem>
-        <MenuItem onClick={handleRestoreClick}>
-          <SettingsBackupRestoreIcon />
-          <span style={{ marginLeft: "10px" }}> Restore</span>
-        </MenuItem>
-      </Menu>
-    </>
-  );
-};
-
-const TableItemMenu = ({
-  id,
-  handleUserDeleteOrRevive,
-  deleted,
-}: {
-  id: string;
-  handleUserDeleteOrRevive: any;
-  deleted: boolean;
-}) => {
-  const dispatch = useDispatch();
-  const handleClose = (e) => {
-    setAnchor(null);
-  };
-
-  const handleProfileClick = (e) => {
-    dispatch(searchOperations.searchByUsers([id]));
-  };
-
-  const handleDeleteOrReviveClick = (e) => {
-    handleUserDeleteOrRevive();
-  };
-
-  const [anchor, setAnchor] = useState<null | EventTarget>(null);
-
-  return (
-    <>
-      <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        anchorEl={anchor}
-        keepMounted
-        open={Boolean(anchor)}
-        onClose={handleClose}
-      >
-        <MenuItem id="peak-profile" onClick={handleProfileClick}>
-          <VisibilityIcon />
-          <span style={{ marginLeft: "10px" }}>Recipes</span>
-        </MenuItem>
-        <MenuItem id="deleteOrRevive" onClick={handleDeleteOrReviveClick}>
-          {deleted ? <SettingsBackupRestoreIcon /> : <DeleteIcon />}
-          <span style={{ marginLeft: "10px" }}>
-            {deleted ? "Revive" : "Delete"}
-          </span>
-        </MenuItem>
-      </Menu>
-    </>
-  );
-};
-
 export default UserTable;
-
-export { TableItemMenu };

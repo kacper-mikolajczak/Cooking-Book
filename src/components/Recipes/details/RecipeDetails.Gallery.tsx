@@ -6,6 +6,7 @@ import { useWindowDimensions } from "../../../hooks";
 import { IconButton } from "@material-ui/core";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import { smallScreen } from "../../../constants/screen";
 
 const delay = 3000;
 const Gallery = ({
@@ -18,7 +19,7 @@ const Gallery = ({
   height: string;
 }) => {
   const { width: windowWidth } = useWindowDimensions();
-  const small = windowWidth < 768;
+  const small = windowWidth < smallScreen;
   const urls = url ? url.split("\n") : [];
   const imgIndex = useRef(0);
   const [index, setIndex] = useState(0);

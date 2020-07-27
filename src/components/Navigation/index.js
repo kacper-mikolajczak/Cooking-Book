@@ -8,11 +8,12 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { IconButton, Avatar, Menu, MenuItem } from "@material-ui/core";
 import { useWindowDimensions } from "../../hooks";
+import { smallScreen } from "../../constants/screen";
 
 const Navigation = ({ handleItemClick }) => {
   const user = useSelector((state) => state.session.authUser);
   const { width } = useWindowDimensions();
-  const small = width < 768;
+  const small = width < smallScreen;
   return (
     <>
       {user ? (
@@ -83,6 +84,15 @@ const NavigationAuth = ({ user, handleItemClick, small }) => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Account
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuItemClick}>
+            <Link
+              className="menuItem"
+              to={ROUTES.USER_RECIPES}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              My Recipes
             </Link>
           </MenuItem>
           {user.admin && (

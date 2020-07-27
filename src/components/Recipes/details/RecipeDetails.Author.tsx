@@ -12,6 +12,8 @@ import { searchOperations } from "../../../store/reducers/search";
 import { recipeDetailsActions } from "../../../store/reducers/recipes/recipeDetails";
 import { useDispatch } from "react-redux";
 
+import { smallScreen } from "../../../constants/screen";
+
 interface IRecipeDetailsAuthor {
   firstName: string;
   lastName: string;
@@ -42,7 +44,7 @@ const Author = ({
 
   const photoSrc = photoUrl ? photoUrl : "";
 
-  const small = width < 768;
+  const small = width < smallScreen;
 
   return (
     <p

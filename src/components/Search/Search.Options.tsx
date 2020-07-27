@@ -107,7 +107,6 @@ const Options = () => {
         <StyledOptions className={classes.menu}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6} className={classes.group}>
-              <Typography variant="subtitle1">Group:</Typography>
               <Groups />
             </Grid>
             {mappedSliders}

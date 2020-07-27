@@ -39,7 +39,7 @@ const RangeSlider = ({
   }, [minmax]);
 
   return (
-    <>
+    <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
       <Slider
         disabled={disabled}
         className={classes.slider}
@@ -52,7 +52,7 @@ const RangeSlider = ({
         valueLabelDisplay="on"
         aria-labelledby="range-slider"
       />
-    </>
+    </div>
   );
 };
 

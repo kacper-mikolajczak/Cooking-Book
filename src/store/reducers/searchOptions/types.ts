@@ -8,6 +8,7 @@ export const toggleRange = base + "_TOGGLE_RANGE";
 export const clearState = base + "_CLEAR_STATE";
 
 export const setGroup = base + "_SET_GROUP";
+export const toggleGroup = base + "_TOGGLE_GROUP";
 
 export const toggle = base + "_TOGGLE";
 
@@ -38,6 +39,13 @@ export interface SetGroup {
   };
 }
 
+export interface ToggleGroup {
+  type: typeof toggleGroup;
+  payload: {
+    tick: boolean;
+  };
+}
+
 export interface Toggle {
   type: typeof toggle;
 }
@@ -46,5 +54,6 @@ export type SearchOptionsActions =
   | ClearState
   | SetRange
   | SetGroup
+  | ToggleGroup
   | ToggleRange
   | Toggle;

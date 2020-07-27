@@ -6,6 +6,7 @@ import { useWindowDimensions } from "../../hooks";
 import { useDispatch } from "react-redux";
 import { searchOperations } from "../../store/reducers/search";
 import { recipeDetailsActions } from "../../store/reducers/recipes/recipeDetails";
+import { smallScreen } from "../../constants/screen";
 
 interface ICreatedAt {
   seconds: number;
@@ -29,7 +30,7 @@ const Comment = (comment: IComment) => {
   const dispatch = useDispatch();
   const time = comment?.createdAt?.seconds;
   const timestamp = time ? new Date(time * 1000) : new Date();
-  const small = width < 768;
+  const small = width < smallScreen;
   return (
     <div style={{ paddingLeft: `${small ? "0" : "10px"}` }}>
       <p

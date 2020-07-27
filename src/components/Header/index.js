@@ -9,6 +9,7 @@ import Search from "../Search";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../../store/reducers/search";
 import { useWindowDimensions } from "../../hooks";
+import { smallScreen } from "../../constants/screen";
 
 export function Header() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export function Header() {
   };
 
   const { width } = useWindowDimensions();
-  const small = width < 768;
+  const small = width < smallScreen;
 
   return (
     <header

@@ -7,3 +7,4 @@ export const ADMIN = "/admin";
 export const PASSWORD_FORGET = "/pw-forget";
 export const RECIPE_NEW = "/recipe-new";
 export const RECIPE_EDIT = "/recipe-edit";
+export const USER_RECIPES = "/user-recipes";
