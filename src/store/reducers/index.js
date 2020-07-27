@@ -11,6 +11,7 @@ import topRecipesReducer from "./topRecipes";
 import editedRecipeReducer from "./edit";
 import searchOptionsReducer from "./searchOptions";
 import likedRecipesReducer from "./likedRecipes";
+import errorsReducer from "./error";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   likedRecipes: likedRecipesReducer,
   editedRecipe: editedRecipeReducer,
   searchOptions: searchOptionsReducer,
+  errors: errorsReducer,
 });
 
 export default rootReducer;

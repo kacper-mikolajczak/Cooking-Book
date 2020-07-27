@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 
 import LandingPage from "../Landing";
@@ -23,6 +23,9 @@ import { sessionOperations } from "../../store/reducers/session";
 import RecipesContainer from "../Recipes/Container";
 import EditPage from "../Edit";
 import UserRecipes from "../UserRecipes";
+import ErrorSnackBar from "../Error";
+
+import { ErrorActions } from "../../store/reducers/error";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -37,10 +40,14 @@ const App = () => {
   return (
     <Router>
       <div
+        onClick={() =>
+          dispatch(ErrorActions.set("Error " + Math.random() * 100))
+        }
         style={{ backgroundColor: "rgba(245,245,245,1)", minHeight: "100vh" }}
       >
         <CssBaseline />
         <Header />
+        <ErrorSnackBar multiple={false} />
         {searchOpen ? (
           <RecipesContainer
             msg={"No recipes founds"}
