@@ -40,9 +40,6 @@ const App = () => {
   return (
     <Router>
       <div
-        onClick={() =>
-          dispatch(ErrorActions.set("Error " + Math.random() * 100))
-        }
         style={{ backgroundColor: "rgba(245,245,245,1)", minHeight: "100vh" }}
       >
         <CssBaseline />

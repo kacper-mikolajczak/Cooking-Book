@@ -17,7 +17,7 @@ interface IState {
 const initialState = {
   toggle: false,
   group: "all",
-  groupTick: false,
+  groupTick: true,
   sliders: {
     kcal: {
       min: 0,

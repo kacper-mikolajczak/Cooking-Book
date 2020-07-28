@@ -15,6 +15,8 @@ import RecipeInput from "./CreateRecipe.Form.Input";
 import RecipeTextField from "./CreateRecipe.Form.TextField";
 import recipesReducer from "../../store/reducers/recipes";
 
+import { ErrorActions } from "../../store/reducers/error";
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   header: {
@@ -252,6 +254,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                 { merge: true }
               );
               dispatch(recipeFormActions.clearState());
+              dispatch(ErrorActions.set("Recipe sent!"));
               history.push(ROUTES.HOME);
             }}
           >

@@ -94,16 +94,24 @@ const RecipeMenu = ({
             <RegainButton
               condition={editionRights && deleted}
               onYesClick={(e) => {
-                firebase.recipe(id).set({ deleted: false }, { merge: true });
-                window.location.reload();
+                firebase
+                  .recipe(id)
+                  .set({ deleted: false }, { merge: true })
+                  .then(() => {
+                    window.location.reload();
+                  });
               }}
             />
           ) : (
             <DeleteButton
               condition={editionRights && !deleted}
               onYesClick={(e) => {
-                firebase.recipe(id).set({ deleted: true }, { merge: true });
-                window.location.reload();
+                firebase
+                  .recipe(id)
+                  .set({ deleted: true }, { merge: true })
+                  .then(() => {
+                    window.location.reload();
+                  });
               }}
             />
           )}

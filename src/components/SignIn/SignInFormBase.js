@@ -20,6 +20,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import firebase from "../../Firebase";
+import { ErrorActions } from "../../store/reducers/error";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,6 +74,7 @@ const SignInFormBase = (props) => {
       })
       .catch((err) => {
         setState({ error: err.message });
+        dispatch(ErrorActions.set(err.message));
       });
 
     event.preventDefault();

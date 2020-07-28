@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useWindowDimensions } from "../../../hooks";
 
 import { IconButton } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import { smallScreen } from "../../../constants/screen";
@@ -23,6 +24,7 @@ const Gallery = ({
   const urls = url ? url.split("\n") : [];
   const imgIndex = useRef(0);
   const [index, setIndex] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const addIndexWrap = (val: number) => {
     setIndex((i: number): number => {
@@ -55,8 +57,24 @@ const Gallery = ({
               />
             </IconButton>
           </StyledArrow>
-
-          <img src={urls[index]} alt="" />
+          {!imgLoaded ? (
+            <Skeleton
+              style={{ border: "1px solid gray", borderRadius: "15px" }}
+              width="100%"
+              height="100%"
+              variant="rect"
+              animation="pulse"
+            >
+              <img src={urls[index]} alt="" onLoad={() => setImgLoaded(true)} />
+            </Skeleton>
+          ) : (
+            <img
+              style={{ border: "1px solid gray" }}
+              src={urls[index]}
+              alt=""
+              onLoad={() => setImgLoaded(true)}
+            />
+          )}
           <StyledArrow className={"right"}>
             <IconButton
               color="secondary"

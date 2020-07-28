@@ -7,6 +7,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { searchOperations } from "../../store/reducers/search";
+import { ErrorActions } from "../../store/reducers/error";
 
 const TableItemMenu = ({
   id,
@@ -27,6 +28,7 @@ const TableItemMenu = ({
   };
 
   const handleDeleteOrReviveClick = (e) => {
+    dispatch(ErrorActions.set(deleted ? "User restored!" : "User deleted!"));
     handleUserDeleteOrRevive();
   };
 

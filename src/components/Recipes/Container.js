@@ -11,6 +11,7 @@ import { recipeDetailsOperations } from "../../store/reducers/recipes/recipeDeta
 import CenterMsg from "../CenterMsg";
 import { Button, Grid } from "@material-ui/core";
 import { searchOperations } from "../../store/reducers/search";
+import { ErrorActions } from "../../store/reducers/error";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
   const classes = useStyles();
 
   const recipes = useSelector(selectOp);
+  if (recipes.error) dispatch(ErrorActions.set(recipes.error.message));
 
   useEffect(() => {
     (async () => {
@@ -69,7 +71,7 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
           )}
           <Grid container>
             <Grid item xs={12} style={{ textAlign: "center", margin: "20px" }}>
-              {recipes.next && (
+              {recipes.next && mappedRecipes.length > 0 && (
                 <Button onClick={handleMoreClick} variant="outlined">
                   Show More
                 </Button>

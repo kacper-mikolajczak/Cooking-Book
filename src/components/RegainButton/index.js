@@ -10,6 +10,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import RestoreIcon from "@material-ui/icons/Restore";
 import firebase from "../../Firebase";
+import { ErrorActions } from "../../store/reducers/error";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   icons: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RegainButton({ condition, onYesClick }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -67,6 +70,7 @@ function RegainButton({ condition, onYesClick }) {
               onClick={() => {
                 onYesClick();
                 handleDialogClose();
+                dispatch(ErrorActions.set("Recipe restored!"));
               }}
               color="secondary"
               autoFocus

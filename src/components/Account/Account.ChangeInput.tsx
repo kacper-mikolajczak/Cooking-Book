@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { Typography, Input, Button, Container } from "@material-ui/core";
 import firebase from "../../Firebase";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { ErrorActions } from "../../store/reducers/error";
 
 const ChangeInput = ({ name, display }: { name: string; display: string }) => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState("");
 
   const id = useSelector((state) => state.session.authUser.id);
 
   const handleClick = (e) => {
+    dispatch(ErrorActions.set("User data updated!"));
     firebase.user(id).set({ [name]: value }, { merge: true });
   };
 

@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
+import { ErrorActions } from "../../store/reducers/error";
+import { useDispatch } from "react-redux";
 
 import firebase from "../../Firebase";
 
@@ -31,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DeleteButton({ condition, onYesClick }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -68,6 +71,7 @@ function DeleteButton({ condition, onYesClick }) {
               onClick={() => {
                 onYesClick();
                 handleDialogClose();
+                dispatch(ErrorActions.set("Recipe deleted!"));
               }}
               color="secondary"
               autoFocus

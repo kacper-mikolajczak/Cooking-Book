@@ -30,12 +30,12 @@ const ErrorSnackBar = ({ multiple }: { multiple: boolean }) => {
   const errors = useSelector((state) => state.errors);
 
   useEffect(() => {
-    const displayInterval = setInterval(
-      () => dispatch(ErrorActions.clear()),
-      3000
-    );
-    return () => clearInterval(displayInterval);
-  });
+    let displayTimeout: ReturnType<typeof setTimeout>;
+    if (errors.length > 0) {
+      displayTimeout = setTimeout(() => dispatch(ErrorActions.clear()), 3000);
+    }
+    return () => clearTimeout(displayTimeout);
+  }, [errors, dispatch]);
 
   const handleClick = () => {
     dispatch(ErrorActions.clear());

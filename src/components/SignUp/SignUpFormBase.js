@@ -14,6 +14,7 @@ import { SignInLink } from "../SignIn";
 import { sessionActions } from "../../store/reducers/session";
 
 import firebase from "../../Firebase";
+import { ErrorActions } from "../../store/reducers/error";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -83,7 +84,10 @@ const SignUpFormBase = (props) => {
             props.history.push(ROUTES.HOME);
           });
       })
-      .catch((err) => setState({ error: err }));
+      .catch((err) => {
+        setState({ error: err });
+        dispatch(ErrorActions.set(err.message));
+      });
     event.preventDefault();
   };
 

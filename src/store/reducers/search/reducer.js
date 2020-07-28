@@ -18,10 +18,18 @@ const reducer = (state = initialState, { type, payload }) => {
     case types.close:
       return { ...state, open: false };
     case types.fetchPending:
-      return { ...state, pending: true };
+      return {
+        ...state,
+        pending: true,
+        data: [],
+        users: [],
+        next: null,
+        error: null,
+      };
     case types.fetchSuccess:
       return {
         ...state,
+        error: null,
         query: payload.query,
         pending: false,
         data: payload.data.recipes.data,
@@ -37,7 +45,11 @@ const reducer = (state = initialState, { type, payload }) => {
         users: payload.data.users,
       };
     case types.fetchFailure:
-      return { ...state, pending: false, error: payload.error };
+      return {
+        ...state,
+        pending: false,
+        error: payload.error,
+      };
     case types.clear:
       return { ...initialState };
     default:
