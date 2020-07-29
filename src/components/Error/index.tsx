@@ -41,6 +41,10 @@ const ErrorSnackBar = ({
     return () => clearTimeout(displayTimeout);
   }, [errors, dispatch]);
 
+  const handleClear = () => {
+    dispatch(ErrorActions.clear());
+  };
+
   const handleClose = (id: string) => {
     dispatch(ErrorActions.unset(id));
   };
@@ -62,7 +66,7 @@ const ErrorSnackBar = ({
           <Snack
             error={errors[0]}
             handleClose={() => {
-              handleClose(errors[0].id);
+              handleClear();
             }}
           />
         ))}

@@ -50,7 +50,10 @@ const Gallery = ({
       {urls.length > 0 ? (
         <StyledWrapper small={small}>
           <StyledArrow className={"left"}>
-            <IconButton onClick={(e) => handleArrowClick("left")}>
+            <IconButton
+              onClick={(e) => handleArrowClick("left")}
+              disabled={urls.length < 2}
+            >
               <ArrowLeftIcon
                 style={{ transform: "scale(2)", color: "white" }}
               />
@@ -76,6 +79,7 @@ const Gallery = ({
           )}
           <StyledArrow className={"right"}>
             <IconButton
+              disabled={urls.length < 2}
               color="secondary"
               onClick={(e) => handleArrowClick("right")}
             >
