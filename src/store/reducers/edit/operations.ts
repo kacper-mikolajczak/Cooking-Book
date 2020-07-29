@@ -1,6 +1,6 @@
 import * as actions from "./actions";
 
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 
 import { IRecipe } from "../../../interfaces";

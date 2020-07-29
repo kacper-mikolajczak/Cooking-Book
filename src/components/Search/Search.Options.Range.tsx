@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IRange } from "../../interfaces";
-import { Typography, Slider } from "@material-ui/core";
+import { Slider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -26,11 +26,17 @@ const RangeSlider = ({
   const classes = useStyles();
   const [value, setValue] = useState<number | number[]>([]);
 
-  const handleChange = (e, newVal) => {
+  const handleChange = (
+    e: React.ChangeEvent<{}>,
+    newVal: number | number[]
+  ) => {
     setValue(newVal);
   };
 
-  const handleCommittedChange = (e) => {
+  const handleCommittedChange = (
+    e: React.ChangeEvent<{}>,
+    newVal: number | number[]
+  ) => {
     handleRangeChange(value);
   };
 

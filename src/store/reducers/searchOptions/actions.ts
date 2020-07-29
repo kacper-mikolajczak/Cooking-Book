@@ -18,7 +18,7 @@ export const toggleRange = ({
 }: {
   name: string;
   tick: boolean;
-}) => ({
+}): types.ToggleRange => ({
   type: types.toggleRange,
   payload: { name, tick },
 });

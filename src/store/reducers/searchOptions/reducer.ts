@@ -11,10 +11,11 @@ interface IState {
     fats: IRangeToggle;
     proteins: IRangeToggle;
     salt: IRangeToggle;
+    [key: string]: IRangeToggle;
   };
 }
 
-const initialState = {
+const initialState: IState = {
   toggle: false,
   group: "all",
   groupTick: true,
@@ -47,9 +48,12 @@ const initialState = {
   },
 };
 
-const reducer = (state = initialState, action: types.SearchOptionsActions) => {
+const reducer = (
+  state = initialState,
+  action: types.SearchOptionsActions
+): IState => {
   switch (action.type) {
-    case types.setRange:
+    case types.setRange: {
       return {
         ...state,
         sliders: {
@@ -61,7 +65,9 @@ const reducer = (state = initialState, action: types.SearchOptionsActions) => {
           },
         },
       };
-    case types.toggleRange:
+    }
+
+    case types.toggleRange: {
       return {
         ...state,
         sliders: {
@@ -72,23 +78,31 @@ const reducer = (state = initialState, action: types.SearchOptionsActions) => {
           },
         },
       };
-    case types.setGroup:
+    }
+
+    case types.setGroup: {
       return {
         ...state,
         group: action.payload.group,
       };
-    case types.toggleGroup:
+    }
+
+    case types.toggleGroup: {
       return {
         ...state,
         groupTick: action.payload.tick,
       };
-    case types.toggle:
+    }
+    case types.toggle: {
       return {
         ...state,
         toggle: !state.toggle,
       };
-    case types.clearState:
-      return initialState;
+    }
+
+    case types.clearState: {
+      return { ...initialState };
+    }
     default:
       return state;
   }

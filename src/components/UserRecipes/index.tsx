@@ -10,7 +10,7 @@ const UsersRecipes = () => {
     <div>
       <RecipesContainer
         getOp={userRecipesOperations.get}
-        selectOp={(state) => state.userRecipes}
+        selectOp={(state: any) => state.userRecipes}
         msg="You have no recipes yet :("
         storeSrc="userRecipes"
       />
@@ -18,6 +18,6 @@ const UsersRecipes = () => {
   );
 };
 
-const condition = (authUser) => !!authUser;
+const condition = (authUser: any) => !!authUser;
 
 export default withAuthorization(condition)(UsersRecipes);

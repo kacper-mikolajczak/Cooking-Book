@@ -8,9 +8,9 @@ const ChangeInput = ({ name, display }: { name: string; display: string }) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
 
-  const id = useSelector((state) => state.session.authUser.id);
+  const id = useSelector((state: any) => state.session.authUser.id);
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     dispatch(ErrorActions.set("User data updated!"));
     firebase.user(id).set({ [name]: value }, { merge: true });
   };

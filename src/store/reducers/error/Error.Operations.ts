@@ -1,7 +1,11 @@
 import * as actions from "./Error.Actions";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 export const showErrorWithDelay = (msg: string, delay: number) => async (
-  dispatch
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   dispatch(actions.set(msg));
 

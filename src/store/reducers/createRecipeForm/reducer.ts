@@ -38,7 +38,7 @@ const reducer = (state = initialState, action: types.RecipeFormActions) => {
         [action.payload.name]: action.payload.value,
       };
     case types.removeListItem: {
-      const list = state[action.payload.name];
+      const list = state[action.payload.name] as IListItem[];
 
       return {
         ...state,
@@ -56,7 +56,7 @@ const reducer = (state = initialState, action: types.RecipeFormActions) => {
         },
       };
     case types.setListInput: {
-      const list = state[action.payload.name];
+      const list = state[action.payload.name] as IListItem[];
       return {
         ...state,
         [action.payload.name]: list.map((item: IListItem) =>
@@ -76,7 +76,7 @@ const reducer = (state = initialState, action: types.RecipeFormActions) => {
       return {
         ...state,
         [action.payload.name]: [
-          ...state[action.payload.name],
+          ...(state[action.payload.name] as IListItem[]),
           { id: nextId++, value: "" },
         ],
       };

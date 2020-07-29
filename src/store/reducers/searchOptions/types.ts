@@ -1,16 +1,14 @@
 import { IRange } from "../../../interfaces";
 
-const base = "SEARCH_OPTIONS";
+export const setRange = "SEARCH_OPTIONS_SET_RANGE";
+export const toggleRange = "SEARCH_OPTIONS_TOGGLE_RANGE";
 
-export const setRange = base + "_SET_RANGE";
-export const toggleRange = base + "_TOGGLE_RANGE";
+export const clearState = "SEARCH_OPTIONS_CLEAR_STATE";
 
-export const clearState = base + "_CLEAR_STATE";
+export const setGroup = "SEARCH_OPTIONS_SET_GROUP";
+export const toggleGroup = "SEARCH_OPTIONS_TOGGLE_GROUP";
 
-export const setGroup = base + "_SET_GROUP";
-export const toggleGroup = base + "_TOGGLE_GROUP";
-
-export const toggle = base + "_TOGGLE";
+export const toggle = "SEARCH_OPTIONS_TOGGLE";
 
 export interface ClearState {
   type: typeof clearState;
@@ -51,8 +49,8 @@ export interface Toggle {
 }
 
 export type SearchOptionsActions =
-  | ClearState
   | SetRange
+  | ClearState
   | SetGroup
   | ToggleGroup
   | ToggleRange

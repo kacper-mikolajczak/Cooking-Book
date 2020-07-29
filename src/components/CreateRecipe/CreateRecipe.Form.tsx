@@ -8,12 +8,11 @@ import firebase from "../../Firebase";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 
-import { Container, Grid, Button, Typography } from "@material-ui/core";
+import { Container, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import RecipeList from "./CreateRecipe.Form.List";
 import RecipeInput from "./CreateRecipe.Form.Input";
 import RecipeTextField from "./CreateRecipe.Form.TextField";
-import recipesReducer from "../../store/reducers/recipes";
 
 import { ErrorActions } from "../../store/reducers/error";
 
@@ -87,7 +86,12 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
   };
 
   const onNutrientChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    dispatch(recipeFormActions.setNutrientInput(e.target));
+    dispatch(
+      recipeFormActions.setNutrientInput({
+        name: e.target.name,
+        value: Number(e.target.value),
+      })
+    );
   };
 
   return (

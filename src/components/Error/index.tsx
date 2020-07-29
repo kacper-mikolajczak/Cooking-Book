@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorActions } from "../../store/reducers/error";
+
+import { IError } from "../../interfaces";
+import Snack from "./Snack";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -12,46 +13,59 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-  text: {
-    fontSize: "1rem",
-    padding: "5px",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    background: "rgba(255,0,0,.8)",
-    borderRadius: "15px",
-    color: "white",
-  },
 }));
 
-const ErrorSnackBar = ({ multiple }: { multiple: boolean }) => {
+const ErrorSnackBar = ({
+  multiple,
+  delay,
+}: {
+  multiple: boolean;
+  delay: number;
+}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const errors = useSelector((state) => state.errors);
+  const errors = useSelector((state: any) => state.errors);
 
   useEffect(() => {
     let displayTimeout: ReturnType<typeof setTimeout>;
     if (errors.length > 0) {
-      displayTimeout = setTimeout(() => dispatch(ErrorActions.clear()), 3000);
+      displayTimeout = setTimeout(
+        () =>
+          multiple
+            ? dispatch(ErrorActions.pop())
+            : dispatch(ErrorActions.clear()),
+        delay
+      );
     }
     return () => clearTimeout(displayTimeout);
   }, [errors, dispatch]);
 
-  const handleClick = () => {
-    dispatch(ErrorActions.clear());
-  };
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleClose = (id: string) => {
+    dispatch(ErrorActions.unset(id));
   };
 
   return (
     <div className={classes.root}>
-      <Snackbar open={errors.length} onClose={handleClose}>
-        <p className={classes.text}> {errors.length > 0 && errors?.[0].msg}</p>
-      </Snackbar>
+      {errors.length > 0 &&
+        (multiple ? (
+          errors.map((error: IError) => (
+            <Snack
+              key={error.id}
+              error={error}
+              handleClose={() => {
+                handleClose(error.id);
+              }}
+            />
+          ))
+        ) : (
+          <Snack
+            error={errors[0]}
+            handleClose={() => {
+              handleClose(errors[0].id);
+            }}
+          />
+        ))}
     </div>
   );
 };

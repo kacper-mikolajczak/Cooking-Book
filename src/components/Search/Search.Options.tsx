@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import RangeSlider from "./Search.Options.Range";
 import { searchOptionsActions } from "../../store/reducers/searchOptions";
-import { IRangeToggle } from "../../interfaces";
+import { IRangeToggle, IRange } from "../../interfaces";
 import Groups from "./Groups";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -46,18 +46,20 @@ const Options = () => {
     setAnchorEl(null);
   };
 
-  const handleToggleFilterClick = (e) => {
+  const handleToggleFilterClick = () => {
     dispatch(searchOptionsActions.toggle());
   };
-  const handleClearFilterClick = (e) => {
+  const handleClearFilterClick = () => {
     dispatch(searchOptionsActions.clearState());
   };
 
   const sliders: IRangeToggle[] = useSelector(
-    (state) => state.searchOptions.sliders
+    (state: any) => state.searchOptions.sliders
   );
 
-  const toggle: boolean = useSelector((state) => state.searchOptions.toggle);
+  const toggle: boolean = useSelector(
+    (state: any) => state.searchOptions.toggle
+  );
 
   const slidersEntries = Object.entries(sliders);
 
@@ -66,7 +68,7 @@ const Options = () => {
       <Typography style={{ marginLeft: "50px" }}>
         <Checkbox
           checked={toggle && val.tick}
-          onClick={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             dispatch(
               searchOptionsActions.toggleRange({
                 name: key,
@@ -85,7 +87,7 @@ const Options = () => {
         key={key}
         name={key}
         minmax={{ min: val.min, max: val.max }}
-        handleRangeChange={(val) => {
+        handleRangeChange={(val: [number, number]) => {
           dispatch(
             searchOptionsActions.setRange({
               name: key,

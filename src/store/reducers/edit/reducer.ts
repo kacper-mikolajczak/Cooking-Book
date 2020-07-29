@@ -17,6 +17,7 @@ const initialState: IEditedRecipe = {
     deleted: false,
     steps: [],
     ingredients: [],
+    groups: "",
   },
 };
 

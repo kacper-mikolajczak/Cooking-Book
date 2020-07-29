@@ -10,4 +10,10 @@ export const set = (msg: string) => ({
   type: types.setError,
   payload: { msg },
 });
+
+export const unset = (id: string) => ({
+  type: types.unsetError,
+  payload: { id },
+});
+
 export const clear = () => ({ type: types.clearError });

@@ -1,12 +1,14 @@
 import * as types from "./Error.Types";
 
+import { IError } from "../../../interfaces";
+
 var nextId = 0;
 
-export const errorInitState = [
+export const errorInitState: IError[] = [
   //Error -> msg and id { id: 1, msg: "Bulbazaur is not here"}
 ];
 
-const errorsReducer = (state = errorInitState, action) => {
+const errorsReducer = (state = errorInitState, action: types.ErrorActions) => {
   switch (action.type) {
     case types.pushError:
       return [
@@ -26,6 +28,10 @@ const errorsReducer = (state = errorInitState, action) => {
         },
         ...state,
       ];
+    case types.unsetError: {
+      return state.filter((error) => error.id !== action.payload.id);
+    }
+
     case types.clearError:
       return [];
     default:

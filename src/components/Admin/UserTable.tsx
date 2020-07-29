@@ -43,25 +43,23 @@ const UserTable = ({ users }: { users: IUser[] }) => {
       });
   };
 
-  const [itemMenu, setItemMenu] = useState("");
-
   useEffect(() => {
     setCurrentUsers(users.map((user) => ({ ...user, checked: false })));
   }, [users]);
 
-  const handleCheck = (e, id) => {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const checked = e.currentTarget.checked;
     setCurrentUsers(
       currentUsers.map((user) => (id === user.id ? { ...user, checked } : user))
     );
   };
 
-  const handleCheckAll = (e) => {
+  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.currentTarget.checked;
     setCurrentUsers(users.map((user) => ({ ...user, checked })));
   };
 
-  const handleProfilesClick = (e) => {
+  const handleProfilesClick = (e: React.MouseEvent<HTMLInputElement>) => {
     dispatch(
       searchOperations.searchByUsers(
         currentUsers.filter((user) => user.checked).map((user) => user.id)
@@ -69,13 +67,13 @@ const UserTable = ({ users }: { users: IUser[] }) => {
     );
   };
 
-  const handleDeleteClick = (e) => {
+  const handleDeleteClick = (e: React.MouseEvent<HTMLInputElement>) => {
     currentUsers
       .filter((user) => user.checked)
       .forEach((user) => handleUserDeleteOrRevive(user.id, true));
   };
 
-  const handleReviveClick = (e) => {
+  const handleReviveClick = (e: React.MouseEvent<HTMLInputElement>) => {
     currentUsers
       .filter((user) => user.checked)
       .forEach((user) => handleUserDeleteOrRevive(user.id, false));
@@ -106,7 +104,7 @@ const UserTable = ({ users }: { users: IUser[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentUsers.map((user) => {
+            {currentUsers.map((user: IUserWithCheck) => {
               return (
                 <TableRow hover key={user.id}>
                   <TableCell padding="checkbox">
@@ -121,7 +119,9 @@ const UserTable = ({ users }: { users: IUser[] }) => {
                     <Avatar src={user.photoUrl} />
                   </TableCell>
                   <TableCell>
-                    {new Date(user?.createdAt?.seconds).toLocaleDateString()}
+                    {user.createdAt
+                      ? new Date(user.createdAt.seconds).toLocaleDateString()
+                      : "N/A"}
                   </TableCell>
                   <TableCell>
                     {user.deleted ? (

@@ -19,20 +19,20 @@ const TableItemMenu = ({
   deleted: boolean;
 }) => {
   const dispatch = useDispatch();
-  const handleClose = (e) => {
+  const handleClose = () => {
     setAnchor(null);
   };
 
-  const handleProfileClick = (e) => {
+  const handleProfileClick = () => {
     dispatch(searchOperations.searchByUsers([id]));
   };
 
-  const handleDeleteOrReviveClick = (e) => {
+  const handleDeleteOrReviveClick = () => {
     dispatch(ErrorActions.set(deleted ? "User restored!" : "User deleted!"));
     handleUserDeleteOrRevive();
   };
 
-  const [anchor, setAnchor] = useState<null | EventTarget>(null);
+  const [anchor, setAnchor] = useState<null | Element>(null);
 
   return (
     <>

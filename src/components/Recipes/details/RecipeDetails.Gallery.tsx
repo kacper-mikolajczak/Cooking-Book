@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { useWindowDimensions } from "../../../hooks";
@@ -22,7 +22,6 @@ const Gallery = ({
   const { width: windowWidth } = useWindowDimensions();
   const small = windowWidth < smallScreen;
   const urls = url ? url.split("\n") : [];
-  const imgIndex = useRef(0);
   const [index, setIndex] = useState(0);
   const [imgLoaded, setImgLoaded] = useState(false);
 

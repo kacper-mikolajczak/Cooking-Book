@@ -17,10 +17,10 @@ const TableMenu = ({
   handleDeleteClick: any;
   handleRestoreClick: any;
 }) => {
-  const handleClose = (e) => {
+  const handleClose = () => {
     setAnchor(null);
   };
-  const [anchor, setAnchor] = useState<null | EventTarget>(null);
+  const [anchor, setAnchor] = useState<null | Element>(null);
   return (
     <>
       <IconButton

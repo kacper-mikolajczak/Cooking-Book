@@ -14,6 +14,7 @@ interface ICreatedAt {
 }
 
 interface IUser {
+  id: string;
   name: string;
   photoUrl: string;
 }

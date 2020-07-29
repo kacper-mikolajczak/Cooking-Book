@@ -56,7 +56,6 @@ export const search = (query, append) => async (dispatch, getState) => {
 
     if (toggle) {
       for (const [key, val] of Object.entries(sliders)) {
-        console.log("FILTER", key, val);
         if (!val.tick) continue;
         filteredRecipes = filteredRecipes.filter(
           (recipe) =>

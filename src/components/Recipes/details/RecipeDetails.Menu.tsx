@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -8,8 +8,6 @@ import DeleteButton from "../../DeleteButton";
 import { useSelector } from "react-redux";
 
 import firebase from "../../../Firebase";
-import { Dialog } from "@material-ui/core";
-import SignInForm from "../../SignIn";
 import EditButton from "../../Edit/EditButton";
 import RegainButton from "../../RegainButton";
 import { IRecipe } from "../../../interfaces";
@@ -21,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "100%",
   },
+  icons: {},
 }));
 
 const DetailsMenu = ({
@@ -34,7 +33,7 @@ const DetailsMenu = ({
 }) => {
   const classes = useStyles();
 
-  const authUser = useSelector((state) => state.session?.authUser);
+  const authUser = useSelector((state: any) => state.session?.authUser);
 
   const editionRights = authUser?.id === user || authUser?.admin;
 
@@ -50,7 +49,7 @@ const DetailsMenu = ({
           {deleted ? (
             <RegainButton
               condition={editionRights && deleted}
-              onYesClick={(e) => {
+              onYesClick={() => {
                 firebase
                   .recipe(id)
                   .set({ deleted: false }, { merge: true })
@@ -62,7 +61,7 @@ const DetailsMenu = ({
           ) : (
             <DeleteButton
               condition={editionRights && !deleted}
-              onYesClick={(e) => {
+              onYesClick={() => {
                 firebase
                   .recipe(id)
                   .set({ deleted: true }, { merge: true })

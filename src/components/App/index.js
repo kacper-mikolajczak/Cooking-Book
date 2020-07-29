@@ -44,7 +44,7 @@ const App = () => {
       >
         <CssBaseline />
         <Header />
-        <ErrorSnackBar multiple={false} />
+        <ErrorSnackBar multiple={false} delay={3500} />
         {searchOpen ? (
           <RecipesContainer
             msg={"No recipes founds"}

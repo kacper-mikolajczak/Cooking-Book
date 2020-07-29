@@ -9,7 +9,7 @@ const Home = () => {
     <div>
       <RecipesContainer
         getOp={likedRecipesOperations.getUserLikedRecipes}
-        selectOp={(state) => state.likedRecipes}
+        selectOp={(state: any) => state.likedRecipes}
         msg="Search for recipes that suits your taste!"
         storeSrc="likedRecipes"
       />
@@ -17,6 +17,6 @@ const Home = () => {
   );
 };
 
-const condition = (authUser) => !!authUser;
+const condition = (authUser: any) => !!authUser;
 
 export default withAuthorization(condition)(Home);
