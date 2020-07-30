@@ -241,9 +241,10 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
                   id: recipeId,
                   title,
                   desc,
-                  createdAt: recipe.createdAt ? recipe.createdAt : currentDate,
+                  createdAt:
+                    recipe && recipe.createdAt ? recipe.createdAt : currentDate,
                   editedAt: currentDate,
-                  user: recipe.user ? recipe.user : user,
+                  user: recipe && recipe.user ? recipe.user : user,
                   ingredients: ingredients.filter(
                     (ing: IListItem) => ing.value.length > 0
                   ),

@@ -70,7 +70,7 @@ const SignInFormBase = (props) => {
       .then(({ user }) => {
         dispatch(sessionOperations.getAuthUser(user.uid));
         clearState();
-        props.history.push(ROUTES.HOME);
+        props.history.push(ROUTES.LANDING);
       })
       .catch((err) => {
         setState({ error: err.message });

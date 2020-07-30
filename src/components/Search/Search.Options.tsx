@@ -17,6 +17,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { searchOperations } from "../../store/reducers/search";
 
 const useStyles = makeStyles({
   root: {},
@@ -61,6 +62,8 @@ const Options = () => {
     (state: any) => state.searchOptions.toggle
   );
 
+  const query = useSelector((state: any) => state.search.query);
+
   const slidersEntries = Object.entries(sliders);
 
   const mappedSliders = slidersEntries.map(([key, val]) => (
@@ -94,6 +97,7 @@ const Options = () => {
               range: { min: val[0], max: val[1] },
             })
           );
+          dispatch(searchOperations.search(query, false));
         }}
       />
     </Grid>

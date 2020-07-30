@@ -11,6 +11,7 @@ import {
 import { makeStyles, withStyles, createStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { searchOptionsActions } from "../../store/reducers/searchOptions";
+import { searchOperations } from "../../store/reducers/search";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -26,8 +27,10 @@ const Groups = () => {
   const { group, groupTick, toggle } = useSelector(
     (state) => state.searchOptions
   );
+  const query = useSelector((state) => state.search.query);
   const handleChange = (e) => {
     dispatch(searchOptionsActions.setGroup(e.target.value));
+    dispatch(searchOperations.search(query, false));
   };
   const handleCheckboxChange = (e) => {
     dispatch(searchOptionsActions.toggleGroup(e.target.checked));

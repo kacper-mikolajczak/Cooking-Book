@@ -11,7 +11,10 @@ import { useDispatch } from "react-redux";
 import * as ROUTES from "../../constants/routes";
 
 import { SignInLink } from "../SignIn";
-import { sessionActions } from "../../store/reducers/session";
+import {
+  sessionActions,
+  sessionOperations,
+} from "../../store/reducers/session";
 
 import firebase from "../../Firebase";
 import { ErrorActions } from "../../store/reducers/error";
@@ -62,6 +65,7 @@ const SignUpFormBase = (props) => {
     firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then((authUser) => {
+        console.log("Hello", authUser);
         const uid = authUser.user.uid;
         const user = {
           id: uid,
@@ -75,14 +79,10 @@ const SignUpFormBase = (props) => {
           comments: null,
           photoUrl: photoUrl ? photoUrl : null,
         };
-        firebase
-          .user(user.id)
-          .set(user)
-          .then(() => {
-            dispatch(sessionActions.setAuthUser(user));
-            clearState();
-            props.history.push(ROUTES.HOME);
-          });
+        firebase.db.collection("users").doc(uid).set(user);
+        dispatch(sessionActions.setAuthUser(user));
+        clearState();
+        props.history.push(ROUTES.LANDING);
       })
       .catch((err) => {
         setState({ error: err });
