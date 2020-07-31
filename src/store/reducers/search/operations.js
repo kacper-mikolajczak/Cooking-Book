@@ -1,4 +1,5 @@
 import * as actions from "./actions";
+import { ErrorActions } from "../error";
 
 import firebase from "../../../Firebase";
 
@@ -50,7 +51,9 @@ export const search = (query, append) => async (dispatch, getState) => {
     const groupedRecipes =
       group === "all" || !groupTick
         ? recipes
-        : recipes.filter((item) => item?.groups?.includes(group));
+        : recipes.filter((item) =>
+            item?.groups?.toLowerCase().includes(group.toLowerCase())
+          );
 
     let filteredRecipes = groupedRecipes;
 
@@ -68,6 +71,7 @@ export const search = (query, append) => async (dispatch, getState) => {
 
     const resUsers = await firebase
       .users()
+      .where("deleted", "==", false)
       .get()
       .then((res) => res.docs.map((doc) => doc.data()));
 
@@ -96,7 +100,8 @@ export const search = (query, append) => async (dispatch, getState) => {
     if (!append) dispatch(actions.fetchSuccess(searchObj, query));
     else dispatch(actions.fetchMoreSuccess(searchObj));
   } catch (error) {
-    dispatch(actions.fetchFailure(error));
+    dispatch(actions.fetchFailure(error.toString()));
+    dispatch(ErrorActions.set(error.toString()));
   }
 };
 
@@ -124,5 +129,6 @@ export const searchByUsers = (ids) => async (dispatch, getState) => {
     dispatch(actions.fetchSuccess(searchObj));
   } catch (error) {
     dispatch(actions.fetchFailure(error));
+    dispatch(ErrorActions.set(error.toString()));
   }
 };

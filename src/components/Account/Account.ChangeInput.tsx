@@ -3,6 +3,7 @@ import { Typography, Input, Button, Container } from "@material-ui/core";
 import firebase from "../../Firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { ErrorActions } from "../../store/reducers/error";
+import { sessionOperations } from "../../store/reducers/session";
 
 const ChangeInput = ({ name, display }: { name: string; display: string }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const ChangeInput = ({ name, display }: { name: string; display: string }) => {
   const handleClick = () => {
     dispatch(ErrorActions.set("User data updated!"));
     firebase.user(id).set({ [name]: value }, { merge: true });
+    dispatch(sessionOperations.getAuthUser(id));
   };
 
   return (

@@ -10,6 +10,7 @@ export const getAuthUser = (id) => async (dispatch, getState) => {
       .then((res) => res.data());
     dispatch(actions.setAuthUser(res));
   } catch (error) {
+    dispatch(ErrorActions.set("User authentication failure!"));
     console.error(error);
   }
 };

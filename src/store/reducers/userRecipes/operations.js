@@ -1,5 +1,5 @@
 import * as actions from "./actions";
-
+import { ErrorActions } from "../error";
 import firebase from "../../../Firebase";
 
 export const get = () => async (dispatch, getState) => {
@@ -20,6 +20,7 @@ export const get = () => async (dispatch, getState) => {
   } catch (error) {
     console.error(error);
     dispatch(actions.fetchFailure(error));
+    dispatch(ErrorActions.set(error.toString()));
   }
 };
 

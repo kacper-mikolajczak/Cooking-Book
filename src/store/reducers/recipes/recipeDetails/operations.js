@@ -1,5 +1,5 @@
 import * as actions from "./actions";
-
+import { ErrorActions } from "../../error";
 import firebase from "../../../../Firebase";
 
 export const get = (recipe) => async (dispatch, getState) => {
@@ -7,28 +7,29 @@ export const get = (recipe) => async (dispatch, getState) => {
   //if (getState().recipe.details.recipe === recipe) return new Promise.resolve();
   dispatch(actions.fetchRecipeDetailsPending());
 
-  //try {
-  const userDetails = await firebase
-    .user(recipe.user)
-    .get()
-    .then((dbRes) => dbRes.data());
+  try {
+    const userDetails = await firebase
+      .user(recipe.user)
+      .get()
+      .then((dbRes) => dbRes.data());
 
-  const comments = await firebase
-    .comments()
-    .doc(recipe.id)
-    .get()
-    .then((dbRes) => dbRes.data());
+    const comments = await firebase
+      .comments()
+      .doc(recipe.id)
+      .get()
+      .then((dbRes) => dbRes.data());
 
-  const sortedComments = comments
-    ? Object.values(comments).sort(
-        (a, b) => a.createdAt.seconds - b.createdAt.seconds
-      )
-    : [];
+    const sortedComments = comments
+      ? Object.values(comments).sort(
+          (a, b) => a.createdAt.seconds - b.createdAt.seconds
+        )
+      : [];
 
-  dispatch(
-    actions.fetchRecipeDetailsSuccess(userDetails, recipe, sortedComments)
-  );
-  //   } catch (error) {
-  //     dispatch(actions.fetchRecipeDetailsFailure(error));
-  //   }
+    dispatch(
+      actions.fetchRecipeDetailsSuccess(userDetails, recipe, sortedComments)
+    );
+  } catch (error) {
+    dispatch(actions.fetchRecipeDetailsFailure(error));
+    dispatch(ErrorActions.set(error.toString()));
+  }
 };

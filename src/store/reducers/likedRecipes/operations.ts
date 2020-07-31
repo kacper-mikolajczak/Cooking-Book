@@ -3,6 +3,7 @@ import { ThunkDispatch } from "redux-thunk";
 import firebase from "../../../Firebase";
 import { AnyAction } from "redux";
 import { IRecipe } from "../../../interfaces";
+import { ErrorActions } from "../error";
 
 export const getUserLikedRecipes = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -35,5 +36,6 @@ export const getUserLikedRecipes = () => async (
   } catch (error) {
     console.error(error);
     dispatch(actions.fetchFailure(error));
+    dispatch(ErrorActions.set(error.toString()));
   }
 };

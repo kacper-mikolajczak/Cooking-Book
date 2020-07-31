@@ -260,7 +260,7 @@ const RecipeForm = ({ recipe, msg, recipeId }: IRecipeFormProps) => {
               );
               dispatch(recipeFormActions.clearState());
               dispatch(ErrorActions.set("Recipe sent!"));
-              history.push(ROUTES.HOME);
+              history.push(ROUTES.USER_RECIPES);
             }}
           >
             {msg}

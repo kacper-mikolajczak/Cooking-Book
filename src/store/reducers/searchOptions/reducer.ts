@@ -16,7 +16,7 @@ interface IState {
 }
 
 const initialState: IState = {
-  toggle: false,
+  toggle: true,
   group: "all",
   groupTick: true,
   sliders: {

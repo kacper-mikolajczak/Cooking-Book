@@ -81,7 +81,7 @@ const SignUpFormBase = (props) => {
         setTimeout(() => {
           dispatch(sessionOperations.createAuthUser(user));
           props.history.push(ROUTES.LANDING);
-        }, 300);
+        }, 1000);
       })
       .catch((err) => {
         setState({ error: err });
