@@ -65,7 +65,6 @@ const SignUpFormBase = (props) => {
     firebase
       .doCreateUserWithEmailAndPassword(email, password)
       .then((authUser) => {
-        console.log("Hello", authUser);
         const uid = authUser.user.uid;
         const user = {
           id: uid,
@@ -79,10 +78,8 @@ const SignUpFormBase = (props) => {
           comments: null,
           photoUrl: photoUrl ? photoUrl : null,
         };
-        firebase.db.collection("users").doc(uid).set(user);
-        dispatch(sessionActions.setAuthUser(user));
-        clearState();
-        props.history.push(ROUTES.LANDING);
+        dispatch(sessionOperations.createAuthUser(user));
+        props.history.push(ROUTES.HOME);
       })
       .catch((err) => {
         setState({ error: err });

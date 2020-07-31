@@ -13,11 +13,14 @@ import { Button, Grid } from "@material-ui/core";
 import { searchOperations } from "../../store/reducers/search";
 import { ErrorActions } from "../../store/reducers/error";
 
+import UserCardContainer from "../UserCard/UserCard.Container";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "0 1em",
   },
   recipesContainer: {
+    margin: "5px auto",
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     gridGap: "2em",
@@ -57,13 +60,15 @@ const RecipesContainer = ({ selectOp, msg, getOp, storeSrc }) => {
         ))
       : [];
 
+  const users = recipes.users?.filter((user) => user !== null);
+
   return (
     <div className={classes.root}>
       {recipes.pending ? (
         <Loader isLoading={recipes.pending} />
       ) : (
         <div>
-          <p></p>
+          {users?.length > 0 && <UserCardContainer users={recipes.users} />}
           {mappedRecipes.length > 0 ? (
             <div className={classes.recipesContainer}>{mappedRecipes}</div>
           ) : (

@@ -32,10 +32,10 @@ const App = () => {
 
   const searchOpen = useSelector((state) => state.search.open);
   const authUser = useSelector((state) => state.session.authUser);
-
-  if ((!authUser || authUser.id !== firebase.auth.W) && firebase.auth.W) {
-    dispatch(sessionOperations.getAuthUser(firebase.auth.W));
-  }
+  console.log({ authUser });
+  // if ((!authUser || authUser.id !== firebase.auth.W) && firebase.auth.W) {
+  //   dispatch(sessionOperations.getAuthUser(firebase.auth.W));
+  // }
 
   return (
     <Router>

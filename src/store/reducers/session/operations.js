@@ -13,3 +13,15 @@ export const getAuthUser = (id) => async (dispatch, getState) => {
     console.error(error);
   }
 };
+
+export const createAuthUser = (user) => async (dispatch, getState) => {
+  debugger;
+  await firebase
+    .user("123")
+    .set(user)
+    .then(() => console.log("Then firebase"))
+    .finally(() => console.log("Finally firebase"));
+  console.log("After firebase");
+  debugger;
+  dispatch(actions.setAuthUser(user));
+};
