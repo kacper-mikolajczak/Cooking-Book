@@ -16,7 +16,11 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         authUser: null,
       };
-
+    case types.authUserSetID:
+      return {
+        ...state,
+        authUser: { id: payload.id },
+      };
     default:
       return state;
   }

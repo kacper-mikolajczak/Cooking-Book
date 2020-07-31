@@ -23,26 +23,26 @@ export const get = () => async (dispatch, getState) => {
   }
 };
 
-export const set = (recipe) => async (dispatch, getState) => {
-  const {
-    sesion: { authUser },
-  } = getState();
+// export const set = (recipe) => async (dispatch, getState) => {
+//   const {
+//     sesion: { authUser },
+//   } = getState();
 
-  dispatch(actions.setPending());
-  try {
-    firebase
-      .setRecipe()
-      .set({
-        ...recipe,
-      })
-      .then((data) => {
-        const recipeKey = `recipes.${recipe.uid}`;
-        firebase.user(authUser.uid).update({
-          [recipeKey]: recipe.uid,
-        });
-      })
-      .then(() => actions.setSuccess());
-  } catch (error) {
-    dispatch(actions.setFailure(error));
-  }
-};
+//   dispatch(actions.setPending());
+//   try {
+//     firebase
+//       .setRecipe()
+//       .set({
+//         ...recipe,
+//       })
+//       .then((data) => {
+//         const recipeKey = `recipes.${recipe.uid}`;
+//         firebase.user(authUser.uid).update({
+//           [recipeKey]: recipe.uid,
+//         });
+//       })
+//       .then(() => actions.setSuccess());
+//   } catch (error) {
+//     dispatch(actions.setFailure(error));
+//   }
+// };

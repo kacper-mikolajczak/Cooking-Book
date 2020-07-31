@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import LandingPage from "../Landing";
 import SignUpPage from "../SignUp";
-import SignInPage, { SignInLink } from "../SignIn";
+import SignInPage from "../SignIn";
 import PasswordForgetPage from "../PasswordForget";
 import HomePage from "../Home";
 import AccountPage from "../Account";
@@ -13,7 +13,7 @@ import CreateRecipePage from "../CreateRecipe";
 import * as ROUTES from "../../constants/routes";
 
 import { withAuthentication } from "../Session";
-import { CssBaseline, Container } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 
 import Header from "../Header";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,17 +25,14 @@ import EditPage from "../Edit";
 import UserRecipes from "../UserRecipes";
 import ErrorSnackBar from "../Error";
 
-import { ErrorActions } from "../../store/reducers/error";
-
 const App = () => {
   const dispatch = useDispatch();
 
   const searchOpen = useSelector((state) => state.search.open);
   const authUser = useSelector((state) => state.session.authUser);
-  console.log({ authUser });
-  // if ((!authUser || authUser.id !== firebase.auth.W) && firebase.auth.W) {
-  //   dispatch(sessionOperations.getAuthUser(firebase.auth.W));
-  // }
+  if ((!authUser || authUser.id !== firebase.auth.W) && firebase.auth.W) {
+    dispatch(sessionOperations.getAuthUser(firebase.auth.W));
+  }
 
   return (
     <Router>
@@ -71,27 +68,11 @@ const App = () => {
                 <Route path={ROUTES.USER_RECIPES} component={UserRecipes} />
               </>
             )}
-            {!authUser && <Route path="*" component={NoMatch} />}
+            <Redirect path="/" component={LandingPage} />
           </div>
         )}
       </div>
     </Router>
-  );
-};
-
-const NoMatch = () => {
-  //useHistory().push("/");
-  return (
-    <>
-      {true ? (
-        <></>
-      ) : (
-        <Container content="main" maxWidth="xs">
-          <h1>Route is missing :(</h1>
-          <SignInLink />
-        </Container>
-      )}
-    </>
   );
 };
 

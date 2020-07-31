@@ -1,5 +1,5 @@
 import * as actions from "./actions";
-
+import { ErrorActions } from "../error";
 import firebase from "../../../Firebase";
 
 export const getAuthUser = (id) => async (dispatch, getState) => {
@@ -15,13 +15,11 @@ export const getAuthUser = (id) => async (dispatch, getState) => {
 };
 
 export const createAuthUser = (user) => async (dispatch, getState) => {
-  debugger;
-  await firebase
-    .user("123")
-    .set(user)
-    .then(() => console.log("Then firebase"))
-    .finally(() => console.log("Finally firebase"));
-  console.log("After firebase");
-  debugger;
-  dispatch(actions.setAuthUser(user));
+  try {
+    await firebase.user(`${user.id}`).set(user);
+    dispatch(actions.setAuthUser(user));
+  } catch (error) {
+    console.error(error);
+    dispatch(ErrorActions.set("Couldn't create user!"));
+  }
 };

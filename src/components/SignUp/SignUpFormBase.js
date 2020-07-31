@@ -59,7 +59,7 @@ const SignUpFormBase = (props) => {
     INIT_STATE,
   });
 
-  const clearState = () => setState(INIT_STATE);
+  // const clearState = () => setState(INIT_STATE);
 
   const onSubmit = (event) => {
     firebase
@@ -78,12 +78,15 @@ const SignUpFormBase = (props) => {
           comments: null,
           photoUrl: photoUrl ? photoUrl : null,
         };
-        dispatch(sessionOperations.createAuthUser(user));
-        props.history.push(ROUTES.HOME);
+        setTimeout(() => {
+          dispatch(sessionOperations.createAuthUser(user));
+          props.history.push(ROUTES.LANDING);
+        }, 300);
       })
       .catch((err) => {
         setState({ error: err });
         dispatch(ErrorActions.set(err.message));
+        return null;
       });
     event.preventDefault();
   };

@@ -118,7 +118,7 @@ export const searchByUsers = (ids) => async (dispatch, getState) => {
         data: Object.values(recipesData),
         next: null,
       },
-      users: [getState().session.authUser],
+      users: [],
     };
 
     dispatch(actions.fetchSuccess(searchObj));
